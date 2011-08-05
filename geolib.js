@@ -1,3 +1,13 @@
+/**
+ * A small library to provide some basic geo functions like distance calculation,
+ * conversion of decimal coordinates to sexagesimal and vice versa, etc.
+ * 
+ * @author Manuel Bieh
+ * @url http://www.manuel-bieh.de/
+ * @version 1.0
+ * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPL
+ *
+ */
 ;(function () {
 
 	var radius = 6378137 // Earth radius
