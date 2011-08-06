@@ -13,7 +13,6 @@
 	var radius = 6378137 // Earth radius
 	var sexagesimalPattern = /^([0-9]{1,3})°\s*([0-9]{1,3})'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/;
 
-
 	var geolib = {
 
 		decimal: {
@@ -41,25 +40,34 @@
 			var accuracy;
 
 			switch(arguments.length) {
+
 				case 5:
 					accuracy = arguments[4];
 				case 5:
 				case 4:
+
 					start[0] = arguments[0];
 					start[1] = arguments[1];
+
 					end[0] = arguments[2];
 					end[1] = arguments[3];
+
 					break;
+
 				case 3:
 					accuracy = arguments[2];
 				case 3:
 				case 2:
-					start = arguments[0].split(',');
-					end = arguments[1].split(',');
-					start[0] = geolib.useDecimal(start[0]);
-					start[1] = geolib.useDecimal(start[1]);
-					end[0] = geolib.useDecimal(end[0]);
-					end[1] = geolib.useDecimal(end[1]);
+
+					start 		= arguments[0] instanceof Array ? arguments[0] : arguments[0].split(',');
+					end 		= arguments[1] instanceof Array ? arguments[1] : arguments[1].split(',');
+
+					start[0] 	= geolib.useDecimal(start[0]);
+					start[1] 	= geolib.useDecimal(start[1]);
+
+					end[0] 		= geolib.useDecimal(end[0]);
+					end[1] 		= geolib.useDecimal(end[1]);
+
 					break;
 
 			}
