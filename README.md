@@ -12,7 +12,7 @@ or
 
 `geolib.getDistance(51.511928, 7.463536, 51.510318, 7.524133); // -> 4202`
 
-Start and end coordinates can be passed as comma separated string ("startLat,startLng","endLat,endLng") or as own parameter (startLat, startLng, endLat, endLng).
+Start and end coordinates can be passed as comma separated string `("startLat,startLng","endLat,endLng")` or as own parameter `(startLat, startLng, endLat, endLng)`.
 
 Return value is always an integer and represents the distance in meters. To convert it into miles use
 
@@ -24,4 +24,4 @@ Convert sexagesimal to decimal
 
 Convert decimal to sexagesimal
 
-`geolib.decimal2sexagesimal(51° 29' 46.00); // -> 51.49611111`
+`geolib.decimal2sexagesimal(51.49611111`); // -> 51° 29' 46.00
