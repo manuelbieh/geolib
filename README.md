@@ -7,7 +7,7 @@ A small library to provide some basic geo functions like distance calculation, c
 
 ## Methods
 
-### `getDistance(mixed, mixed, [mixed, [mixed, [int] ] ])`
+### getDistance(mixed, mixed, [mixed, [mixed, [int] ] ])
 
 calculate the distance between two geo coordinates
 
@@ -20,13 +20,13 @@ Return value is always an integer and represents the distance in meters.
 `geolib.getDistance([51.5103, 7.49347], ["51° 31' N", "7° 28' E"])`
 `geolib.getDistance(51.5103, 7.49347, 55.751667, 37.617778)`
 
-### `getCenter(array coords)`
+### getCenter(array coords)
 
 Calculates the geographical center of all points in a collection of geo coordinates
 
 Takes an object or array of coordinates and calculates the center of it.
 
-Return is an object: {"lat": centerLat, "lng": centerLng, "distance": diagonalDistance}
+Return is an object: `{"lat": centerLat, "lng": centerLng, "distance": diagonalDistance}`
 
 #### Examples
 
@@ -46,7 +46,7 @@ geolib.getCenter([
 ]);
 </pre>
 
-### `convertUnit(string unit, float distance, int round)`
+### convertUnit(string unit, float distance, int round)
 
 Converts a given distance (in meters) to another unit.
 
@@ -71,7 +71,7 @@ Converts a given distance (in meters) to another unit.
 
 `geolib.convertUnit('km', 14213, 2) // -> 14,21`
 
-### `sexagesimal2decimal(string coord)`
+### sexagesimal2decimal(string coord)
 
 Converts a sexagesimal coordinate to decimal format
 
@@ -79,7 +79,7 @@ Converts a sexagesimal coordinate to decimal format
 
 `geolib.sexagesimal2decimal("51° 29' 46\" N")`
 
-### `decimal2sexagesimal(float coord)
+### decimal2sexagesimal(float coord)
 
 Converts a decimal coordinate to sexagesimal format
 
@@ -89,7 +89,7 @@ Converts a decimal coordinate to sexagesimal format
 `geolib.decimal2sexagesimal(51.49611111); // -> 51° 29' 46.00`
 
 
-### `useDecimal(mixed coordinate)`
+### useDecimal(mixed coordinate)
 
 Checks if a coordinate is already in decimal format and, if not, converts it to
 
