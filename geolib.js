@@ -177,22 +177,22 @@
 				case 'km':    // Kilometer
 					return geolib.round(distance / 1000, round);
 					break;
-				case 'cm':    // Zentimeter
+				case 'cm':    // Centimeter
 					return geolib.round(distance * 100, round);
 					break;
 				case 'mm':    // Millimeter
 					return geolib.round(distance * 1000, round);
 					break;
-				case 'mi':    // Meile
+				case 'mi':    // Miles
 					return geolib.round(distance * (1 / 1609.344), round);
 					break;
-				case 'sm':    // Seemeile
+				case 'sm':    // Seamiles
 					return geolib.round(distance * (1 / 1852.216), round);
 					break;
-				case 'ft':    // Fuß
+				case 'ft':    // Feet
 					return geolib.round(distance * (100 / 30.48), round);
 					break;
-				case 'in':    // Zoll
+				case 'in':    // Inch
 					return geolib.round(distance * 100 / 2.54, round);
 					break;
 				case 'yd':    // Yards
