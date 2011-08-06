@@ -53,7 +53,7 @@ Converts a given distance (in meters) to another unit.
 #### Parameters
 
 `unit` can be one of:
-
+ 
 - m (meter)
 - km (kilometer)
 - cm (centimeter)
