@@ -16,9 +16,15 @@ Takes 2, 3, 4 or 5 parameters. Either 2 pairs of coordinates as string  or array
 Return value is always an integer and represents the distance in meters.
 
 #### Examples: 
+<<<<<<< HEAD
 <pre>geolib.getDistance("51.5103,7.49347", "51° 31' N, 7° 28' E");
 geolib.getDistance([51.5103, 7.49347], ["51° 31' N", "7° 28' E"]);
 geolib.getDistance(51.5103, 7.49347, 55.751667, 37.617778);</pre>
+=======
+<pre>geolib.getDistance("51.5103,7.49347", "51° 31' N, 7° 28' E")
+geolib.getDistance([51.5103, 7.49347], ["51° 31' N", "7° 28' E"])
+geolib.getDistance(51.5103, 7.49347, 55.751667, 37.617778)</pre>
+>>>>>>> 1d86f26ad0a063366fe152f7b72711e5f61abc9a
 
 ### getCenter(array coords)
 
@@ -53,7 +59,7 @@ Converts a given distance (in meters) to another unit.
 #### Parameters
 
 `unit` can be one of:
- 
+
 - m (meter)
 - km (kilometer)
 - cm (centimeter)
@@ -95,6 +101,5 @@ Converts a decimal coordinate to sexagesimal format
 Checks if a coordinate is already in decimal format and, if not, converts it to
 
 #### Example
-
-`geolib.useDecimal("51° 29' 46\" N") // -> 51.59611111`
-`geolib.useDecimal(51.59611111) // -> 51.59611111`
+<pre>geolib.useDecimal("51° 29' 46\" N"); // -> 51.59611111
+geolib.useDecimal(51.59611111) // -> 51.59611111</pre>
