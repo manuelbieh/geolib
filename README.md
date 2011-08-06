@@ -16,9 +16,9 @@ Takes 2, 3, 4 or 5 parameters. Either 2 pairs of coordinates as string  or array
 Return value is always an integer and represents the distance in meters.
 
 #### Examples: 
-`geolib.getDistance("51.5103,7.49347", "51° 31' N, 7° 28' E")`
-`geolib.getDistance([51.5103, 7.49347], ["51° 31' N", "7° 28' E"])`
-`geolib.getDistance(51.5103, 7.49347, 55.751667, 37.617778)`
+<pre>geolib.getDistance("51.5103,7.49347", "51° 31' N, 7° 28' E")
+geolib.getDistance([51.5103, 7.49347], ["51° 31' N", "7° 28' E"])
+geolib.getDistance(51.5103, 7.49347, 55.751667, 37.617778)</pre>
 
 ### getCenter(array coords)
 
@@ -53,15 +53,15 @@ Converts a given distance (in meters) to another unit.
 #### Parameters
 
 `unit` can be one of:
-* m (meter)
-* km (kilometer)
-* cm (centimeter)
-* mm (millimeter)
-* mi (miles)
-* sm (seamiles)
-* ft (foot)
-* in (inch)
-* yd (yards)
+- m (meter)
+- km (kilometer)
+- cm (centimeter)
+- mm (millimeter)
+- mi (miles)
+- sm (seamiles)
+- ft (foot)
+- in (inch)
+- yd (yards)
 
 `distance` distance to be converted (source must be in meter)
 
