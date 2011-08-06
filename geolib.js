@@ -110,7 +110,8 @@
 			if(distance == 0 || typeof distance == 'undefined') {
 
 				if(geolib.distance == 0) {
-					throw 'No distance given.';
+					// throw 'No distance given.';
+					return 0;
 				} else {
 					distance = geolib.distance;
 				}
