@@ -36,7 +36,7 @@ $(function() {
 		try {
 			var distance = geolib.getDistance($('[name="city1"]').val(), $('[name="city2"]').val());
 			var converted = geolib.convertUnit($('[name="unit"]').val(), distance);
-			$('section p:first-child').html('Distance from ' + $('[name="city1"]:selected').text() + ' to ' + $('[name="city1"]:selected').text() + ' is ' + converted + ' ' + $('[name="unit"]').val());
+			$('section p:first-child').html('Distance from ' + $('[name="city1"] option:selected').text() + ' to ' + $('[name="city2"] option:selected').text() + ' is ' + converted + ' ' + $('[name="unit"]').val());
 		} catch (e) {
 			alert(e);
 		}
