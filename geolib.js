@@ -4,7 +4,7 @@
  * 
  * @author Manuel Bieh
  * @url http://www.manuel-bieh.de/
- * @version 1.0
+ * @version 1.0.1
  * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPL
  *
  */
@@ -94,6 +94,46 @@
 				);
 
 			return geolib.distance = parseInt(Math.round(distance/accuracy)*accuracy);
+
+		},
+
+
+		/**
+		 * Calculates the center of a collection of geo coordinates
+		 *
+		 * @param		array		Collection of coords ["51.510,7.1321", "49.1238, 8° 30' W", "-120.2383,4.2130"]
+		 * @return		object		{lat: centerLat, lng: centerLng, distance: diagonalDistance}
+		 */
+		getCenter: function(coords) {
+
+			max = function( array ){
+				return Math.max.apply( Math, array );
+			};
+
+			min = function( array ){
+				return Math.min.apply( Math, array );
+			};
+
+			var	lat, lng, splitCoords = {lat: [], lng: []};
+
+			for(coord in coords) {
+				var tmp = coords[coord].split(',');
+				splitCoords.lat.push(geolib.useDecimal(parseFloat(tmp[0])));
+				splitCoords.lng.push(geolib.useDecimal(parseFloat(tmp[1])));
+			}
+
+			var minLat = min(splitCoords.lat);
+			var minLng = min(splitCoords.lng);
+			var maxLat = max(splitCoords.lat);
+			var maxLng = max(splitCoords.lng);
+
+			lat = ((minLat + maxLat)/2).toFixed(6);
+			lng = ((minLng + maxLng)/2).toFixed(6);
+
+			// distance from the deepest left to the highest right point (diagonal distance)
+			var distance = geolib.convertUnit('km', geolib.getDistance(minLat, minLng, maxLat, maxLng));
+
+			return {"lat": lat, "lng": lng, "distance": distance};
 
 		},
 
