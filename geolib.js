@@ -11,7 +11,8 @@
 ;(function () {
 
 	var radius = 6378137 // Earth radius
-	var sexagesimalPattern = /^([0-9]{1,3})°\s*([0-9]{1,3})'\s*([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*([NEOSW]?)$/;
+	var sexagesimalPattern = /^([0-9]{1,3})°\s*([0-9]{1,3})'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/;
+
 
 	var geolib = {
 
@@ -104,7 +105,7 @@
 		 * @param		float		Distance
 		 * @return		float		Converted distance
 		 */
-		convertUnit: function(unit, distance) {
+		convertUnit: function(unit, distance, round) {
 
 			if(distance == 0 || typeof distance == 'undefined') {
 
@@ -117,35 +118,36 @@
 			}
 
 			unit = unit || 'm';
+			round = round || 4;
 
 			switch(unit) {
 
 				case 'm':    // Meter
-					return distance;
+					return geolib.round(distance, round);
 					break;
 				case 'km':    // Kilometer
-					return distance / 1000;
+					return geolib.round(distance / 1000, round);
 					break;
 				case 'cm':    // Zentimeter
-					return distance * 100;
+					return geolib.round(distance * 100, round);
 					break;
 				case 'mm':    // Millimeter
-					return distance * 1000;
+					return geolib.round(distance * 1000, round);
 					break;
 				case 'mi':    // Meile
-					return distance * (1 / 1609.344);
+					return geolib.round(distance * (1 / 1609.344), round);
 					break;
 				case 'sm':    // Seemeile
-					return distance * (1 / 1852.216);
+					return geolib.round(distance * (1 / 1852.216), round);
 					break;
 				case 'ft':    // Fuß
-					return distance * (100 / 30.48);
+					return geolib.round(distance * (100 / 30.48), round);
 					break;
 				case 'in':    // Zoll
-					return distance * 100 / 2.54;
+					return geolib.round(distance * 100 / 2.54, round);
 					break;
 				case 'yd':    // Yards
-					return distance * (1 / 0.9144);
+					return geolib.round(distance * (1 / 0.9144), round);
 					break;
 			}
 
@@ -179,7 +181,7 @@
 
 
 		/**
-		 * Converts einen decimal coordinate value to sexagesimal format
+		 * Converts a decimal coordinate value to sexagesimal format
 		 *
 		 * @param		float		decimal
 		 * @return		string		Sexagesimal value (XX° YY' ZZ")
@@ -203,7 +205,7 @@
 
 
 		/**
-		 * Converts einen sexagesimal coordinate to decimal format
+		 * Converts a sexagesimal coordinate to decimal format
 		 *
 		 * @param		float		Sexagesimal coordinate
 		 * @return		string		Decimal value (XX.XXXXXXXX)
@@ -215,18 +217,19 @@
 
 			if(!!data) {
 				var min = parseFloat(data[2]/60);
-				var sec = parseFloat(data[3]/3600);
+				var sec = parseFloat(data[4]/3600) || 0;
 			}
 
 			var	dec = ((parseFloat(data[1]) + min + sec)).toFixed(8);
 				// South and West are negative decimals
-				dec = (data[6] == 'S' || data[6] == 'W') ? dec * -1 : dec;
+				dec = (data[7] == 'S' || data[7] == 'W') ? dec * -1 : dec;
 
 			geolib.decimal[sexagesimal] = dec;
 
 			return dec;
 
 		},
+
 
 		/**
 		 * Checks if a value is in sexagesimal format
@@ -238,6 +241,11 @@
 
 			return sexagesimalPattern.test(value);
 
+		},
+
+		round: function(value, n) {
+			var decPlace = Math.pow(10, n);
+			return Math.round(value * decPlace)/decPlace;
 		}
 
 	}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Geolocation</title>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+<meta charset="utf-8" />
+
+<script src="geolib.js"></script>
+
+<script>
+$(function() {
+
+	var cities = {
+		"Berlin":"52.518611,13.408056",
+		"Boston":"42.357778, 71° 3' 34\" W",
+		"Dortmund":"51° 31' 10.11\" N, 7° 28' 01\" E",
+		"Las Vegas":"36.1168,-115.173798",
+		"London": "51° 31' N, 0° 7' W",
+		"Manchester": "53° 29' N, 2° 14' W",
+		"New York City": "40.715517,-73.9991",
+		"San Francisco": "37.774514,-122.418079",
+	}
+
+	var options;
+	$.each(cities, function(key, value) {
+		option = $('<option />').val(value).text(key);
+		$('select[name^="city"]').append(option);
+	});
+
+	$('select').bind('change', function() {
+
+		try {
+			var distance = geolib.getDistance($('[name="city1"]').val(), $('[name="city2"]').val());
+			var converted = geolib.convertUnit($('[name="unit"]').val(), distance);
+			$('section p:first-child').html('Distance from ' + $('[name="city1"]:selected').text() + ' to ' + $('[name="city1"]:selected').text() + ' is ' + converted + ' ' + $('[name="unit"]').val());
+		} catch (e) {
+			alert(e);
+		}
+
+	});
+
+});
+</script>
+
+<style>
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: white;
+	color: #333;
+	font-family: "Trebuchet MS", Arial, Helvetica, Sans-Serif;
+	font-size: 15px;
+	line-height: 24px;
+}
+
+h1 {
+	font-family: "Georgia", serif;
+	font-weight: normal;
+}
+
+p {
+	margin: 0.75em 0;
+}
+
+#wrapper {
+	padding: 16px;
+}
+</style>
+
+</head>
+<body>
+
+<div id="wrapper">
+	<h1>geolib.js</h1>
+	<p>
+		Calculate distance from <select name="city1"></select> to <select name="city2"></select>. Show distance in <select name="unit">
+		<option value="km">Kilometer</option><option value="m">Meter</option><option value="cm">Centimeter</option><option value="mm">Millimeter</option><option value="mi">Miles</option><option value="sm">Seamiles</option><option value="ft">Feet</option><option value="in">Inch</option><option value="yd">Yards</option>
+	</select>.
+	</p>
+
+	<section id="content"><p></p></section>
+
+</div>
+
+</body>
+</html>
