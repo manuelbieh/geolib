@@ -25,3 +25,5 @@ Convert sexagesimal to decimal
 Convert decimal to sexagesimal
 
 `geolib.decimal2sexagesimal(51.49611111`); // -> 51° 29' 46.00
+
+[View demo](http://www.manuel-bieh.de/publikationen/scripts/geolib/demo.html)
