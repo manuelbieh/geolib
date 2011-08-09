@@ -55,8 +55,16 @@ Note: the polygon coords must be in correct order!
 Returns true or false
 
 #### Example
-
-`geolib.isPointInside({latitude: 51.5125, longitude: 7.485}, [{latitude: 51.50, longitude: 7.40}, {latitude: 51.555, longitude: 7.40}, {latitude: 51.555, longitude: 7.625}, {latitude: 51.5125, longitude: 7.625}]); // -> true`
+<pre>
+geolib.isPointInside(
+	{latitude: 51.5125, longitude: 7.485}, 
+	[
+		{latitude: 51.50, longitude: 7.40},
+		{latitude: 51.555, longitude: 7.40},
+		{latitude: 51.555, longitude: 7.625},
+		{latitude: 51.5125, longitude: 7.625}
+	]
+); // -> true</pre>
 
 ### orderByDistance(object latlng, mixed coords)
 
