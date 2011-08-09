@@ -4,7 +4,7 @@
  * 
  * @author Manuel Bieh
  * @url http://www.manuel-bieh.de/
- * @version 1.0.1
+ * @version 1.1.0
  * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPL
  *
  */
@@ -26,77 +26,39 @@
 		/**
 		 * Calculates the distance between two spots
 		 *
-		 * @param    string    Start "lat,lng" (e.g. 51.503293,7.482374) or Start lat
-		 * @param    string    End lat,lng (e.g. 51.473453,7.50324) or Start lng
-		 * @param    string    Accuracy (in meters) or End lat
-		 * @param    string    NULL or End lng
-		 * @param    integer   NULL or Accuracy (in meters)
+		 * @param    object    Start position {latitude: 123, longitude: 123}
+		 * @param    object    End position {latitude: 123, longitude: 123}
+		 * @param    integer   Accuracy (in meters)
 		 * @return   integer   Distance (in meters)
 		 */
-		getDistance: function() {
+		getDistance: function(start, end, accuracy) {
 
-			var start = [];
-			var end = [];
-			var accuracy;
+			accuracy = parseInt(accuracy) || 1;
 
-			switch(arguments.length) {
+			var coord1 = {}, coord2 = {};
+			coord1.latitude = (geolib.useDecimal(start.latitude)/ 180 * Math.PI);
+			coord1.longitude = (geolib.useDecimal(start.longitude)/ 180 * Math.PI);
 
-				case 5:
-					accuracy = arguments[4];
-				case 5:
-				case 4:
-
-					start[0] = arguments[0];
-					start[1] = arguments[1];
-
-					end[0] = arguments[2];
-					end[1] = arguments[3];
-
-					break;
-
-				case 3:
-					accuracy = arguments[2];
-				case 3:
-				case 2:
-
-					start 		= arguments[0] instanceof Array ? arguments[0] : arguments[0].split(',');
-					end 		= arguments[1] instanceof Array ? arguments[1] : arguments[1].split(',');
-
-					start[0] 	= geolib.useDecimal(start[0]);
-					start[1] 	= geolib.useDecimal(start[1]);
-
-					end[0] 		= geolib.useDecimal(end[0]);
-					end[1] 		= geolib.useDecimal(end[1]);
-
-					break;
-
-			}
-
-			accuracy = accuracy || 1;
-
-			var startn = ((start[0])/ 180 * Math.PI);
-			var starte = ((start[1])/ 180 * Math.PI);
-
-			var endn = ((end[0])/ 180 * Math.PI);
-			var ende = ((end[1])/ 180 * Math.PI);
+			coord2.latitude = (geolib.useDecimal(end.latitude)/ 180 * Math.PI);
+			coord2.longitude = (geolib.useDecimal(end.longitude)/ 180 * Math.PI);
 
 			var distance = 
 				Math.round(
 					Math.acos(
 						Math.sin(
-							endn
+							coord2.latitude
 						) * 
 						Math.sin(
-							startn
+							coord1.latitude
 						) + 
 						Math.cos(
-							endn
+							coord2.latitude
 						) * 
 						Math.cos(
-							startn
+							coord1.latitude
 						) * 
 						Math.cos(
-							starte - ende
+							coord1.longitude - coord2.longitude
 						) 
 					) * radius
 				);
@@ -109,8 +71,8 @@
 		/**
 		 * Calculates the center of a collection of geo coordinates
 		 *
-		 * @param		array		Collection of coords ["51.510,7.1321", "49.1238, 8° 30' W", "-120.2383,4.2130"]
-		 * @return		object		{lat: centerLat, lng: centerLng, distance: diagonalDistance}
+		 * @param		array		Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
+		 * @return		object		{latitude: centerLat, longitude: centerLng, distance: diagonalDistance}
 		 */
 		getCenter: function(coords) {
 
@@ -125,9 +87,8 @@
 			var	lat, lng, splitCoords = {lat: [], lng: []};
 
 			for(coord in coords) {
-				var tmp = coords[coord].split(',');
-				splitCoords.lat.push(geolib.useDecimal(parseFloat(tmp[0])));
-				splitCoords.lng.push(geolib.useDecimal(parseFloat(tmp[1])));
+				splitCoords.lat.push(geolib.useDecimal(coords[coord].latitude));
+				splitCoords.lng.push(geolib.useDecimal(coords[coord].longitude));
 			}
 
 			var minLat = min(splitCoords.lat);
@@ -141,7 +102,71 @@
 			// distance from the deepest left to the highest right point (diagonal distance)
 			var distance = geolib.convertUnit('km', geolib.getDistance(minLat, minLng, maxLat, maxLng));
 
-			return {"lat": lat, "lng": lng, "distance": distance};
+			return {"latitude": lat, "longitude": lng, "distance": distance};
+
+		},
+
+
+		/**
+		 * Checks whether a point is inside of a polygon or not.
+		 * Note that the polygon coords must be in correct order!
+		 *
+		 * @param		object		coordinate to check {latitude: 51.5023, longitude: 7.3815}
+		 * @param		array		array with coords [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...] 
+		 * @return		bool		true if the coordinate is inside the given polygon
+		 */
+		isPointInside: function(latlng, coords) {
+
+			for(var c = false, i = -1, l = coords.length, j = l - 1; ++i < l; j = i) {
+
+				(
+					(coords[i].longitude <= latlng.longitude && latlng.longitude < coords[j].longitude) ||
+					(coords[j].longitude <= latlng.longitude && latlng.longitude < coords[i].longitude)
+				)
+			   && (latlng.latitude < (coords[j].latitude - coords[i].latitude) 
+					* (latlng.longitude - coords[i].longitude)
+					/ (coords[j].longitude - coords[i].longitude) + coords[i].latitude)
+			   && (c = !c);
+
+			}
+
+			return c;
+
+		},
+
+
+		/**
+		 * Sorts an array of coords by distance from a reference coordinate
+		 *
+		 * @param		object		reference coordinate e.g. {latitude: 51.5023, longitude: 7.3815}
+		 * @param		mixed		array or object with coords [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...] 
+		 * @return		array		ordered array
+		 */
+		orderByDistance: function(latlng, coords) {
+
+			var coordsArray = [];
+			for(coord in coords) {
+				var d = geolib.getDistance(latlng, coords[coord]);
+				coordsArray.push({key: coord, latitude: coords[coord].latitude, longitude: coords[coord].longitude, distance: d});
+			}
+			
+			return coordsArray.sort(function(a, b) { return a.distance - b.distance; });
+
+		},
+
+
+		/**
+		 * Finds the nearest coordinate to a reference coordinate
+		 *
+		 * @param		object		reference coordinate e.g. {latitude: 51.5023, longitude: 7.3815}
+		 * @param		mixed		array or object with coords [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...] 
+		 * @return		array		ordered array
+		 */
+		findNearest: function(latlng, coords, offset) {
+
+			offset = offset || 0;
+			var ordered = geolib.orderByDistance(latlng, coords);
+			return ordered[offset];
 
 		},
 
@@ -213,7 +238,7 @@
 		 */
 		useDecimal: function(value) {
 
-			value = value.replace(/\s*/, '');
+			value = value.toString().replace(/\s*/, '');
 
 			// looks silly but works as expected
 			// checks if value is in decimal format

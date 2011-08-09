@@ -4,22 +4,20 @@ A small library to provide some basic geo functions like distance calculation, c
 
 [View demo](http://www.manuel-bieh.de/publikationen/scripts/geolib/demo.html)
 
-
 ## Methods
 
-### getDistance(mixed, mixed, [mixed, [mixed, [int] ] ])
+### getDistance(object start, object end, [int accuracy])
 
 Calculates the distance between two geo coordinates
 
-Takes 2, 3, 4 or 5 parameters. Either 2 pairs of coordinates as string  or array or start latitude, start longitude, end latitude, end longitude as separate arguments. 3rd or 5th argument is accuracy (in meters). So a distance of 1248 meters with an accuracy of 100 is returned as 1200.
+Takes 2 or 3. First 2 arguments must be an object with a latitude and a longitude property (e.g. {latitude: 52.518611, longitude: 13.408056}). Coordinates can be in sexagesimal or decimal format. 3rd argument is accuracy (in meters). So a calculated distance of 1248 meters with an accuracy of 100 is returned as 1200.
 
 Return value is always an integer and represents the distance in meters.
 
-#### Examples: 
+#### Examples
 
-<pre>geolib.getDistance("51.5103,7.49347", "51° 31' N, 7° 28' E");
-geolib.getDistance([51.5103, 7.49347], ["51° 31' N", "7° 28' E"]);
-geolib.getDistance(51.5103, 7.49347, 55.751667, 37.617778);</pre>
+<pre>geolib.getDistance({latutide: 51.5103, longitude: 7.49347}, {latitude: "51° 31' N", longitude: 7° 28' E});
+geolib.getDistance({latitude: 51.5103, longitude: 7.49347}, {latitude: "51° 31' N", longitude: "7° 28' E"});
 
 ### getCenter(array coords)
 
@@ -27,27 +25,84 @@ Calculates the geographical center of all points in a collection of geo coordina
 
 Takes an object or array of coordinates and calculates the center of it.
 
-Returns an object: `{"lat": centerLat, "lng": centerLng, "distance": diagonalDistance}`
+Returns an object: `{"latitude": centerLat, "longitude": centerLng, "distance": diagonalDistance}`
 
 #### Examples
 
 <pre>var spots = {
-	"Brandenburg Gate, Berlin":"52.516272, 13.377722",
-	"Dortmund U-Tower":"51.515, 7.453619",
-	"London Eye": "51.503333, -0.119722",
-	"Kremlin, Moscow":"55.751667, 37.617778",
-	"Eiffel Tower, Paris":"48.8583, 2.2945",
-	"Riksdag building, Stockholm":"59.3275, 18.0675",
-	"Royal Palace, Oslo":"59.916911, 10.727567",
+	"Brandenburg Gate, Berlin": {latitude: 52.516272, longitude: 13.377722},
+	"Dortmund U-Tower": {latitude: 51.515, longitude: 7.453619},
+	"London Eye": {latitude: 51.503333, longitude: -0.119722},
+	"Kremlin, Moscow": {latitude: 55.751667, longitude: 37.617778},
+	"Eiffel Tower, Paris": {latitude: 48.8583, longitude: 2.2945},
+	"Riksdag building, Stockholm": {latitude: 59.3275, longitude: 18.0675},
+	"Royal Palace, Oslo": {latitude: 59.916911, longitude: 10.727567}
 }
 
 geolib.getCenter(spots);
 geolib.getCenter([
-	[52.516272, 13.377722], [51.515, 7.453619], [51.503333, -0.119722]
+	{latitude: 52.516272, longitude: 13.377722}, 
+	{latitude: 51.515, longitude: 7.453619}, 
+	{latitude: 51.503333, longitude: -0.119722}
 ]);
 </pre>
 
-### convertUnit(string unit, float distance, int round)
+### isPointInside(object latlng, array coords)
+
+Checks whether a point is inside of a polygon or not. 
+Note: the polygon coords must be in correct order!
+
+Returns true or false
+
+#### Example
+
+`geolib.isPointInside({latitude: 51.5125, longitude: 7.485}, [{latitude: 51.50, longitude: 7.40}, {latitude: 51.555, longitude: 7.40}, {latitude: 51.555, longitude: 7.625}, {latitude: 51.5125, longitude: 7.625}]); // -> true`
+
+### orderByDistance(object latlng, mixed coords)
+
+Sorts an object or array of coords by distance from a reference coordinate
+
+Returns a sorted array [{latitude: x, longitude: y, distance: z, key: property}]
+
+#### Examples
+
+<pre>
+// coords array
+geolib.orderByDistance({latitude: 51.515, longitude: 7.453619}, [
+	{latitude: 52.516272, longitude: 13.377722}, 
+	{latitude: 51.518, longitude: 7.45425}, 
+	{latitude: 51.503333, longitude: -0.119722}
+]);
+
+// coords object
+geolib.orderByDistance({latitude: 51.515, longitude: 7.453619}, {
+	a: {latitude: 52.516272, longitude: 13.377722}, 
+	b: {latitude: 51.518, longitude: 7.45425}, 
+	c: {latitude: 51.503333, longitude: -0.119722}
+});
+</pre>
+
+### findNearest(object latlng, mixed coords, int offset)
+
+Finds the nearest coordinate to a reference coordinate.
+
+#### Examples
+
+<pre>var spots = {
+	"Brandenburg Gate, Berlin": {latitude: 52.516272, longitude: 13.377722},
+	"Dortmund U-Tower": {latitude: 51.515, longitude: 7.453619},
+	"London Eye": {latitude: 51.503333, longitude: -0.119722},
+	"Kremlin, Moscow": {latitude: 55.751667, longitude: 37.617778},
+	"Eiffel Tower, Paris": {latitude: 48.8583, longitude: 2.2945},
+	"Riksdag building, Stockholm": {latitude: 59.3275, longitude: 18.0675},
+	"Royal Palace, Oslo": {latitude: 59.916911, longitude: 10.727567}
+}
+
+// in this case set offset to 1 otherwise the nearest point will always be your reference point
+geolib.findNearest(spots['Dortmund U-Tower'], spots, 1) 
+</pre>
+
+### convertUnit(string unit, float distance, [int round])
 
 Converts a given distance (in meters) to another unit.
 
@@ -56,9 +111,9 @@ Converts a given distance (in meters) to another unit.
 `unit` can be one of:
 
 - m (meter)
-- km (kilometer)
-- cm (centimeter)
-- mm (millimeter)
+- km (kilometers)
+- cm (centimeters)
+- mm (millimeters)
 - mi (miles)
 - sm (seamiles)
 - ft (foot)
