@@ -110,6 +110,22 @@ Finds the nearest coordinate to a reference coordinate.
 geolib.findNearest(spots['Dortmund U-Tower'], spots, 1) 
 </pre>
 
+### getPathLength(mixed coords)
+
+Calculates the length of a collection of coordinates
+
+Returns the length of the path in kilometers
+
+#### Example
+
+<pre>
+// Calculate distance from Berlin via Dortmund to London
+geolib.getPathLength([
+	{latitude: 52.516272, longitude: 13.377722}, // Berlin
+	{latitude: 51.515, longitude: 7.453619}, // Dortmund
+	{latitude: 51.503333, longitude: -0.119722} // London
+]); // -> 945235</pre>
+
 ### convertUnit(string unit, float distance, [int round])
 
 Converts a given distance (in meters) to another unit.

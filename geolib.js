@@ -4,11 +4,11 @@
  * 
  * @author Manuel Bieh
  * @url http://www.manuel-bieh.de/
- * @version 1.1.0
+ * @version 1.1.1
  * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPL
  *
  */
-;(function () {
+;(function (window, undefined) {
 
 	var radius = 6378137 // Earth radius
 	var sexagesimalPattern = /^([0-9]{1,3})°\s*([0-9]{1,3})'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/;
@@ -172,6 +172,26 @@
 
 
 		/**
+		 * Calculates the length of a given path
+		 *
+		 * @param		mixed		array or object with coords [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...] 
+		 * @return		integer		length of the path (in meters)
+		 */
+		getPathLength: function(coords) {
+
+			var l = 0, last;
+			for(coord in coords) {
+				if(last) {
+					l += geolib.getDistance(coords[coord], last);
+				}
+				last = coords[coord];
+			}
+
+			return l;
+
+		},
+
+		/**
 		 * Converts a distance from meters to km, mm, cm, mi, ft, in or yd
 		 *
 		 * @param		string		Format to be converted in
@@ -326,4 +346,4 @@
 
 	window.geolib = geolib;
 
-})();
+})(this);
