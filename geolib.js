@@ -76,17 +76,17 @@
 		 */
 		getCenter: function(coords) {
 
-			max = function( array ){
+			var max = function( array ){
 				return Math.max.apply( Math, array );
 			};
 
-			min = function( array ){
+			var min = function( array ){
 				return Math.min.apply( Math, array );
 			};
 
 			var	lat, lng, splitCoords = {lat: [], lng: []};
 
-			for(coord in coords) {
+			for(var coord in coords) {
 				splitCoords.lat.push(geolib.useDecimal(coords[coord].latitude));
 				splitCoords.lng.push(geolib.useDecimal(coords[coord].longitude));
 			}
@@ -145,7 +145,7 @@
 		orderByDistance: function(latlng, coords) {
 
 			var coordsArray = [];
-			for(coord in coords) {
+			for(var coord in coords) {
 				var d = geolib.getDistance(latlng, coords[coord]);
 				coordsArray.push({key: coord, latitude: coords[coord].latitude, longitude: coords[coord].longitude, distance: d});
 			}
@@ -180,7 +180,7 @@
 		getPathLength: function(coords) {
 
 			var l = 0, last;
-			for(coord in coords) {
+			for(var coord in coords) {
 				if(last) {
 					l += geolib.getDistance(coords[coord], last);
 				}
@@ -282,7 +282,7 @@
 		 */
 		decimal2sexagesimal: function(dec) {
 
-			tmp = dec.toString().split('.');
+			var tmp = dec.toString().split('.');
 
 			var deg = tmp[0];
 			var min = ('0.' + tmp[1])*60;
