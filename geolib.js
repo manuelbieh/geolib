@@ -33,7 +33,7 @@
 		 */
 		getDistance: function(start, end, accuracy) {
 
-			accuracy = parseInt(accuracy) || 1;
+			accuracy = parseInt(accuracy, 10) || 1;
 
 			var coord1 = {}, coord2 = {};
 			coord1.latitude = (geolib.useDecimal(start.latitude)/ 180 * Math.PI);
@@ -63,7 +63,7 @@
 					) * radius
 				);
 
-			return geolib.distance = parseInt(Math.round(distance/accuracy)*accuracy);
+			return geolib.distance = parseInt(Math.round(distance/accuracy)*accuracy, 10);
 
 		},
 
@@ -288,7 +288,7 @@
 			var min = ('0.' + tmp[1])*60;
 			var sec = min.toString().split('.');
 
-			min = parseInt(min);
+			min = parseInt(min, 10);
 			sec = (('0.' + sec[1]) * 60).toFixed(2);
 
 			geolib.sexagesimal[dec] = (deg + '° ' + min + "' " + sec + '"');
@@ -309,7 +309,7 @@
 			var	regEx = new RegExp(sexagesimalPattern);
 			var	data = regEx.exec(sexagesimal);
 
-			if(!!data) {
+			if(data) {
 				var min = parseFloat(data[2]/60);
 				var sec = parseFloat(data[4]/3600) || 0;
 			}
