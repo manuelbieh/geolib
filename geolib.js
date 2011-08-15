@@ -282,6 +282,10 @@
 		 */
 		decimal2sexagesimal: function(dec) {
 
+			if (dec in geolib.sexagesimal) {
+				return geolib.sexagesimal[dec];
+			}
+
 			var tmp = dec.toString().split('.');
 
 			var deg = tmp[0];
@@ -305,6 +309,10 @@
 		 * @return		string		Decimal value (XX.XXXXXXXX)
 		 */
 		sexagesimal2decimal: function(sexagesimal) {
+
+			if (sexagesimal in geolib.decimal) {
+				return geolib.decimal[sexagesimal];
+			}
 
 			var	regEx = new RegExp(sexagesimalPattern);
 			var	data = regEx.exec(sexagesimal);
