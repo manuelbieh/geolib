@@ -40,7 +40,7 @@ $(function() {
 		try {
 			var distance = geolib.getDistance(cities[$('[name="city1"]').val()], cities[$('[name="city2"]').val()]);
 			var converted = geolib.convertUnit($('[name="unit"]').val(), distance);
-			$('section#distance p:first-child').html('Distance from ' + $('[name="city1"] option:selected').text() + ' to ' + $('[name="city2"] option:selected').text() + ' is ' + converted + ' ' + $('[name="unit"]').val());
+			$('section#distance p:first-child').html('› Distance from <strong>' + $('[name="city1"] option:selected').text() + '</strong> to <strong>' + $('[name="city2"] option:selected').text() + '</strong> is <strong>' + converted + ' ' + $('[name="unit"]').val() + '</strong>');
 		} catch (e) {
 			alert(e);
 		}
@@ -50,7 +50,7 @@ $(function() {
 
 		try {
 			var nearest = geolib.findNearest(cities[$('[name="city3"]').val()], cities, 1);
-			$('section#nearest p:first-child').html('Nearest city from ' + $('[name="city3"] option:selected').text() + ' is ' + nearest.key + ' (' + geolib.convertUnit($('[name="unit"]').val(), nearest.distance) + ' ' + $('[name="unit"]').val() + ')');
+			$('section#nearest p:first-child').html('› Nearest city from <strong>' + $('[name="city3"] option:selected').text() + '</strong> is <strong>' + nearest.key + '</strong> (' + geolib.convertUnit($('[name="unit"]').val(), nearest.distance) + ' ' + $('[name="unit"]').val() + ')');
 		} catch (e) {
 			alert(e);
 		}
@@ -270,6 +270,18 @@ var bound = [
 
 console.log(geolib.isPointInside({latitude: 51.44750068842029, longitude: 6.2688446044921875}, bound));
 
+	$('#geolocation').bind('click', function() {
+		navigator.geolocation.getCurrentPosition(
+			function(position) {
+				var nearme = geolib.findNearest(position.coords, cities);
+				
+				$('#nearme').html('› Nearest city to you (from the selectbox above) is <strong>' + nearme.key + '</strong> (' + geolib.convertUnit($('[name="unit"]').val(), nearme.distance) + ' ' + $('[name="unit"]').val() + ')');
+			}, function() {
+				$('#nearme').html('Could not determine your position.');
+			}, {enableHighAccuracy: true}
+		);
+	});
+
 });
 </script>
 
@@ -287,9 +299,22 @@ body {
 	line-height: 24px;
 }
 
-h1 {
+h1, h2, h3 {
 	font-family: "Georgia", serif;
 	font-weight: normal;
+}
+
+h2, h3 {
+	margin: 1em 0 0 0;
+}
+
+h2 {
+	font-size: 130%;
+}
+
+h3 {
+	font-size: 110%;
+	font-style: italic;
 }
 
 p {
@@ -306,23 +331,32 @@ p {
 
 <div id="wrapper">
 
-	<img src="earth.png" alt="" title="Björn Lindberg, CC BY-NC-ND 3.0" style="float: left; margin-right: 15px; margin-bottom: 100px;" />
+	<img src="earth.png" alt="" title="Björn Lindberg, CC BY-NC-ND 3.0" style="float: left; margin-right: 15px; margin-bottom: 400px;" />
 
 	<h1>geolib.js</h1>
-	<p>
-		Calculate distance from <select name="city1"></select> to <select name="city2"></select>.</p>
-	<p>Show distance in <select name="unit">
+	<h2>Settings</h2>
+	<p>Show all distances in <select name="unit">
 		<option value="km">Kilometer</option><option value="m">Meter</option><option value="cm">Centimeter</option><option value="mm">Millimeter</option><option value="mi">Miles</option><option value="sm">Seamiles</option><option value="ft">Feet</option><option value="in">Inch</option><option value="yd">Yards</option>
 	</select>.
 	</p>
 
-	<section id="distance"><p></p></section>
+	<h2>Distance calculation</h2>
+	<p>Calculate distance from <select name="city1"></select> to <select name="city2"></select>.</p>
 
+
+	<section id="distance"><p> </p></section>
+
+	<h2>What's near?</h2>
+	<h3>Static example</h3>
 	<p>
 		Show what's the nearest to <select name="city3"></select> 
 	</p>
 
-	<section id="nearest"><p></p></section>
+	<section id="nearest"><p> </p></section>
+
+	<h3>Geolocation example</h3>
+	<p>What's nearest from my position (uses W3C Geolocation API) <button id="geolocation">click!</button></p>
+	<section id="nearme"><p> </p></section>
 
 </div>
 
