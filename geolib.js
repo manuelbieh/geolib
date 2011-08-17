@@ -1,10 +1,11 @@
 /**
  * A small library to provide some basic geo functions like distance calculation,
  * conversion of decimal coordinates to sexagesimal and vice versa, etc.
+ * WGS 84 (World Geodetic System 1984)
  * 
  * @author Manuel Bieh
  * @url http://www.manuel-bieh.de/
- * @version 1.1.1
+ * @version 1.1.2
  * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPL
  *
  */
@@ -111,8 +112,8 @@
 		 * Checks whether a point is inside of a polygon or not.
 		 * Note that the polygon coords must be in correct order!
 		 *
-		 * @param		object		coordinate to check {latitude: 51.5023, longitude: 7.3815}
-		 * @param		array		array with coords [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...] 
+		 * @param		object		coordinate to check e.g. {latitude: 51.5023, longitude: 7.3815}
+		 * @param		array		array with coords e.g. [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...] 
 		 * @return		bool		true if the coordinate is inside the given polygon
 		 */
 		isPointInside: function(latlng, coords) {
@@ -131,6 +132,21 @@
 			}
 
 			return c;
+
+		},
+
+
+		/**
+		 * Checks whether a point is inside of a circle or not.
+		 *
+		 * @param		object		coordinate to check e.g. {latitude: 51.5023, longitude: 7.3815}
+		 * @param		object		coordinate of the circle's center e.g. {latitude: 51.4812, longitude: 7.4025}
+		 * @param		integer		maximum radius in meters 
+		 * @return		bool		true if the coordinate is inside the given radius
+		 */
+		isPointInCircle: function(latlng, center, radius) {
+
+			return geolib.getDistance(latlng, center) < radius;
 
 		},
 

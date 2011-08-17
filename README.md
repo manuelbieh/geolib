@@ -17,7 +17,13 @@ Return value is always an integer and represents the distance in meters.
 #### Examples
 
 <pre>geolib.getDistance({latutide: 51.5103, longitude: 7.49347}, {latitude: "51° 31' N", longitude: 7° 28' E});
-geolib.getDistance({latitude: 51.5103, longitude: 7.49347}, {latitude: "51° 31' N", longitude: "7° 28' E"});</pre>
+geolib.getDistance({latitude: 51.5103, longitude: 7.49347}, {latitude: "51° 31' N", longitude: "7° 28' E"});
+
+// Working with W3C Geolocation API
+navigator.geolocation.getCurrentPosition(function(position) {
+	alert('You are ' + geolib.getDistance(position.coords, {latitude: 51.525, longitude: 7.4575}) + ' meters away from 51.525, 7.4575');
+}, function() { alert('Position could not be determined.'), {enableHighAccuracy: true});
+</pre>
 
 ### getCenter(array coords)
 
@@ -65,6 +71,17 @@ geolib.isPointInside(
 		{latitude: 51.5125, longitude: 7.625}
 	]
 ); // -> true</pre>
+
+### isPointInCircle(object latlng, object center, integer radius)
+
+Similar to is point inside: checks whether a point is inside of a circle or not. 
+
+Returns true or false
+
+#### Example
+
+<pre>// checks if 51.525, 7.4575 is within a radius of 5km from 51.5175, 7.4678
+geolib.isPointInCircle({latitude: 51.525, longitude: 7.4575}, {latitude: 51.5175, longitude: 7.4678}, 5000);</pre>
 
 ### orderByDistance(object latlng, mixed coords)
 
