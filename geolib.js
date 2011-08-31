@@ -5,7 +5,7 @@
  * 
  * @author Manuel Bieh
  * @url http://www.manuel-bieh.de/
- * @version 1.1.3
+ * @version 1.1.4
  * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPL
  *
  */
@@ -154,7 +154,7 @@
 			var distance = b * A * (sigma - deltaSigma);
 
 			distance = distance.toFixed(3); // round to 1mm precision
-			return geolib.distance = parseInt(Math.round(distance/accuracy)*accuracy)
+			return geolib.distance = parseInt(Math.round(distance/accuracy)*accuracy, 10)
 
 			/*
 			// note: to return initial/final bearings in addition to distance, use something like:
@@ -178,7 +178,7 @@
 		 */
 		getDistanceSimple: function(start, end, accuracy) {
 
-			accuracy = parseInt(accuracy) || 1;
+			accuracy = parseInt(accuracy, 10) || 1;
 
 			var coord1 = {}, coord2 = {};
 			coord1.latitude = parseFloat(geolib.useDecimal(start.latitude)).toRad();
