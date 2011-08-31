@@ -39,7 +39,7 @@
 
 		getDistance: function(start, end, accuracy) {
 
-			accuracy = parseInt(accuracy) || 1;
+			accuracy = parseInt(accuracy, 10) || 1;
 
 			var coord1 = {}, coord2 = {};
 			coord1.latitude = geolib.useDecimal(start.latitude);
@@ -208,7 +208,7 @@
 					) * radius
 				);
 
-			return geolib.distance = parseInt(Math.round(distance/accuracy)*accuracy);
+			return geolib.distance = parseInt(Math.round(distance/accuracy)*accuracy, 10);
 
 		},
 
@@ -221,17 +221,17 @@
 		 */
 		getCenter: function(coords) {
 
-			max = function( array ){
+			var max = function( array ){
 				return Math.max.apply( Math, array );
 			};
 
-			min = function( array ){
+			var min = function( array ){
 				return Math.min.apply( Math, array );
 			};
 
 			var	lat, lng, splitCoords = {lat: [], lng: []};
 
-			for(coord in coords) {
+			for(var coord in coords) {
 				splitCoords.lat.push(geolib.useDecimal(coords[coord].latitude));
 				splitCoords.lng.push(geolib.useDecimal(coords[coord].longitude));
 			}
@@ -305,7 +305,7 @@
 		orderByDistance: function(latlng, coords) {
 
 			var coordsArray = [];
-			for(coord in coords) {
+			for(var coord in coords) {
 				var d = geolib.getDistance(latlng, coords[coord]);
 				coordsArray.push({key: coord, latitude: coords[coord].latitude, longitude: coords[coord].longitude, distance: d});
 			}
@@ -340,7 +340,7 @@
 		getPathLength: function(coords) {
 
 			var l = 0, last;
-			for(coord in coords) {
+			for(var coord in coords) {
 				if(last) {
 					l += geolib.getDistance(coords[coord], last);
 				}
@@ -442,13 +442,17 @@
 		 */
 		decimal2sexagesimal: function(dec) {
 
-			tmp = dec.toString().split('.');
+			if (dec in geolib.sexagesimal) {
+				return geolib.sexagesimal[dec];
+			}
+
+			var tmp = dec.toString().split('.');
 
 			var deg = tmp[0];
 			var min = ('0.' + tmp[1])*60;
 			var sec = min.toString().split('.');
 
-			min = parseInt(min);
+			min = parseInt(min, 10);
 			sec = (('0.' + sec[1]) * 60).toFixed(2);
 
 			geolib.sexagesimal[dec] = (deg + '° ' + min + "' " + sec + '"');
@@ -466,10 +470,14 @@
 		 */
 		sexagesimal2decimal: function(sexagesimal) {
 
+			if (sexagesimal in geolib.decimal) {
+				return geolib.decimal[sexagesimal];
+			}
+
 			var	regEx = new RegExp(sexagesimalPattern);
 			var	data = regEx.exec(sexagesimal);
 
-			if(!!data) {
+			if(data) {
 				var min = parseFloat(data[2]/60);
 				var sec = parseFloat(data[4]/3600) || 0;
 			}
