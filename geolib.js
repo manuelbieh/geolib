@@ -12,7 +12,7 @@
 
 ;(function (window, undefined) {
 
-	var radius = 6378137 // Earth radius
+	var radius = 6378137; // Earth radius
 	var sexagesimalPattern = /^([0-9]{1,3})°\s*([0-9]{1,3})'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/;
 
 	var geolib = {
