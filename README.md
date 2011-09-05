@@ -16,7 +16,7 @@ Return value is always an integer and represents the distance in meters.
 
 #### Examples
 
-<pre>geolib.getDistance({latutide: 51.5103, longitude: 7.49347}, {latitude: "51° 31' N", longitude: 7° 28' E});
+<pre>geolib.getDistance({latitude: 51.5103, longitude: 7.49347}, {latitude: "51° 31' N", longitude: 7° 28' E});
 geolib.getDistance({latitude: 51.5103, longitude: 7.49347}, {latitude: "51° 31' N", longitude: "7° 28' E"});
 
 // Working with W3C Geolocation API
