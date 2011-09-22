@@ -40,7 +40,8 @@ $(function() {
 		try {
 			var distance = geolib.getDistance(cities[$('[name="city1"]').val()], cities[$('[name="city2"]').val()]);
 			var converted = geolib.convertUnit($('[name="unit"]').val(), distance);
-			$('section#distance p:first-child').html('› Distance from <strong>' + $('[name="city1"] option:selected').text() + '</strong> to <strong>' + $('[name="city2"] option:selected').text() + '</strong> is <strong>' + converted + ' ' + $('[name="unit"]').val() + '</strong>');
+			var direction = geolib.getCompassDirection(cities[$('[name="city1"]').val()], cities[$('[name="city2"]').val()]);
+			$('section#distance p:first-child').html('› Distance from <strong>' + $('[name="city1"] option:selected').text() + '</strong> to <strong>' + $('[name="city2"] option:selected').text() + '</strong> is <strong>' + converted + ' ' + $('[name="unit"]').val() + '</strong> (Compass direction is ' + direction.rough + '/' + direction.exact + ')' );
 		} catch (e) {
 			alert(e);
 		}
