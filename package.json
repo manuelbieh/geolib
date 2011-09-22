@@ -1,0 +1,15 @@
+{
+    "name": "Geolib",
+    "homepage": "http://github.com/manuelbieh/geolib",
+    "author": {
+      "name": "Manuel Bieh",
+      "url": "http://www.manuelbieh.com/"
+    },
+    "bin": { "geolib" : "./geolib.js" },
+    "repository": { "type" : "git", "url" : "http://github.com/manuelbieh/geolib.git" },
+    "description": "Growing library to perform geo specific tasks",
+    "keywords": ["geolocation", "geo", "distance"],
+    "version": "1.17",
+    "preferGlobal" : "false",
+    "main": "./geolib"
+}
