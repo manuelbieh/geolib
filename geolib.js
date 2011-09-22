@@ -5,7 +5,7 @@
  * 
  * @author Manuel Bieh
  * @url http://www.manuelbieh.com/
- * @version 1.1.5
+ * @version 1.1.6
  * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPL
  *
  */
@@ -309,10 +309,10 @@
 		getRhumbLineBearing: function(originLL, destLL) {
 
 			// difference of longitude coords
-			var diffLon = destLL.longitude.toRad() - originLL.longitude.toRad();
+			var diffLon = geolib.useDecimal(destLL.longitude).toRad() - geolib.useDecimal(originLL.longitude).toRad();
 
 			// difference latitude coords phi
-			var diffPhi = Math.log(Math.tan(destLL.latitude.toRad() / 2 + Math.PI / 4) / Math.tan(originLL.latitude.toRad() / 2 + Math.PI / 4));
+			var diffPhi = Math.log(Math.tan(geolib.useDecimal(destLL.latitude).toRad() / 2 + Math.PI / 4) / Math.tan(geolib.useDecimal(originLL.latitude).toRad() / 2 + Math.PI / 4));
 
 			// recalculate diffLon if it is greater than pi
 			if(Math.abs(diffLon) > Math.PI) {
@@ -338,6 +338,11 @@
 		 * @return		integer		calculated bearing
 		 */
 		getBearing: function(originLL, destLL) {
+
+			destLL.latitude = geolib.useDecimal(destLL.latitude);
+			destLL.longitude = geolib.useDecimal(destLL.longitude);
+			originLL.latitude = geolib.useDecimal(originLL.latitude);
+			originLL.longitude = geolib.useDecimal(originLL.longitude);
 
 			var bearing = (
 				(
@@ -573,10 +578,10 @@
 			// looks silly but works as expected
 			// checks if value is in decimal format
 			if (!isNaN(parseFloat(value)) && parseFloat(value).toString() == value) {    
-				return value;
+				return parseFloat(value);
 			// checks if it's sexagesimal format (HHH° MM' SS" (NESW))
 			} else if(geolib.isSexagesimal(value) == true) {
-				return geolib.sexagesimal2decimal(value);
+				return parseFloat(geolib.sexagesimal2decimal(value));
 			} else {
 				throw 'Unknown format.';
 			}
