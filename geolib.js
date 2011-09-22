@@ -4,8 +4,8 @@
  * WGS 84 (World Geodetic System 1984)
  * 
  * @author Manuel Bieh
- * @url http://www.manuel-bieh.de/
- * @version 1.1.4
+ * @url http://www.manuelbieh.com/
+ * @version 1.1.5
  * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPL
  *
  */
@@ -17,11 +17,9 @@
 
 	var geolib = {
 
-		decimal: {
-		},
+		decimal: {},
 
-		sexagesimal: {
-		},
+		sexagesimal: {},
 
 		distance: 0,
 
@@ -29,7 +27,7 @@
 		 * Calculates geodetic distance between two points specified by latitude/longitude using 
 		 * Vincenty inverse formula for ellipsoids
 		 * Vincenty Inverse Solution of Geodesics on the Ellipsoid (c) Chris Veness 2002-2010
-		 * CC BY 3.0
+		 * (Licensed under CC BY 3.0)
 		 *
 		 * @param    object    Start position {latitude: 123, longitude: 123}
 		 * @param    object    End position {latitude: 123, longitude: 123}
@@ -283,14 +281,166 @@
 		/**
 		 * Checks whether a point is inside of a circle or not.
 		 *
-		 * @param		object		coordinate to check e.g. {latitude: 51.5023, longitude: 7.3815}
-		 * @param		object		coordinate of the circle's center e.g. {latitude: 51.4812, longitude: 7.4025}
+		 * @param		object		coordinate to check (e.g. {latitude: 51.5023, longitude: 7.3815})
+		 * @param		object		coordinate of the circle's center (e.g. {latitude: 51.4812, longitude: 7.4025})
 		 * @param		integer		maximum radius in meters 
 		 * @return		bool		true if the coordinate is inside the given radius
 		 */
 		isPointInCircle: function(latlng, center, radius) {
 
 			return geolib.getDistance(latlng, center) < radius;
+
+		},
+
+
+		/**
+		 * Gets rhumb line bearing of two points. Find out about the difference between rhumb line and 
+		 * great circle bearing on Wikipedia. It's quite complicated. Rhumb line should be fine in most cases:
+		 *
+		 * http://en.wikipedia.org/wiki/Rhumb_line#General_and_mathematical_description
+		 * 
+		 * Function heavily based on Doug Vanderweide's great PHP version (licensed under GPL 3.0)
+		 * http://www.dougv.com/2009/07/13/calculating-the-bearing-and-compass-rose-direction-between-two-latitude-longitude-coordinates-in-php/
+		 *
+		 * @param		object		origin coordinate (e.g. {latitude: 51.5023, longitude: 7.3815})
+		 * @param		object		destination coordinate
+		 * @return		integer		calculated bearing
+		 */
+		getRhumbLineBearing: function(originLL, destLL) {
+
+			// difference of longitude coords
+			var diffLon = destLL.longitude.toRad() - originLL.longitude.toRad();
+
+			// difference latitude coords phi
+			var diffPhi = Math.log(Math.tan(destLL.latitude.toRad() / 2 + Math.PI / 4) / Math.tan(originLL.latitude.toRad() / 2 + Math.PI / 4));
+
+			// recalculate diffLon if it is greater than pi
+			if(Math.abs(diffLon) > Math.PI) {
+				if(diffLon > 0) {
+					diffLon = (2 * Math.PI - diffLon) * -1;
+				}
+				else {
+					diffLon = 2 * Math.PI + diffLon;
+				}
+			}
+
+			//return the angle, normalized
+			return (Math.atan2(diffLon, diffPhi).toDeg() + 360) % 360;
+
+		},
+
+
+		/**
+		 * Gets great circle bearing of two points. See description of getRhumbLineBearing for more information
+		 *
+		 * @param		object		origin coordinate (e.g. {latitude: 51.5023, longitude: 7.3815})
+		 * @param		object		destination coordinate
+		 * @return		integer		calculated bearing
+		 */
+		getBearing: function(originLL, destLL) {
+
+			var bearing = (
+				(
+					Math.atan2(
+						Math.sin(
+							destLL.longitude.toRad() - 
+							originLL.longitude.toRad()
+						) * 
+						Math.cos(
+							destLL.latitude.toRad()
+						), 
+						Math.cos(
+							originLL.latitude.toRad()
+						) * 
+						Math.sin(
+							destLL.latitude.toRad()
+						) - 
+						Math.sin(
+							originLL.latitude.toRad()
+						) * 
+						Math.cos(
+							destLL.latitude.toRad()
+						) * 
+						Math.cos(
+							destLL.longitude.toRad() - originLL.longitude.toRad()
+						)
+					)
+				).toDeg() + 360
+			) % 360;
+
+			return bearing;
+
+		},
+
+
+		/**
+		 * Gets the compass direction from an origin coordinate to a destination coordinate.
+		 *
+		 * @param		object		origin coordinate (e.g. {latitude: 51.5023, longitude: 7.3815})
+		 * @param		object		destination coordinate
+		 * @param		string		Bearing mode. Can be either circle or rhumbline
+		 * @return		object		Returns an object with a rough (NESW) and an exact direction (NNE, NE, ENE, E, ESE, etc).
+		 */
+		getCompassDirection: function(originLL, destLL, bearingMode) {
+
+			var direction;
+			if(bearingMode == 'circle') { // use great circle bearing
+				var bearing = geolib.getBearing(originLL, destLL);
+			} else { // default is rhumb line bearing
+				var bearing = geolib.getRhumbLineBearing(originLL, destLL);
+			}
+
+			switch(Math.round(bearing/22.5)) {
+				case 1:
+					direction = {exact: "NNE", rough: "N"};
+					break;
+				case 2:
+					direction = {exact: "NE", rough: "N"}
+					break;
+				case 3:
+					direction = {exact: "ENE", rough: "E"}
+					break;
+				case 4:
+					direction = {exact: "E", rough: "E"}
+					break;
+				case 5:
+					direction = {exact: "ESE", rough: "E"}
+					break;
+				case 6:
+					direction = {exact: "SE", rough: "E"}
+					break;
+				case 7:
+					direction = {exact: "SSE", rough: "S"}
+					break;
+				case 8:
+					direction = {exact: "S", rough: "S"}
+					break;
+				case 9:
+					direction = {exact: "SSW", rough: "S"}
+					break;
+				case 10:
+					direction = {exact: "SW", rough: "S"}
+					break;
+				case 11:
+					direction = {exact: "WSW", rough: "W"}
+					break;
+				case 12:
+					direction = {exact: "W", rough: "W"}
+					break;
+				case 13:
+					direction = {exact: "WNW", rough: "W"}
+					break;
+				case 14:
+					direction = {exact: "NW", rough: "W"}
+					break;
+				case 15:
+					direction = {exact: "NNW", rough: "N"}
+					break;
+				default:
+					direction = {exact: "N", rough: "N"}
+			}
+
+			return direction;
 
 		},
 
@@ -515,6 +665,12 @@
 	if (typeof(Number.prototype.toRad) === "undefined") {
 		Number.prototype.toRad = function() {
 			return this * Math.PI / 180;
+		}
+	}
+
+	if (typeof(Number.prototype.toDeg) === "undefined") {
+		Number.prototype.toDeg = function() {
+			return this * 180 / Math.PI;
 		}
 	}
 
