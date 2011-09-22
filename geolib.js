@@ -5,12 +5,12 @@
  * 
  * @author Manuel Bieh
  * @url http://www.manuelbieh.com/
- * @version 1.1.6
+ * @version 1.1.7
  * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPL
  *
  */
 
-;(function (window, undefined) {
+(function (window, undefined) {
 
 	var radius = 6378137; // Earth radius
 	var sexagesimalPattern = /^([0-9]{1,3})°\s*([0-9]{1,3})'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/;
@@ -679,6 +679,13 @@
 		}
 	}
 
-	window.geolib = geolib;
+	// we're in a browser
+	if(typeof window.navigator != 'undefined') {
+		window.geolib = geolib;
+	// we're working with node.js, hipster!
+	// (experimental support)
+	} else {
+		module.exports = geolib;
+	}
 
 })(this);
