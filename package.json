@@ -9,7 +9,7 @@
     "repository": { "type" : "git", "url" : "http://github.com/manuelbieh/geolib.git" },
     "description": "Growing library to perform geo specific tasks",
     "keywords": ["geolocation", "geo", "distance"],
-    "version": "1.17",
+    "version": "1.1.7",
     "preferGlobal" : "false",
     "main": "./geolib"
 }
