@@ -603,7 +603,7 @@
 
 			var tmp = dec.toString().split('.');
 
-			var deg = tmp[0];
+			var deg = Math.abs(tmp[0]);
 			var min = ('0.' + tmp[1])*60;
 			var sec = min.toString().split('.');
 
