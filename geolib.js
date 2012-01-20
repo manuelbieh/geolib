@@ -243,7 +243,7 @@
 			lng = ((minLng + maxLng)/2).toFixed(6);
 
 			// distance from the deepest left to the highest right point (diagonal distance)
-			var distance = geolib.convertUnit('km', geolib.getDistance(minLat, minLng, maxLat, maxLng));
+			var distance = geolib.convertUnit('km', geolib.getDistance({latitude: minLat, longitude: minLng}, {latitude: maxLat, longitude: maxLng}));
 
 			return {"latitude": lat, "longitude": lng, "distance": distance};
 
