@@ -23,6 +23,32 @@
 
 		distance: 0,
 
+
+		/**
+		 * Get the key names for a geo point.
+		 *
+		 * @param		object	Point position {latitude: 123, longitude: 123, elevation: 123}
+		 * @return	object	{ longitude: 'lng|long|longitude',
+		 * 								    latitude: 'lat|latitude',
+		 * 								    elevation: 'alt|altitude|elev|elevation' }
+		 */
+
+		getKeys: function(point) {
+			var latitude = point.hasOwnProperty('lat') ? 'lat' : 'latitude';
+			var longitude = (point.hasOwnProperty('lng') ? 'lng' : false) ||
+											(point.hasOwnProperty('long') ? 'long' : false) ||
+											'longitude';
+			var elevation = (point.hasOwnProperty('alt') ? 'alt' : false) ||
+											(point.hasOwnProperty('altitude') ? 'altitude' : false) ||
+											(point.hasOwnProperty('elev') ? 'elev' : false) ||
+											'elevation';
+			return {
+				latitude: latitude,
+				longitude: longitude,
+				elevation: elevation
+			};
+		},
+
 		/**
 		 * Calculates geodetic distance between two points specified by latitude/longitude using 
 		 * Vincenty inverse formula for ellipsoids
@@ -37,20 +63,25 @@
 
 		getDistance: function(start, end, accuracy) {
 
-			accuracy = parseInt(accuracy, 10) || 1;
+			var keys = geolib.getKeys(start);
+			var latitude = keys.latitude;
+			var longitude = keys.longitude;
+			var elevation = keys.elevation;
+
+			accuracy = Math.floor(accuracy) || 1;
 
 			var coord1 = {}, coord2 = {};
-			coord1.latitude = geolib.useDecimal(start.latitude);
-			coord1.longitude = geolib.useDecimal(start.longitude);
+			coord1[latitude] = geolib.useDecimal(start[latitude]);
+			coord1[longitude] = geolib.useDecimal(start[longitude]);
 
-			coord2.latitude = geolib.useDecimal(end.latitude);
-			coord2.longitude = geolib.useDecimal(end.longitude);
+			coord2[latitude] = geolib.useDecimal(end[latitude]);
+			coord2[longitude] = geolib.useDecimal(end[longitude]);
 
 			var a = 6378137, b = 6356752.314245,  f = 1/298.257223563;  // WGS-84 ellipsoid params
-			var L = (coord2.longitude-coord1.longitude).toRad();
+			var L = (coord2[longitude]-coord1[longitude]).toRad();
 
-			var U1 = Math.atan((1-f) * Math.tan(parseFloat(coord1.latitude).toRad()));
-			var U2 = Math.atan((1-f) * Math.tan(parseFloat(coord2.latitude).toRad()));
+			var U1 = Math.atan((1-f) * Math.tan(parseFloat(coord1[latitude]).toRad()));
+			var U2 = Math.atan((1-f) * Math.tan(parseFloat(coord2[latitude]).toRad()));
 			var sinU1 = Math.sin(U1), cosU1 = Math.cos(U1);
 			var sinU2 = Math.sin(U2), cosU2 = Math.cos(U2);
 
@@ -152,7 +183,11 @@
 			var distance = b * A * (sigma - deltaSigma);
 
 			distance = distance.toFixed(3); // round to 1mm precision
-			return geolib.distance = parseInt(Math.round(distance/accuracy)*accuracy, 10)
+			if (start.hasOwnProperty(elevation) && end.hasOwnProperty(elevation)) {
+				var climb = Math.abs(start[elevation] - end[elevation]);
+				distance = Math.sqrt(distance*distance + climb*climb);
+			}
+			return geolib.distance = Math.floor(Math.round(distance/accuracy)*accuracy)
 
 			/*
 			// note: to return initial/final bearings in addition to distance, use something like:
@@ -176,37 +211,41 @@
 		 */
 		getDistanceSimple: function(start, end, accuracy) {
 
-			accuracy = parseInt(accuracy, 10) || 1;
+			var keys = geolib.getKeys(start);
+			var latitude = keys.latitude;
+			var longitude = keys.longitude;
+
+			accuracy = Math.floor(accuracy) || 1;
 
 			var coord1 = {}, coord2 = {};
-			coord1.latitude = parseFloat(geolib.useDecimal(start.latitude)).toRad();
-			coord1.longitude = parseFloat(geolib.useDecimal(start.longitude)).toRad();
+			coord1[latitude] = parseFloat(geolib.useDecimal(start[latitude])).toRad();
+			coord1[longitude] = parseFloat(geolib.useDecimal(start[longitude])).toRad();
 
-			coord2.latitude = parseFloat(geolib.useDecimal(end.latitude)).toRad();
-			coord2.longitude = parseFloat(geolib.useDecimal(end.longitude)).toRad();
+			coord2[latitude] = parseFloat(geolib.useDecimal(end[latitude])).toRad();
+			coord2[longitude] = parseFloat(geolib.useDecimal(end[longitude])).toRad();
 
 			var distance = 
 				Math.round(
 					Math.acos(
 						Math.sin(
-							coord2.latitude
+							coord2[latitude]
 						) * 
 						Math.sin(
-							coord1.latitude
+							coord1[latitude]
 						) + 
 						Math.cos(
-							coord2.latitude
+							coord2[latitude]
 						) * 
 						Math.cos(
-							coord1.latitude
+							coord1[latitude]
 						) * 
 						Math.cos(
-							coord1.longitude - coord2.longitude
+							coord1[longitude] - coord2[longitude]
 						) 
 					) * radius
 				);
 
-			return geolib.distance = parseInt(Math.round(distance/accuracy)*accuracy, 10);
+			return geolib.distance = Math.floor(Math.round(distance/accuracy)*accuracy);
 
 		},
 
@@ -219,6 +258,14 @@
 		 */
 		getCenter: function(coords) {
 
+			if (!coords.length) {
+				return false;
+			}
+
+			var keys = geolib.getKeys(coords[0]);
+			var latitude = keys.latitude;
+			var longitude = keys.longitude;
+
 			var max = function( array ){
 				return Math.max.apply( Math, array );
 			};
@@ -230,8 +277,8 @@
 			var	lat, lng, splitCoords = {lat: [], lng: []};
 
 			for(var coord in coords) {
-				splitCoords.lat.push(geolib.useDecimal(coords[coord].latitude));
-				splitCoords.lng.push(geolib.useDecimal(coords[coord].longitude));
+				splitCoords.lat.push(geolib.useDecimal(coords[coord][latitude]));
+				splitCoords.lng.push(geolib.useDecimal(coords[coord][longitude]));
 			}
 
 			var minLat = min(splitCoords.lat);
@@ -243,7 +290,7 @@
 			lng = ((minLng + maxLng)/2).toFixed(6);
 
 			// distance from the deepest left to the highest right point (diagonal distance)
-			var distance = geolib.convertUnit('km', geolib.getDistance({latitude: minLat, longitude: minLng}, {latitude: maxLat, longitude: maxLng}));
+			var distance = geolib.convertUnit('km', geolib.getDistance({lat:minLat, lng:minLng}, {lat:maxLat, lng:maxLng}));
 
 			return {"latitude": lat, "longitude": lng, "distance": distance};
 
@@ -260,15 +307,19 @@
 		 */
 		isPointInside: function(latlng, coords) {
 
+			var keys = geolib.getKeys(latlng);
+			var latitude = keys.latitude;
+			var longitude = keys.longitude;
+
 			for(var c = false, i = -1, l = coords.length, j = l - 1; ++i < l; j = i) {
 
 				(
-					(coords[i].longitude <= latlng.longitude && latlng.longitude < coords[j].longitude) ||
-					(coords[j].longitude <= latlng.longitude && latlng.longitude < coords[i].longitude)
+					(coords[i][longitude] <= latlng[longitude] && latlng[longitude] < coords[j][longitude]) ||
+					(coords[j][longitude] <= latlng[longitude] && latlng[longitude] < coords[i][longitude])
 				)
-			   && (latlng.latitude < (coords[j].latitude - coords[i].latitude) 
-					* (latlng.longitude - coords[i].longitude)
-					/ (coords[j].longitude - coords[i].longitude) + coords[i].latitude)
+			   && (latlng[latitude] < (coords[j][latitude] - coords[i][latitude]) 
+					* (latlng[longitude] - coords[i][longitude])
+					/ (coords[j][longitude] - coords[i][longitude]) + coords[i][latitude])
 			   && (c = !c);
 
 			}
@@ -308,11 +359,15 @@
 		 */
 		getRhumbLineBearing: function(originLL, destLL) {
 
+			var keys = geolib.getKeys(originLL);
+			var latitude = keys.latitude;
+			var longitude = keys.longitude;
+
 			// difference of longitude coords
-			var diffLon = geolib.useDecimal(destLL.longitude).toRad() - geolib.useDecimal(originLL.longitude).toRad();
+			var diffLon = geolib.useDecimal(destLL[longitude]).toRad() - geolib.useDecimal(originLL[longitude]).toRad();
 
 			// difference latitude coords phi
-			var diffPhi = Math.log(Math.tan(geolib.useDecimal(destLL.latitude).toRad() / 2 + Math.PI / 4) / Math.tan(geolib.useDecimal(originLL.latitude).toRad() / 2 + Math.PI / 4));
+			var diffPhi = Math.log(Math.tan(geolib.useDecimal(destLL[latitude]).toRad() / 2 + Math.PI / 4) / Math.tan(geolib.useDecimal(originLL[latitude]).toRad() / 2 + Math.PI / 4));
 
 			// recalculate diffLon if it is greater than pi
 			if(Math.abs(diffLon) > Math.PI) {
@@ -339,35 +394,39 @@
 		 */
 		getBearing: function(originLL, destLL) {
 
-			destLL.latitude = geolib.useDecimal(destLL.latitude);
-			destLL.longitude = geolib.useDecimal(destLL.longitude);
-			originLL.latitude = geolib.useDecimal(originLL.latitude);
-			originLL.longitude = geolib.useDecimal(originLL.longitude);
+			var keys = geolib.getKeys(originLL);
+			var latitude = keys.latitude;
+			var longitude = keys.longitude;
+
+			destLL[latitude] = geolib.useDecimal(destLL[latitude]);
+			destLL[longitude] = geolib.useDecimal(destLL[longitude]);
+			originLL[latitude] = geolib.useDecimal(originLL[latitude]);
+			originLL[longitude] = geolib.useDecimal(originLL[longitude]);
 
 			var bearing = (
 				(
 					Math.atan2(
 						Math.sin(
-							destLL.longitude.toRad() - 
-							originLL.longitude.toRad()
+							destLL[longitude].toRad() - 
+							originLL[longitude].toRad()
 						) * 
 						Math.cos(
-							destLL.latitude.toRad()
+							destLL[latitude].toRad()
 						), 
 						Math.cos(
-							originLL.latitude.toRad()
+							originLL[latitude].toRad()
 						) * 
 						Math.sin(
-							destLL.latitude.toRad()
+							destLL[latitude].toRad()
 						) - 
 						Math.sin(
-							originLL.latitude.toRad()
+							originLL[latitude].toRad()
 						) * 
 						Math.cos(
-							destLL.latitude.toRad()
+							destLL[latitude].toRad()
 						) * 
 						Math.cos(
-							destLL.longitude.toRad() - originLL.longitude.toRad()
+							destLL[longitude].toRad() - originLL[longitude].toRad()
 						)
 					)
 				).toDeg() + 360
@@ -459,10 +518,14 @@
 		 */
 		orderByDistance: function(latlng, coords) {
 
+			var keys = geolib.getKeys(latlng);
+			var latitude = keys.latitude;
+			var longitude = keys.longitude;
+
 			var coordsArray = [];
 			for(var coord in coords) {
 				var d = geolib.getDistance(latlng, coords[coord]);
-				coordsArray.push({key: coord, latitude: coords[coord].latitude, longitude: coords[coord].longitude, distance: d});
+				coordsArray.push({key: coord, latitude: coords[coord][latitude], longitude: coords[coord][longitude], distance: d});
 			}
 			
 			return coordsArray.sort(function(a, b) { return a.distance - b.distance; });
@@ -607,7 +670,7 @@
 			var min = ('0.' + tmp[1])*60;
 			var sec = min.toString().split('.');
 
-			min = parseInt(min, 10);
+			min = Math.floor(min);
 			sec = (('0.' + sec[1]) * 60).toFixed(2);
 
 			geolib.sexagesimal[dec] = (deg + '° ' + min + "' " + sec + '"');
