@@ -296,6 +296,51 @@
 
 		},
 
+		/**
+		 * Gets the max and min, latitude, longitude, and elevation (if provided).
+		 * @param		array		array with coords e.g. [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...] 
+		 * @return	object		{maxLat: maxLat,
+     *                     minLat: minLat,
+     *                     maxLng: maxLng,
+     *                     minLng: minLng,
+     *                     maxElev: maxElev,
+     *                     minElev: minElev}
+     */
+		getBounds: function(coords) {
+			if (!coords.length) {
+				return false;
+			}
+
+			var keys = geolib.getKeys(coords[0]);
+			var latitude = keys.latitude;
+			var longitude = keys.longitude;
+			var elevation = keys.elevation;
+
+			var useElevation = coords[0].hasOwnProperty(elevation);
+			var stats = {
+				maxLat: 0,
+				minLat: Infinity,
+				maxLng: 0,
+				minLng: Infinity,
+			};
+
+			if (useElevation) {
+				stats.maxElev = 0;
+				stats.minElev = Infinity;
+			}
+
+			for (var i = 0, l = coords.length; i < l; ++i) {
+				stats.maxLat = Math.max(coords[i][latitude], stats.maxLat);
+				stats.minLat = Math.min(coords[i][latitude], stats.minLat);
+				stats.maxLng = Math.max(coords[i][longitude], stats.maxLng);
+				stats.minLng = Math.min(coords[i][longitude], stats.minLng);
+				if (useElevation) {
+					stats.maxElev = Math.max(coords[i][elevation], stats.maxElev);
+					stats.minElev = Math.min(coords[i][elevation], stats.minElev);
+				}
+			}
+			return stats;
+		},
 
 		/**
 		 * Checks whether a point is inside of a polygon or not.

@@ -76,6 +76,17 @@ $(function(){
 
 	});
 
+  test("Testing bounding box: getBounds()", function() {
+    expect(4);
+
+    var box = geolib.getBounds(polygon);
+
+    equal(box.maxLat, 51.5177507, "maxLat should be 51.5177507");
+    equal(box.minLat, 51.509831973, "minLat should be 51.509831973");
+    equal(box.maxLng, 7.472909447, "maxLng should be 7.472909447");
+    equal(box.minLng, 7.45518541, "minLng should be 7.45518541");
+  });
+
 	test("Testing conversion: sexagesimal2decimal()", function() {
 
 		expect(7);
