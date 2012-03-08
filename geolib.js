@@ -680,19 +680,19 @@
 			});
 		},
 
-		elevationHandler: function(elevationResults, elevationStatus, cb){
+		elevationHandler: function(err, elevationResult, cb){
 			var latsLngsElevs = [];
-			if (elevationStatus == "OK" ) {
-				for (var i = 0; i < elevationResults.length; i++) {
+			if (elevationResult.status == "OK" ) {
+				for (var i = 0; i < elevationResult.results.length; i++) {
 					latsLngsElevs.push({
-						"lat":elevationResults[i].location.lat(),
-						"lng":elevationResults[i].location.lng(),
-						"elev":elevationResults[i].elevation
+						"lat":elevationResult.results[i].location.lat,
+						"lng":elevationResult.results[i].location.lng,
+						"elev":elevationResult.results[i].elevation
 					});
 				}
 				cb(null, latsLngsElevs);
 			} else {
-				cb(new Error("Could not get elevation using Google's API"), elevationStatus);
+				cb(new Error("Could not get elevation using Google's API"), elevationResult.status);
 			}
 		},
 

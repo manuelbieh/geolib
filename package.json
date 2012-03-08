@@ -13,7 +13,7 @@
     "url" : "http://github.com/manuelbieh/geolib.git" 
   },
   "dependencies": {
-    "googlemaps": "*"
+    "googlemaps": ">= 0.1.6"
   },
   "files": ["geolib.js"],
   "description": "Growing library to perform geo specific tasks",
