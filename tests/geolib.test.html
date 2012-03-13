@@ -5,6 +5,8 @@
 
 	<meta charset="utf-8">
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
+  <!-- script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDxikL7zFrgea3gBya8OECSsOgvKuuFLb8&sensor=true"></script-->
+  <script type="text/javascript" src='http://maps.googleapis.com/maps/api/js?sensor=true'></script>
 	<script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
 	<script type="text/javascript" src="../geolib.js"></script>
 	<link rel="stylesheet" href="http://code.jquery.com/qunit/git/qunit.css" type="text/css" media="screen" />
@@ -103,6 +105,77 @@ $(function(){
 		equal(box.minLng, 7.45518541, "minLng should be 7.45518541");
 		equal(box.maxElev, 524.54, "maxElev should be 524.54");
 		equal(box.minElev, 521.12, "minElev should be 521.12");
+  });
+
+	asyncTest("Testing elevation: getElevation()", function() {
+		expect(4);
+
+    var latsLngsElevs;
+    var coords1 = [{"lat":33.76346,"lng":-84.43430000000001},
+                  {"lat":33.76418,"lng":-84.42999999999995}];
+    var coords2 = [{"lat":41.73549,"lng":-111.85842000000002},
+                  {"lat":41.73600999999999,"lng":-111.85572000000002}];
+
+    var doneCount = 0;
+    var done = function (){
+      ++doneCount;
+      if (doneCount === 2) {
+        start();
+      }
+    };
+
+    geolib.getElevation(coords1,function(err, results){
+      if (err) {
+        throw err;
+      }
+      latsLngsElevs = results;
+      equal(latsLngsElevs[0].elev, 297.8508605957031, "1st elev should be 297.8508605957031");
+      equal(latsLngsElevs[1].elev, 281.1884155273438, "2nd elev should be 281.1884155273438");
+      done();
+    });
+
+    geolib.getElevation(coords2,function(err, results){
+      if (err) {
+        throw err;
+      }
+      latsLngsElevs = results;
+      equal(latsLngsElevs[0].elev, 1358.223999023438, "1st elev should be 1358.223999023438");
+      equal(latsLngsElevs[1].elev, 1360.70654296875, "2nd elev should be 1360.70654296875");
+      done();
+    });
+
+  });
+
+	test("Testing grade: getGrade()", function() {
+		expect(2);
+    var coords1 = [{"lat":41.72977,"lng":-111.77621999999997,"elev":1702.72412109375},
+                    {"lat":41.73198,"lng":-111.77636999999999,"elev":1849.7333984375}];
+    var coords2 = [{"lat":40.75402,"lng":-111.75475,"elev":2209.137451171875},
+                  {"lat":40.76481,"lng":-111.76778999999999,"elev":1660.49609375}];
+
+    var grade = geolib.getGrade(coords1);
+		equal(grade, 51, "grade should be 51");
+
+    grade = geolib.getGrade(coords2);
+		equal(grade, 31, "grade should be 31");
+  });
+
+	test("Testing elevation gain and loss: getTotalElevationGainAndLoss()", function() {
+		expect(4);
+    var coords1 = [{"lat":41.72975,"lng":-111.77580999999998,"elev":1707.123046875},
+                    {"lat":41.73298475750587,"lng":-111.77603699785413,"elev":1922.056396484375},
+                    {"lat":41.73517,"lng":-111.77881000000002,"elev":1893.9931640625}];
+    var coords2 = [{"lat":40.79162,"lng":-111.76560999999998,"elev":2211.202880859375},
+                    {"lat":40.79938945887229,"lng":-111.76680525603354,"elev":1995.89990234375},
+                    {"lat":40.80354,"lng":-111.77384999999998,"elev":1978.573120117188}];
+
+    var gainAndLoss = geolib.getTotalElevationGainAndLoss(coords1);
+		equal(gainAndLoss.gain, 214.933349609375, "gain should be 214.933349609375");
+		equal(gainAndLoss.loss, 28.063232421875, "loss should be 28.063232421875");
+
+    gainAndLoss = geolib.getTotalElevationGainAndLoss(coords2);
+		equal(gainAndLoss.gain, 0, "gain should be 0");
+		equal(gainAndLoss.loss, 232.62976074218705, "loss should be 232.62976074218705");
   });
 
 	test("Testing conversion: sexagesimal2decimal()", function() {

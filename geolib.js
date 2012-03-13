@@ -654,7 +654,7 @@
 			};
 			var elevationService = new google.maps.ElevationService();
 			elevationService.getElevationAlongPath(positionalRequest,function (results, status){
-				this.geolib.elevationHandler(results,status,cb)
+				geolib.elevationHandler(results,status,cb);
 			});
 		},
 
@@ -675,19 +675,19 @@
 				path.push(geolib.useDecimal(coords[i][latitude]) + ',' +
                   geolib.useDecimal(coords[i][longitude]));
 			}
-			gm.elevationFromPath(path.join('|'), path.length, function(results, status) {
-				geolib.elevationHandler(results, status, cb)
+			gm.elevationFromPath(path.join('|'), path.length, function(err, results) {
+				geolib.elevationHandler(results.results, results.status, cb)
 			});
 		},
 
-		elevationHandler: function(err, elevationResult, cb){
+		elevationHandler: function(results, status, cb){
 			var latsLngsElevs = [];
-			if (elevationResult.status == "OK" ) {
-				for (var i = 0; i < elevationResult.results.length; i++) {
+			if (status == "OK" ) {
+				for (var i = 0; i < results.length; i++) {
 					latsLngsElevs.push({
-						"lat":elevationResult.results[i].location.lat,
-						"lng":elevationResult.results[i].location.lng,
-						"elev":elevationResult.results[i].elevation
+						"lat":results[i].location.lat,
+						"lng":results[i].location.lng,
+						"elev":results[i].elevation
 					});
 				}
 				cb(null, latsLngsElevs);
