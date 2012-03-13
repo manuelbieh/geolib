@@ -654,7 +654,7 @@
 			};
 			var elevationService = new google.maps.ElevationService();
 			elevationService.getElevationAlongPath(positionalRequest,function (results, status){
-				geolib.elevationHandler(results,status,cb);
+				geolib.elevationHandler(results, status, coords, keys, cb);
 			});
 		},
 
@@ -676,17 +676,19 @@
                   geolib.useDecimal(coords[i][longitude]));
 			}
 			gm.elevationFromPath(path.join('|'), path.length, function(err, results) {
-				geolib.elevationHandler(results.results, results.status, cb)
+				geolib.elevationHandler(results.results, results.status, coords, keys, cb)
 			});
 		},
 
-		elevationHandler: function(results, status, cb){
+		elevationHandler: function(results, status, coords, keys, cb){
 			var latsLngsElevs = [];
+			var latitude = keys.latitude;
+			var longitude = keys.longitude;
 			if (status == "OK" ) {
 				for (var i = 0; i < results.length; i++) {
 					latsLngsElevs.push({
-						"lat":results[i].location.lat,
-						"lng":results[i].location.lng,
+						"lat":coords[i][latitude],
+						"lng":coords[i][longitude],
 						"elev":results[i].elevation
 					});
 				}
