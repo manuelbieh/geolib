@@ -1,6 +1,6 @@
 var util = require('util')
   , http = require('http')
-  , geolib = require('geolib');
+  , geolib = require('../geolib');
 
 describe('Geolib', function() {
   describe('getElevationServer', function() {
@@ -10,14 +10,17 @@ describe('Geolib', function() {
         {"lat":40.79938945887229,"lng":-111.76680525603354},
         {"lat":40.80354,"lng":-111.77384999999998}
       ];
-      geolib.getElevation(coords, function (err, result){
+      geolib.getElevation(coords, function (err, results){
         if (err){
-          throw new Error("Could not getelevation");
+          throw new Error("Could not get elevation");
         } else {
-          Math.floor(results[0].elev).should.be.equal(2211);
-          Math.floor(results[1].elev).should.be.equal(1995);
-          Math.floor(results[2].elev).should.be.equal(1978);
+          if (Math.floor(results[0].elev) !== 2211 ||
+              Math.floor(results[1].elev) !== 2011 ||
+              Math.floor(results[2].elev) !== 1978) {
+            throw new Error("wrong elevation results: " + JSON.stringify(results));
+          }
         }
+        done();
       });
     });
   });
