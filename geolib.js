@@ -739,7 +739,8 @@
 		 * Converts a distance from meters to km, mm, cm, mi, ft, in or yd
 		 *
 		 * @param		string		Format to be converted in
-		 * @param		float		Distance
+		 * @param		float		Distance in meters
+		 * @param               float           Decimal places for rounding (default: 4)
 		 * @return		float		Converted distance
 		 */
 		convertUnit: function(unit, distance, round) {
@@ -756,7 +757,7 @@
 			}
 
 			unit = unit || 'm';
-			round = round || 4;
+			round = (null == round ? 4 : round);
 
 			switch(unit) {
 
