@@ -318,14 +318,14 @@
 
 			var useElevation = coords[0].hasOwnProperty(elevation);
 			var stats = {
-				maxLat: 0,
+				maxLat: Infinity * -1,
 				minLat: Infinity,
-				maxLng: 0,
+				maxLng: Infinity * -1,
 				minLng: Infinity,
 			};
 
 			if (useElevation) {
-				stats.maxElev = 0;
+				stats.maxElev = Infinity * -1;
 				stats.minElev = Infinity;
 			}
 
