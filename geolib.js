@@ -35,17 +35,14 @@
 
 		getKeys: function(point) {
 			var latitude = (point.hasOwnProperty('lat') ? 'lat' : false) ||
-			               (point.hasOwnProperty('latitude') ? 'latitude' : false) ||
-			               0;
+			               'latitude';
 			var longitude = (point.hasOwnProperty('lng') ? 'lng' : false) ||
 											(point.hasOwnProperty('long') ? 'long' : false) ||
-											(point.hasOwnProperty('longitude') ? 'longitude' : false) ||
-											1;
+											'longitude';
 			var elevation = (point.hasOwnProperty('alt') ? 'alt' : false) ||
 											(point.hasOwnProperty('altitude') ? 'altitude' : false) ||
 											(point.hasOwnProperty('elev') ? 'elev' : false) ||
-											(point.hasOwnProperty('elevation') ? 'elevation' : false) ||
-											2;
+											'elevation';
 			return {
 				latitude: latitude,
 				longitude: longitude,
@@ -322,14 +319,14 @@
 
 			var useElevation = coords[0].hasOwnProperty(elevation);
 			var stats = {
-				maxLat: 0,
+				maxLat: Infinity * -1,
 				minLat: Infinity,
-				maxLng: 0,
+				maxLng: Infinity * -1,
 				minLng: Infinity,
 			};
 
 			if (useElevation) {
-				stats.maxElev = 0;
+				stats.maxElev = Infinity * -1;
 				stats.minElev = Infinity;
 			}
 
