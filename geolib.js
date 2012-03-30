@@ -28,20 +28,24 @@
 		 * Get the key names for a geo point.
 		 *
 		 * @param		object	Point position {latitude: 123, longitude: 123, elevation: 123}
-		 * @return	object	{ longitude: 'lng|long|longitude',
-		 * 								    latitude: 'lat|latitude',
-		 * 								    elevation: 'alt|altitude|elev|elevation' }
+		 * @return	object	{ longitude: 'lng|long|longitude'|0,
+		 * 								    latitude: 'lat|latitude'|1,
+		 * 								    elevation: 'alt|altitude|elev|elevation'|2 }
 		 */
 
 		getKeys: function(point) {
-			var latitude = point.hasOwnProperty('lat') ? 'lat' : 'latitude';
+			var latitude = (point.hasOwnProperty('lat') ? 'lat' : false) ||
+			               (point.hasOwnProperty('latitude') ? 'latitude' : false) ||
+			               0;
 			var longitude = (point.hasOwnProperty('lng') ? 'lng' : false) ||
 											(point.hasOwnProperty('long') ? 'long' : false) ||
-											'longitude';
+											(point.hasOwnProperty('longitude') ? 'longitude' : false) ||
+											1;
 			var elevation = (point.hasOwnProperty('alt') ? 'alt' : false) ||
 											(point.hasOwnProperty('altitude') ? 'altitude' : false) ||
 											(point.hasOwnProperty('elev') ? 'elev' : false) ||
-											'elevation';
+											(point.hasOwnProperty('elevation') ? 'elevation' : false) ||
+											2;
 			return {
 				latitude: latitude,
 				longitude: longitude,
