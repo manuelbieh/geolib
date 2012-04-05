@@ -628,56 +628,64 @@
 		},
 
 		getElevationClient: function(coords, cb) {
-			if (!window.google) {
-				throw new Error("Google maps api not loaded");
-			}
-      if (coords.length == 0) {
-        return cb(null, null);
-      }
-      if (coords.length == 1) {
-        return cb(new Error("getElevation requires at least 2 points."));
-      }
-			var path  = [];
-			var keys = geolib.getKeys(coords[0]);
-			var latitude = keys.latitude;
-			var longitude = keys.longitude;
+      try {
+        if (!window.google) {
+          return cb(new Error("Geolib: Google maps api not loaded"));
+        }
+        if (coords.length == 0) {
+          return cb(null, null);
+        }
+        if (coords.length == 1) {
+          return cb(new Error("Geolib: getElevation requires at least 2 points."));
+        }
+        var path  = [];
+        var keys = geolib.getKeys(coords[0]);
+        var latitude = keys.latitude;
+        var longitude = keys.longitude;
 
-			for(var i = 0; i < coords.length; i++) {
-				path.push(new google.maps.LatLng(
-					geolib.useDecimal(coords[i][latitude]),
-					geolib.useDecimal(coords[i][longitude])
-				));
-			}
-			var positionalRequest = {
-				'path': path,
-				'samples': path.length
-			};
-			var elevationService = new google.maps.ElevationService();
-			elevationService.getElevationAlongPath(positionalRequest,function (results, status){
-				geolib.elevationHandler(results, status, coords, keys, cb);
-			});
+        for(var i = 0; i < coords.length; i++) {
+          path.push(new google.maps.LatLng(
+            geolib.useDecimal(coords[i][latitude]),
+            geolib.useDecimal(coords[i][longitude])
+          ));
+        }
+        var positionalRequest = {
+          'path': path,
+          'samples': path.length
+        };
+        var elevationService = new google.maps.ElevationService();
+        elevationService.getElevationAlongPath(positionalRequest,function (results, status){
+          geolib.elevationHandler(results, status, coords, keys, cb);
+        });
+      } catch (e) {
+        return cb(e);
+      }
 		},
 
 		getElevationServer: function(coords, cb){
-      if (coords.length == 0) {
-        return cb(null, null);
+      try {
+        if (coords.length == 0) {
+          return cb(null, null);
+        }
+        if (coords.length == 1) {
+          return cb(new Error("Geolib: getElevation requires at least 2 points."));
+        }
+        var gm = require('googlemaps');
+        var path  = [];
+        var keys = geolib.getKeys(coords[0]);
+        coords[0]
+        var latitude = keys.latitude;
+        var longitude = keys.longitude;
+        for(var i = 0; i < coords.length; i++) {
+          path.push(geolib.useDecimal(coords[i][latitude]) + ',' +
+                    geolib.useDecimal(coords[i][longitude]));
+        }
+        gm.elevationFromPath(path.join('|'), path.length, function(err, results) {
+          geolib.elevationHandler(results.results, results.status, coords, keys, cb)
+        });
+      } catch (e) {
+        return cb(e);
       }
-      if (coords.length == 1) {
-        return cb(new Error("getElevation requires at least 2 points."));
-      }
-			var gm = require('googlemaps');
-			var path  = [];
-			var keys = geolib.getKeys(coords[0]);
-      coords[0]
-			var latitude = keys.latitude;
-			var longitude = keys.longitude;
-			for(var i = 0; i < coords.length; i++) {
-				path.push(geolib.useDecimal(coords[i][latitude]) + ',' +
-                  geolib.useDecimal(coords[i][longitude]));
-			}
-			gm.elevationFromPath(path.join('|'), path.length, function(err, results) {
-				geolib.elevationHandler(results.results, results.status, coords, keys, cb)
-			});
 		},
 
 		elevationHandler: function(results, status, coords, keys, cb){
@@ -694,7 +702,7 @@
 				}
 				cb(null, latsLngsElevs);
 			} else {
-				cb(new Error("Could not get elevation using Google's API"), elevationResult.status);
+				cb(new Error("Geolib: Could not get elevation using Google's API"), elevationResult.status);
 			}
 		},
 
@@ -747,7 +755,6 @@
 			if(distance == 0 || typeof distance == 'undefined') {
 
 				if(geolib.distance == 0) {
-					// throw 'No distance given.';
 					return 0;
 				} else {
 					distance = geolib.distance;
@@ -812,7 +819,7 @@
 			} else if(geolib.isSexagesimal(value) == true) {
 				return parseFloat(geolib.sexagesimal2decimal(value));
 			} else {
-				throw 'Unknown format.';
+				throw new Error('Geolib: Unknown format.');
 			}
 
 		},
