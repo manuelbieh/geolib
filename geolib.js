@@ -14,6 +14,8 @@
 
 	var radius = 6378137; // Earth radius
 	var sexagesimalPattern = /^([0-9]{1,3})°\s*([0-9]{1,3})'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/;
+  var google_client_id;
+  var google_private_key;
 
 	var geolib = {
 
@@ -615,6 +617,16 @@
 		},
 
 		/**
+		 *  @params     client_id and private_key for Google Enterprise Accounts
+		 *
+		 *  @return     Array [{lat:#lat, lng:#lng, elev:#elev},....]}
+		 */
+    setBusinessSpecificParameters: function(client_id, private_key){
+      google_client_id = client_id;
+      google_private_key = private_key;
+    },
+
+		/**
 		 *  @param      Array Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
 		 *
 		 *  @return     Array [{lat:#lat, lng:#lng, elev:#elev},....]}
@@ -666,6 +678,9 @@
         return cb(new Error("getElevation requires at least 2 points."));
       }
 			var gm = require('googlemaps');
+      if(google_client_id && google_private_key){
+        gm.setBusinessSpecificParameters(google_client_id, google_private_key);
+      }
 			var path  = [];
 			var keys = geolib.getKeys(coords[0]);
       coords[0]
