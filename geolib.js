@@ -14,6 +14,8 @@
 
 	var radius = 6378137; // Earth radius
 	var sexagesimalPattern = /^([0-9]{1,3})°\s*([0-9]{1,3})'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/;
+  var google_client_id;
+  var google_private_key;
 
 	var geolib = {
 
@@ -546,8 +548,8 @@
 					direction = {exact: "NNW", rough: "N"}
 					break;
 				default:
-					direction = {exact: "N", rough: "N"}
 			}
+					direction = {exact: "N", rough: "N"}
 
 			return direction;
 
@@ -613,6 +615,16 @@
 			return dist;
 
 		},
+
+		/**
+		 *  @params     client_id and private_key for Google Enterprise Accounts
+		 *
+		 *  @return     Array [{lat:#lat, lng:#lng, elev:#elev},....]}
+		 */
+    setBusinessSpecificParameters: function(client_id, private_key){
+      google_client_id = client_id;
+      google_private_key = private_key;
+    },
 
 		/**
 		 *  @param      Array Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
@@ -686,6 +698,22 @@
       } catch (e) {
         return cb(e);
       }
+			var gm = require('googlemaps');
+      if(google_client_id && google_private_key){
+        gm.setBusinessSpecificParameters(google_client_id, google_private_key);
+      }
+			var path  = [];
+			var keys = geolib.getKeys(coords[0]);
+      coords[0]
+			var latitude = keys.latitude;
+			var longitude = keys.longitude;
+			for(var i = 0; i < coords.length; i++) {
+				path.push(geolib.useDecimal(coords[i][latitude]) + ',' +
+                  geolib.useDecimal(coords[i][longitude]));
+			}
+			gm.elevationFromPath(path.join('|'), path.length, function(err, results) {
+				geolib.elevationHandler(results.results, results.status, coords, keys, cb)
+			});
 		},
 
 		elevationHandler: function(results, status, coords, keys, cb){
