@@ -153,11 +153,11 @@ $(function(){
     var coords2 = [{"lat":40.75402,"lng":-111.75475,"elev":2209.137451171875},
                   {"lat":40.76481,"lng":-111.76778999999999,"elev":1660.49609375}];
 
-    var grade = geolib.getGrade(coords1);
-		equal(grade, 51, "grade should be 51");
+    var grade = geolib.getGrade(coords1, 1);
+		equal(grade, 51.4, "grade should be 51.4");
 
-    grade = geolib.getGrade(coords2);
-		equal(grade, 31, "grade should be 31");
+    grade = geolib.getGrade(coords2, 1);
+		equal(grade, 31.9, "grade should be 31.9");
   });
 
 	test("Testing elevation gain and loss: getTotalElevationGainAndLoss()", function() {
