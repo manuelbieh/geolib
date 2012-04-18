@@ -728,7 +728,7 @@
 		getGrade: function(coords, digits) {
 			var keys = geolib.getKeys(coords[0]);
 			var elevation = keys.elevation;
-			var rise = coords[coords.length-1][elevation] - coords[0][elevation];
+			var rise = coords[0][elevation] - coords[coords.length-1][elevation];
 			var run = geolib.getPathLength(coords);
 			var grade = (rise/run)*100;
 			if (typeof digits === "number") {
