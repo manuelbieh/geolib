@@ -1,26 +1,38 @@
 {
-  "name": "geolib",
-  "homepage": "http://github.com/manuelbieh/Geolib",
-  "author": {
-    "name": "Manuel Bieh",
-    "url": "http://www.manuelbieh.com/"
-  },
-  "bin": {
-    "geolib" : "./geolib.js" 
-  },
-  "repository": {
-    "type" : "git", 
-    "url" : "http://github.com/manuelbieh/geolib.git" 
-  },
-  "dependencies": {
-    "googlemaps": ">= 0.1.6"
-  },
-  "devDependencies": {
-    "mocha": "*"
-  },
-  "files": ["geolib.js"],
-  "description": "Growing library to perform geo specific tasks",
-  "keywords": ["geolocation", "geo", "distance"],
-  "version": "1.1.7",
-  "main": "./geolib"
+    "name": "geolib",
+    "homepage": "http://github.com/manuelbieh/Geolib",
+    "author": {
+        "name": "Manuel Bieh",
+        "url": "http://www.manuelbieh.com/"
+    },
+    "bin": {
+        "geolib": "./geolib.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/manuelbieh/geolib.git"
+    },
+    "dependencies": {
+        "googlemaps": ">= 0.1.6"
+    },
+    "devDependencies": {
+        "mocha": "*"
+    },
+    "licenses": [
+        {
+            "type": "LGPL",
+            "url": "http://www.gnu.org/licenses/lgpl-3.0.txt"
+        }
+    ],
+    "files": [
+        "geolib.js"
+    ],
+    "description": "Library to perform geo specific tasks",
+    "keywords": [
+        "geolocation",
+        "geo",
+        "distance"
+    ],
+    "version": "1.1.8",
+    "main": "./geolib"
 }
