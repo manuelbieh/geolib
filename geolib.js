@@ -13,6 +13,11 @@
 
 	var radius = 6378137; // Earth radius
 	var sexagesimalPattern = /^([0-9]{1,3})°\s*([0-9]{1,3})'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/;
+	var googleClientId;
+	var googlePrivateKey;
+	if (typeof window.navigator === 'undefined') {
+    var gm = require('googlemaps');
+  }
 
 	var geolib = {
 
@@ -323,14 +328,14 @@
 
 			var useElevation = coords[0].hasOwnProperty(elevation);
 			var stats = {
-				maxLat: 0,
+				maxLat: Infinity * -1,
 				minLat: Infinity,
-				maxLng: 0,
-				minLng: Infinity
+				maxLng: Infinity * -1,
+				minLng: Infinity,
 			};
 
 			if (useElevation) {
-				stats.maxElev = 0;
+				stats.maxElev = Infinity * -1;
 				stats.minElev = Infinity;
 			}
 
@@ -627,10 +632,20 @@
 
 		/*global google:true require:true module:true elevationResult*/
 		/**
-		*  @param      Array Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
-		*
-		*  @return     Array [{lat:#lat, lng:#lng, elev:#elev},....]}
-		*/
+		 *  @params     client_id and private_key for Google Enterprise Accounts
+		 *
+		 *  @return     Array [{lat:#lat, lng:#lng, elev:#elev},....]}
+		 */
+		setBusinessSpecificParameters: function(clientId, privateKey){
+      gm.config('google-client-id', clientId);
+      gm.config('google-private-key', privateKey);
+		},
+
+		/**
+		 *  @param      Array Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
+		 *
+		 *  @return     Array [{lat:#lat, lng:#lng, elev:#elev},....]}
+		 */
 		getElevation: function() {
 			if (typeof window.navigator !== 'undefined') {
 				geolib.getElevationClient.apply(this, arguments);
@@ -640,65 +655,63 @@
 		},
 
 		getElevationClient: function(coords, cb) {
+			try {
+				if (!window.google) {
+					return cb(new Error("Geolib: Google maps api not loaded"));
+				}
+				if (coords.length == 0) {
+					return cb(null, null);
+				}
+				if (coords.length == 1) {
+					return cb(new Error("Geolib: getElevation requires at least 2 points."));
+				}
+				var path  = [];
+				var keys = geolib.getKeys(coords[0]);
+				var latitude = keys.latitude;
+				var longitude = keys.longitude;
 
-			if (!window.google) {
-				throw new Error("Google maps api not loaded");
+				for(var i = 0; i < coords.length; i++) {
+					path.push(new google.maps.LatLng(
+						geolib.useDecimal(coords[i][latitude]),
+						geolib.useDecimal(coords[i][longitude])
+					));
+				}
+				var positionalRequest = {
+					'path': path,
+					'samples': path.length
+				};
+				var elevationService = new google.maps.ElevationService();
+				elevationService.getElevationAlongPath(positionalRequest,function (results, status){
+					geolib.elevationHandler(results, status, coords, keys, cb);
+				});
+			} catch (e) {
+ 				return cb(e);
 			}
-
-			if (coords.length === 0) {
-				return cb(null, null);
-			}
-
-			if (coords.length === 1) {
-				return cb(new Error("getElevation requires at least 2 points."));
-			}
-
-			var path  = [];
-			var keys = geolib.getKeys(coords[0]);
-			var latitude = keys.latitude;
-			var longitude = keys.longitude;
-
-			for(var i = 0; i < coords.length; i++) {
-				path.push(new google.maps.LatLng(
-					geolib.useDecimal(coords[i][latitude]),
-					geolib.useDecimal(coords[i][longitude])
-				));
-			}
-
-			var positionalRequest = {
-				'path': path,
-				'samples': path.length
-			};
-			var elevationService = new google.maps.ElevationService();
-			elevationService.getElevationAlongPath(positionalRequest,function (results, status){
-				geolib.elevationHandler(results, status, coords, keys, cb);
-			});
-
 		},
 
 		getElevationServer: function(coords, cb) {
-
-			if (coords.length === 0) {
-				return cb(null, null);
+			try {
+				if (coords.length == 0) {
+					return cb(null, null);
+				}
+				if (coords.length == 1) {
+					return cb(new Error("Geolib: getElevation requires at least 2 points."));
+				}
+				var path  = [];
+				var keys = geolib.getKeys(coords[0]);
+				coords[0]
+				var latitude = keys.latitude;
+				var longitude = keys.longitude;
+				for (var i = 0; i < coords.length; i++) {
+					path.push(geolib.useDecimal(coords[i][latitude]) + ',' +
+										geolib.useDecimal(coords[i][longitude]));
+				}
+				gm.elevationFromPath(path.join('|'), path.length, function(err, results) {
+					geolib.elevationHandler(results.results, results.status, coords, keys, cb)
+				});
+			} catch (e) {
+				return cb(e);
 			}
-
-			if (coords.length === 1) {
-				return cb(new Error("getElevation requires at least 2 points."));
-			}
-
-			var gm = require('googlemaps');
-			var path  = [];
-			var keys = geolib.getKeys(coords[0]);
-			//coords[0]
-			var latitude = keys.latitude;
-			var longitude = keys.longitude;
-			for(var i = 0; i < coords.length; i++) {
-				path.push(geolib.useDecimal(coords[i][latitude]) + ',' +
-                  geolib.useDecimal(coords[i][longitude]));
-			}
-			gm.elevationFromPath(path.join('|'), path.length, function(err, results) {
-				geolib.elevationHandler(results.results, results.status, coords, keys, cb);
-			});
 		},
 
 		elevationHandler: function(results, status, coords, keys, cb){
@@ -715,29 +728,35 @@
 				}
 				cb(null, latsLngsElevs);
 			} else {
-				cb(new Error("Could not get elevation using Google's API"), elevationResult.status);
+				cb(new Error("Geolib: Could not get elevation using Google's API: Status: " + status));
 			}
 		},
 
 		/**
-		*  @param      Array [{lat:#lat, lng:#lng, elev:#elev},....]}
-		*
-		*  @return     Number % grade
-		*/
-		getGrade: function(coords){
+		 *  @param      Array [{lat:#lat, lng:#lng, elev:#elev},....]}
+		 *  @param      integer digits  Decimal places to round to
+		 *
+		 *  @return     Number % grade
+		 */
+		getGrade: function(coords, digits) {
 			var keys = geolib.getKeys(coords[0]);
 			var elevation = keys.elevation;
-			var rise = Math.abs(coords[coords.length-1][elevation] - coords[0][elevation]);
+			var rise = coords[coords.length-1][elevation] - coords[0][elevation];
 			var run = geolib.getPathLength(coords);
-			return Math.floor((rise/run)*100);
+			var grade = (rise/run)*100;
+			if (typeof digits === "number") {
+				var d = Math.pow(10,digits);
+				grade = Math.floor(grade * d) / d;
+			}
+			return grade;
 		},
 
 		/**
-		*  @param      Array [{lat:#lat, lng:#lng, elev:#elev},....]}
-		*
-		*  @return     Object {gain:#gain, loss:#loss}
-		*/
-		getTotalElevationGainAndLoss: function(coords){
+		 *  @param      Array [{lat:#lat, lng:#lng, elev:#elev},....]}
+		 *
+		 *  @return     Object {gain:#gain, loss:#loss}
+		 */
+		getTotalElevationGainAndLoss: function(coords) {
 			var keys = geolib.getKeys(coords[0]);
 			var elevation = keys.elevation;
 			var gain = 0;
@@ -768,8 +787,7 @@
 
 			if(distance === 0 || typeof distance == 'undefined') {
 
-				if(geolib.distance === 0) {
-					// throw 'No distance given.';
+				if(geolib.distance == 0) {
 					return 0;
 				} else {
 					distance = geolib.distance;
@@ -825,7 +843,7 @@
 			} else if(geolib.isSexagesimal(value) === true) {
 				return parseFloat(geolib.sexagesimal2decimal(value));
 			} else {
-				throw 'Unknown format.';
+				throw new Error('Geolib: Unknown format.');
 			}
 
 		},

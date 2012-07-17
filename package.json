@@ -13,7 +13,7 @@
         "url": "http://github.com/manuelbieh/geolib.git"
     },
     "dependencies": {
-        "googlemaps": ">= 0.1.6"
+        "googlemaps": ">= 0.1.7"
     },
     "devDependencies": {
         "mocha": "*"
