@@ -1,6 +1,5 @@
-var util = require('util')
-  , http = require('http')
-  , geolib = require('../geolib');
+/*global require:true describe:true it:true*/
+var util = require('util'), http = require('http'), geolib = require('../geolib');
 
 describe('Geolib', function() {
   describe('getElevationServer', function() {
