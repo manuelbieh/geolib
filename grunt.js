@@ -18,8 +18,8 @@ module.exports = function(grunt) {
     lint: {
       files: ['geolib.js']
     },
-    test: {
-      files: ['tests/*.js']
+    qunit: {
+      files: ['tests/*.html']
     },
     concat: {
       dist: {
@@ -57,6 +57,7 @@ module.exports = function(grunt) {
 
   // Default task.
   //grunt.registerTask('default', 'lint test concat min');
-  grunt.registerTask('default', 'lint concat min');
+  grunt.registerTask('default', 'lint qunit concat min');
+  grunt.registerTask('travis', 'lint qunit');
 
 };

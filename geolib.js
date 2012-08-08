@@ -33,19 +33,24 @@
 		*					}
 		*/
 		getKeys: function(point) {
+
 			var latitude = point.hasOwnProperty('lat') ? 'lat' : 'latitude';
+
 			var longitude = (point.hasOwnProperty('lng') ? 'lng' : false) ||
-											(point.hasOwnProperty('long') ? 'long' : false) ||
-											'longitude';
+							(point.hasOwnProperty('long') ? 'long' : false) ||
+							'longitude';
+
 			var elevation = (point.hasOwnProperty('alt') ? 'alt' : false) ||
-											(point.hasOwnProperty('altitude') ? 'altitude' : false) ||
-											(point.hasOwnProperty('elev') ? 'elev' : false) ||
-											'elevation';
+							(point.hasOwnProperty('altitude') ? 'altitude' : false) ||
+							(point.hasOwnProperty('elev') ? 'elev' : false) ||
+							'elevation';
+
 			return {
 				latitude: latitude,
 				longitude: longitude,
 				elevation: elevation
 			};
+
 		},
 
 		/**
@@ -670,7 +675,7 @@
 				'samples': path.length
 			};
 			var elevationService = new google.maps.ElevationService();
-			elevationService.getElevationAlongPath(positionalRequest,function (results, status){
+			elevationService.getElevationAlongPath(positionalRequest,function (results, status) {
 				geolib.elevationHandler(results, status, coords, keys, cb);
 			});
 
@@ -692,13 +697,16 @@
 			//coords[0]
 			var latitude = keys.latitude;
 			var longitude = keys.longitude;
+
 			for(var i = 0; i < coords.length; i++) {
 				path.push(geolib.useDecimal(coords[i][latitude]) + ',' +
                   geolib.useDecimal(coords[i][longitude]));
 			}
+
 			gm.elevationFromPath(path.join('|'), path.length, function(err, results) {
 				geolib.elevationHandler(results.results, results.status, coords, keys, cb);
 			});
+
 		},
 
 		elevationHandler: function(results, status, coords, keys, cb){

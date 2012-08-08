@@ -13,7 +13,8 @@
         "url": "http://github.com/manuelbieh/geolib.git"
     },
     "dependencies": {
-        "googlemaps": ">= 0.1.6"
+        "googlemaps": ">= 0.1.6",
+        "grunt": ">=0.3.9"
     },
     "devDependencies": {
         "mocha": "*"
@@ -33,6 +34,9 @@
         "geo",
         "distance"
     ],
-    "version": "1.1.8",
+	"scripts": {
+		"test": "grunt travis --verbose"
+	},
+    "version": "1.2.0",
     "main": "./geolib"
 }
