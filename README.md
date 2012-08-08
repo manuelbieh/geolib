@@ -62,6 +62,7 @@ Note: the polygon coords must be in correct order!
 Returns true or false
 
 #### Example
+
 <pre>
 geolib.isPointInside(
 	{latitude: 51.5125, longitude: 7.485}, 
