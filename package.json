@@ -13,7 +13,7 @@
         "url": "http://github.com/manuelbieh/geolib.git"
     },
     "dependencies": {
-        "googlemaps": "git+ssh://git@github.com:ifit/node-googlemaps.git#master",
+        "googlemaps": "git+ssh://git@github.com:ifit/node-googlemaps.git#master"
     },
     "devDependencies": {
         "mocha": "*"
