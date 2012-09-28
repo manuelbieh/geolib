@@ -1,6 +1,6 @@
 /* Optional elevation addon requires Googlemaps API JS */
 
-/*global google:true require:true module:true elevationResult*/
+/*global google:true geolib:true require:true module:true elevationResult*/
 /**
 *  @param      Array Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
 *

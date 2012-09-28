@@ -9,6 +9,7 @@
 * @license LGPL 
 **/
 
+/*global geolib:true require:true module:true window:true*/
 (function (window, undefined) {
 
 	var radius = 6378137; // Earth radius
@@ -877,14 +878,14 @@ geolib.getElevationServer = function(coords, cb) {
 
 	for(var i = 0; i < coords.length; i++) {
 		path.push(geolib.useDecimal(coords[i][latitude]) + ',' +
-		  geolib.useDecimal(coords[i][longitude]));
+		geolib.useDecimal(coords[i][longitude]));
 	}
 
 	gm.elevationFromPath(path.join('|'), path.length, function(err, results) {
 		geolib.elevationHandler(results.results, results.status, coords, keys, cb);
 	});
 
-},
+};
 
 geolib.elevationHandler = function(results, status, coords, keys, cb){
 	var latsLngsElevs = [];
