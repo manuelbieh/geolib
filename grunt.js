@@ -23,7 +23,7 @@ module.exports = function(grunt) {
     },
     concat: {
       dist: {
-        src: ['<banner:meta.banner>', '<file_strip_banner:<%= pkg.name %>.js>'],
+        src: ['<banner:meta.banner>', '<file_strip_banner:<%= pkg.name %>.js>', 'geolib.elevation.js'],
         dest: '<%= pkg.name %>.js'
       }
     },

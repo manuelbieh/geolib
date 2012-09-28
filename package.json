@@ -12,11 +12,8 @@
         "type": "git",
         "url": "http://github.com/manuelbieh/geolib.git"
     },
-    "dependencies": {
-        "googlemaps": ">= 0.1.6",
-        "grunt": ">=0.3.9"
-    },
     "devDependencies": {
+        "grunt": ">=0.3.9",
         "mocha": "*"
     },
     "licenses": [

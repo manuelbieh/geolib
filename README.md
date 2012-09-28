@@ -74,22 +74,26 @@ geolib.isPointInside(
 	]
 ); // -> true</pre>
 
+
 ### isPointInCircle(object latlng, object center, integer radius)
 
 Similar to is point inside: checks whether a point is inside of a circle or not. 
 
 Returns true or false
 
+
 #### Example
 
 <pre>// checks if 51.525, 7.4575 is within a radius of 5km from 51.5175, 7.4678
 geolib.isPointInCircle({latitude: 51.525, longitude: 7.4575}, {latitude: 51.5175, longitude: 7.4678}, 5000);</pre>
+
 
 ### orderByDistance(object latlng, mixed coords)
 
 Sorts an object or array of coords by distance from a reference coordinate
 
 Returns a sorted array [{latitude: x, longitude: y, distance: z, key: property}]
+
 
 #### Examples
 
