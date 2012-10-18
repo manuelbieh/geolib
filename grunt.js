@@ -24,17 +24,17 @@ module.exports = function(grunt) {
     concat: {
       full: {
         src: ['<banner:meta.banner>', '<file_strip_banner:src/<%= pkg.name %>.js>', 'src/geolib.elevation.js'],
-        dest: 'dist/<%= pkg.name %>.js'
+        dest: '<%= pkg.name %>.js'
       },
       noelevation: {
         src: ['<banner:meta.banner>', '<file_strip_banner:src/<%= pkg.name %>.js>'],
-        dest: 'dist/<%= pkg.name %>.js'
+        dest: '<%= pkg.name %>.js'
       }
     },
     min: {
       dist: {
         src: ['<banner:meta.banner>', '<config:concat.full.dest>'],
-        dest: 'dist/<%= pkg.name %>.min.js'
+        dest: '<%= pkg.name %>.min.js'
       }
     },
     watch: {
