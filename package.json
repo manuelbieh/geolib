@@ -13,8 +13,7 @@
         "url": "http://github.com/manuelbieh/geolib.git"
     },
     "devDependencies": {
-        "grunt": ">=0.3.9",
-        "mocha": "*"
+        "grunt": ">=0.3.9"
     },
     "licenses": [
         {
@@ -34,6 +33,6 @@
 	"scripts": {
 		"test": "grunt travis --verbose"
 	},
-    "version": "1.2.1",
+    "version": "1.2.2",
     "main": "./geolib"
 }
