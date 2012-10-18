@@ -5,7 +5,7 @@
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 1.2.0
+* @version 1.2.1
 * @license LGPL 
 **/
 
@@ -807,8 +807,9 @@
 	}
 
 }(this));
+/* Optional elevation addon requires Googlemaps API JS */
 
-/*global google:true require:true module:true elevationResult*/
+/*global google:true geolib:true require:true module:true elevationResult*/
 /**
 *  @param      Array Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
 *
@@ -878,14 +879,14 @@ geolib.getElevationServer = function(coords, cb) {
 
 	for(var i = 0; i < coords.length; i++) {
 		path.push(geolib.useDecimal(coords[i][latitude]) + ',' +
-		geolib.useDecimal(coords[i][longitude]));
+		  geolib.useDecimal(coords[i][longitude]));
 	}
 
 	gm.elevationFromPath(path.join('|'), path.length, function(err, results) {
 		geolib.elevationHandler(results.results, results.status, coords, keys, cb);
 	});
 
-};
+},
 
 geolib.elevationHandler = function(results, status, coords, keys, cb){
 	var latsLngsElevs = [];

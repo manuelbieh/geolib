@@ -16,21 +16,25 @@ module.exports = function(grunt) {
         '* @license <%= _.pluck(pkg.licenses, "type").join(", ") %> \n**/'
     },
     lint: {
-      files: ['geolib.js']
+      files: ['src/geolib.js']
     },
     qunit: {
       files: ['tests/*.html']
     },
     concat: {
-      dist: {
-        src: ['<banner:meta.banner>', '<file_strip_banner:<%= pkg.name %>.js>', 'geolib.elevation.js'],
-        dest: '<%= pkg.name %>.js'
+      full: {
+        src: ['<banner:meta.banner>', '<file_strip_banner:src/<%= pkg.name %>.js>', 'src/geolib.elevation.js'],
+        dest: 'dist/<%= pkg.name %>.js'
+      },
+      noelevation: {
+        src: ['<banner:meta.banner>', '<file_strip_banner:src/<%= pkg.name %>.js>'],
+        dest: 'dist/<%= pkg.name %>.js'
       }
     },
     min: {
       dist: {
-        src: ['<banner:meta.banner>', '<config:concat.dist.dest>'],
-        dest: '<%= pkg.name %>.min.js'
+        src: ['<banner:meta.banner>', '<config:concat.full.dest>'],
+        dest: 'dist/<%= pkg.name %>.min.js'
       }
     },
     watch: {
@@ -57,7 +61,9 @@ module.exports = function(grunt) {
 
   // Default task.
   //grunt.registerTask('default', 'lint test concat min');
-  grunt.registerTask('default', 'lint qunit concat min');
+  grunt.registerTask('default', 'lint qunit concat:full min');
   grunt.registerTask('travis', 'lint qunit');
+  grunt.registerTask('test', 'qunit');
+  grunt.registerTask('no-elevation', 'lint qunit concat:noelevation min');
 
 };
