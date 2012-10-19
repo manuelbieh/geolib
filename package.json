@@ -30,7 +30,6 @@
   "version": "1.1.8",
   "main": "./geolib",
   "bundledDependencies": [
-    "googlemaps",
     "mocha"
   ],
   "dependencies": {
