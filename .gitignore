@@ -2,6 +2,11 @@ lib-cov
 *.seed
 *.log
 *.node
+*.o
+*.o.d
+*.mk
+*.gypi
+*.cache.py
 *.wafpickle-7
 *.lock-wscript
 *.csv
@@ -26,6 +31,8 @@ npm-debug.log
 /client/config.js
 .build
 /docs
+
+/node_modules/mongodb/node_modules/bson/build/Makefile
 
 
 /node_modules/googlemaps
