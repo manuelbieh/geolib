@@ -26,8 +26,6 @@ results
 /public/js/app.js
 /public/css/style.css
 npm-debug.log
-/config/version.json
-/config/local.json
 /client/config.js
 .build
 /docs
