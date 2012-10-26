@@ -798,11 +798,8 @@
 	}
 
 	// we're in a browser
-	if(typeof window.navigator != 'undefined') {
-		window.geolib = geolib;
-	// we're working with node.js, hipster!
-	// (experimental support)
-	} else if (typeof module != 'undefined') {
+	window.geolib = geolib;
+	if (typeof module != 'undefined') {
 		module.exports = geolib;
 	}
 
