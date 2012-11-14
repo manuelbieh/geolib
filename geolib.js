@@ -728,6 +728,7 @@
 				}
 				cb(null, latsLngsElevs);
 			} else {
+        console.log('RESULTS FROM WONKY GOOGLE REQUEST' + results);
 				cb(new Error("Geolib: Could not get elevation using Google's API: Status: " + status));
 			}
 		},
