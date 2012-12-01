@@ -5,7 +5,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: '<json:package.json>',
     meta: {
-      banner: '/**\n'+
+      banner: '/*! <%= pkg.name %> <%= pkg.version %> by <%= pkg.author.name %>\n'+
 		'* A small library to provide some basic geo functions like distance calculation,\n' +
         '* conversion of decimal coordinates to sexagesimal and vice versa, etc.\n' +
         '* WGS 84 (World Geodetic System 1984)\n' +

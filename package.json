@@ -33,6 +33,6 @@
 	"scripts": {
 		"test": "grunt travis --verbose"
 	},
-    "version": "1.2.4",
+    "version": "1.2.5",
     "main": "./geolib"
 }
