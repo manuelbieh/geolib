@@ -1,6 +1,9 @@
 /*global module:false*/
 module.exports = function(grunt) {
 
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+
   // Project configuration.
   grunt.initConfig({
     pkg: '<json:package.json>',
@@ -20,6 +23,18 @@ module.exports = function(grunt) {
     },
     qunit: {
       files: ['tests/*.html']
+    },
+    clean: {
+      component: [
+        "component.json"
+      ]
+    },
+    copy: {
+      component: {
+        files: {
+          "component.json": "package.json"
+        }
+      }
     },
     concat: {
       full: {
@@ -61,7 +76,7 @@ module.exports = function(grunt) {
 
   // Default task.
   //grunt.registerTask('default', 'lint test concat min');
-  grunt.registerTask('default', 'lint qunit concat:full min');
+  grunt.registerTask('default', 'lint qunit clean concat:full min copy');
   grunt.registerTask('travis', 'lint qunit');
   grunt.registerTask('test', 'qunit');
   grunt.registerTask('no-elevation', 'lint qunit concat:noelevation min');
