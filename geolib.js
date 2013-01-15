@@ -39,6 +39,7 @@
 
 			var longitude = (point.hasOwnProperty('lng') ? 'lng' : false) ||
 							(point.hasOwnProperty('long') ? 'long' : false) ||
+							(point.hasOwnProperty('lon') ? 'lon' : false) ||
 							'longitude';
 
 			var elevation = (point.hasOwnProperty('alt') ? 'alt' : false) ||
