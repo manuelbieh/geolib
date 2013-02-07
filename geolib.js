@@ -1,11 +1,11 @@
-/*! geolib 1.2.7 by Manuel Bieh
+/*! geolib 1.2.8 by Manuel Bieh
 * A small library to provide some basic geo functions like distance calculation,
 * conversion of decimal coordinates to sexagesimal and vice versa, etc.
 * WGS 84 (World Geodetic System 1984)
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 1.2.7
+* @version 1.2.8
 * @license LGPL 
 **/
 
@@ -402,6 +402,13 @@
 
 		},
 
+		/**
+		* Shortcut for geolib.isPointInside()
+		*/
+		isInside: function() {
+			return geolib.isPointInside.apply(geolib, arguments);
+		},
+
 
 		/**
 		* Checks whether a point is inside of a circle or not.
@@ -415,6 +422,13 @@
 
 			return geolib.getDistance(latlng, center) < radius;
 
+		},
+
+		/**
+		* Shortcut for geolib.isPointInCircle()
+		*/
+		withinRadius: function() {
+			return geolib.isPointInCircle.apply(geolib, arguments);
 		},
 
 
@@ -599,7 +613,10 @@
 			var coordsArray = [];
 			for(var coord in coords) {
 				var d = geolib.getDistance(latlng, coords[coord]);
-				coordsArray.push({key: coord, latitude: coords[coord][latitude], longitude: coords[coord][longitude], distance: d});
+				coordsArray.push({
+					key: coord, latitude: coords[coord][latitude], 
+					longitude: coords[coord][longitude], distance: d
+				});
 			}
 			
 			return coordsArray.sort(function(a, b) { return a.distance - b.distance; });
@@ -643,12 +660,23 @@
 
 		},
 
+
+		/**
+		* Calculates the speed between to points within a given time span.
+		*
+		* @param		object		coords with javascript timestamp {latitude: 51.5143, longitude: 7.4138, time: 1360231200880}
+		* @param		object		coords with javascript timestamp {latitude: 51.5502, longitude: 7.4323, time: 1360245600460}
+		* @param		object		options (currently "unit" is the only option. Default: km(h));
+		* @return		float		speed in *unit* per hour
+		*/
 		getSpeed: function(start, end, options) {
 
 			var unit = options && options.unit || 'km';
 
 			if(unit == 'mph') {
 				unit = 'mi';
+			} else if(unit == 'kmh') {
+				unit = 'km';
 			}
 
 			var distance = geolib.getDistance(start, end);
@@ -658,6 +686,7 @@
 			return speed;
 
 		},
+
 
 		/**
 		* Converts a distance from meters to km, mm, cm, mi, ft, in or yd

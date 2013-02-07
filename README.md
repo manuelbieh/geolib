@@ -166,22 +166,6 @@ geolib.getPathLength([
 	{latitude: 51.503333, longitude: -0.119722} // London
 ]); // -> 945235</pre>
 
-<h3>geolib.getPathLength(mixed coords)</h3>
-
-Calculates the length of a collection of coordinates
-
-Returns the length of the path in kilometers
-
-<h4>Example</h4>
-
-<pre>
-// Calculate distance from Berlin via Dortmund to London
-geolib.getPathLength([
-	{latitude: 52.516272, longitude: 13.377722}, // Berlin
-	{latitude: 51.515, longitude: 7.453619}, // Dortmund
-	{latitude: 51.503333, longitude: -0.119722} // London
-]); // -> 945235</pre>
-
 
 <h3>geolib.getSpeed(coords, coords[, options])</h3>
 
