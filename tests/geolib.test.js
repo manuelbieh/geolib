@@ -229,6 +229,13 @@
 
 	});
 
+	test("Testing: getSpeed()", function() {
+		var speedInKMH = geolib.getSpeed({lat: 51.567294, lng: 7.38896, time: 1360231200880}, {lat: 52.54944, lng: 13.468509, time: 1360245600880});
+		var speedInMPH = geolib.getSpeed({lat: 51.567294, lng: 7.38896, time: 1360231200880}, {lat: 52.54944, lng: 13.468509, time: 1360245600880}, {unit: 'mi'});
+		equal(speedInKMH, 107.7308, '430.923 km in 4 hours should equal 107.7308 kmh');
+		equal(speedInMPH, 66.9408, '430.923 km in 4 hours should equal 66.9408 mph');
+	});
+
 	test("Testing: isPointInside()", function() {
 
 		var isInside1 = geolib.isPointInside({latitude: 51.514252208, longitude: 7.464905736}, polygon); // Point is inside of the polygon

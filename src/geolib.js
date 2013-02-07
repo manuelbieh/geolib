@@ -5,11 +5,10 @@
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 1.2.1
 * @license LGPL 
 **/
 
-/*global geolib:true require:true module:true window:true*/
+/*global console:true geolib:true require:true module:true window:true*/
 (function (window, undefined) {
 
 	var radius = 6378137; // Earth radius
@@ -22,6 +21,18 @@
 		sexagesimal: {},
 
 		distance: 0,
+
+		measures: {
+			m: 1,
+			km: 0.001,
+			cm: 100,
+			mm: 1000,
+			mi: (1 / 1609.344),
+			sm: (1 / 1852.216),
+			ft: (100 / 30.48),
+			"in": (100 / 2.54),
+			yd: (1 / 0.9144)
+		},
 
 		/**
 		* Get the key names for a geo point.
@@ -631,6 +642,22 @@
 
 		},
 
+		getSpeed: function(start, end, options) {
+
+			var unit = options && options.unit || 'km';
+
+			if(unit == 'mph') {
+				unit = 'mi';
+			}
+
+			var distance = geolib.getDistance(start, end);
+			var time = ((end.time*1)/1000) - ((start.time*1)/1000);
+			var mPerHr = (distance/time)*3600;
+			var speed = Math.round(mPerHr * geolib.measures[unit] * 10000)/10000;
+			return speed;
+
+		},
+
 		/**
 		* Converts a distance from meters to km, mm, cm, mi, ft, in or yd
 		*
@@ -655,29 +682,11 @@
 			unit = unit || 'm';
 			round = (null == round ? 4 : round);
 
-			switch(unit) {
-
-				case 'm':    // Meter
-					return geolib.round(distance, round);
-				case 'km':    // Kilometer
-					return geolib.round(distance / 1000, round);
-				case 'cm':    // Centimeter
-					return geolib.round(distance * 100, round);
-				case 'mm':    // Millimeter
-					return geolib.round(distance * 1000, round);
-				case 'mi':    // Miles
-					return geolib.round(distance * (1 / 1609.344), round);
-				case 'sm':    // Seamiles
-					return geolib.round(distance * (1 / 1852.216), round);
-				case 'ft':    // Feet
-					return geolib.round(distance * (100 / 30.48), round);
-				case 'in':    // Inch
-					return geolib.round(distance * 100 / 2.54, round);
-				case 'yd':    // Yards
-					return geolib.round(distance * (1 / 0.9144), round);
+			if(typeof geolib.measures[unit] !== 'undefined') {
+				return geolib.round(distance * geolib.measures[unit], round);
+			} else {
+				throw new Error('Unknown unit for conversion.');
 			}
-
-			return distance;
 
 		},
 

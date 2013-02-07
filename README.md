@@ -5,9 +5,9 @@ A small library to provide some basic geo functions like distance calculation, c
 
 [View demo](http://www.manuel-bieh.de/publikationen/scripts/geolib/demo.html)
 
-## Methods
+<h2>Methods</h2>
 
-### geolib.getDistance(object start, object end, [int accuracy])
+<h3>geolib.getDistance(object start, object end[, int accuracy])</h3>
 
 Calculates the distance between two geo coordinates
 
@@ -15,7 +15,7 @@ Takes 2 or 3. First 2 arguments must be an object with a latitude and a longitud
 
 Return value is always an integer and represents the distance in meters.
 
-#### Examples
+<h4>Examples</h4>
 
 <pre>geolib.getDistance(
 	{latitude: 51.5103, longitude: 7.49347}, 
@@ -43,7 +43,7 @@ navigator.geolocation.getCurrentPosition(
 );
 </pre>
 
-### geolib.getCenter(array coords)
+<h3>geolib.getCenter(array coords)</h3>
 
 Calculates the geographical center of all points in a collection of geo coordinates
 
@@ -51,7 +51,7 @@ Takes an object or array of coordinates and calculates the center of it.
 
 Returns an object: `{"latitude": centerLat, "longitude": centerLng, "distance": diagonalDistance}`
 
-#### Examples
+<h4>Examples</h4>
 
 <pre>var spots = {
 	"Brandenburg Gate, Berlin": {latitude: 52.516272, longitude: 13.377722},
@@ -71,14 +71,14 @@ geolib.getCenter([
 ]);
 </pre>
 
-### geolib.isPointInside(object latlng, array coords)
+<h3>geolib.isPointInside(object latlng, array coords)</h3>
 
 Checks whether a point is inside of a polygon or not. 
 Note: the polygon coords must be in correct order!
 
 Returns true or false
 
-#### Example
+<h4>Example</h4>
 
 <pre>
 geolib.isPointInside(
@@ -130,11 +130,11 @@ geolib.orderByDistance({latitude: 51.515, longitude: 7.453619}, {
 });
 </pre>
 
-### geolib.findNearest(object latlng, mixed coords, int offset)
+<h3>geolib.findNearest(object latlng, mixed coords[, int offset])</h3>
 
 Finds the nearest coordinate to a reference coordinate.
 
-#### Examples
+<h4>Examples</h4>
 
 <pre>var spots = {
 	"Brandenburg Gate, Berlin": {latitude: 52.516272, longitude: 13.377722},
@@ -150,13 +150,13 @@ Finds the nearest coordinate to a reference coordinate.
 geolib.findNearest(spots['Dortmund U-Tower'], spots, 1) 
 </pre>
 
-### geolib.getPathLength(mixed coords)
+<h3>geolib.getPathLength(mixed coords)</h3>
 
 Calculates the length of a collection of coordinates
 
 Returns the length of the path in kilometers
 
-#### Example
+<h4>Example</h4>
 
 <pre>
 // Calculate distance from Berlin via Dortmund to London
@@ -166,11 +166,45 @@ geolib.getPathLength([
 	{latitude: 51.503333, longitude: -0.119722} // London
 ]); // -> 945235</pre>
 
-### geolib.convertUnit(string unit, float distance, [int round])
+<h3>geolib.getPathLength(mixed coords)</h3>
+
+Calculates the length of a collection of coordinates
+
+Returns the length of the path in kilometers
+
+<h4>Example</h4>
+
+<pre>
+// Calculate distance from Berlin via Dortmund to London
+geolib.getPathLength([
+	{latitude: 52.516272, longitude: 13.377722}, // Berlin
+	{latitude: 51.515, longitude: 7.453619}, // Dortmund
+	{latitude: 51.503333, longitude: -0.119722} // London
+]); // -> 945235</pre>
+
+
+<h3>geolib.getSpeed(coords, coords[, options])</h3>
+
+Calculates the speed between to points within a given time span.
+
+Returns the speed in <em>options.unit</em> (default is km/h).
+
+<h4>Example</h4>
+
+<pre>
+geolib.getSpeed(
+	{lat: 51.567294, lng: 7.38896, time: 1360231200880}, 
+	{lat: 52.54944, lng: 13.468509, time: 1360245600880},
+	{unit: 'mph'}
+); // -> 66.9408 (mph)</pre>
+
+
+
+<h3>geolib.convertUnit(string unit, float distance[, int round])</h3>
 
 Converts a given distance (in meters) to another unit.
 
-#### Parameters
+<h4>Parameters</h4>
 
 `unit` can be one of:
 
@@ -188,32 +222,32 @@ Converts a given distance (in meters) to another unit.
 
 `round` fractional digits
 
-#### Example
+<h4>Example</h4>
 
 `geolib.convertUnit('km', 14213, 2) // -> 14,21`
 
-### geolib.sexagesimal2decimal(string coord)
+<h3>geolib.sexagesimal2decimal(string coord)</h3>
 
 Converts a sexagesimal coordinate to decimal format
 
-#### Example
+<h4>Example</h4>
 
 `geolib.sexagesimal2decimal("51° 29' 46\" N")`
 
-### geolib.decimal2sexagesimal(float coord)
+<h3>geolib.decimal2sexagesimal(float coord)</h3>
 
 Converts a decimal coordinate to sexagesimal format
 
 
-#### Example
+<h4>Example</h4>
 
 `geolib.decimal2sexagesimal(51.49611111); // -> 51° 29' 46.00`
 
 
-### geolib.useDecimal(mixed coordinate)
+<h3>geolib.useDecimal(mixed coordinate)</h3>
 
 Checks if a coordinate is already in decimal format and, if not, converts it to
 
-#### Example
+<h4>Example</h4>
 <pre>geolib.useDecimal("51° 29' 46\" N"); // -> 51.59611111
 geolib.useDecimal(51.59611111) // -> 51.59611111</pre>
