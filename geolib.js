@@ -14,6 +14,10 @@
 
 	var radius = 6378137; // Earth radius
 	var sexagesimalPattern = /^([0-9]{1,3})°\s*([0-9]{1,3})'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/;
+	var MIN_LAT = -90;
+	var MAX_LAT = 90;
+	var MIN_LON = -180;
+	var MAX_LON = 180;
 
 	var geolib = {
 
@@ -363,6 +367,58 @@
 				}
 			}
 			return stats;
+		},
+
+		/**
+		* Computes the bounding coordinates of all points on the surface
+		* of the earth less than or equal to the specified great circle
+		* distance.
+		*
+		* @param object Point position {latitude: 123, longitude: 123}
+		* @param number Distance (in meters).
+		* @return array Collection of two points defining the SW and NE corners.
+		*/
+		getBoundsOfDistance: function(point, distance) {
+			var keys = geolib.getKeys(point);
+			var latitude = keys.latitude;
+			var longitude = keys.longitude;
+			var coord = {};
+			coord[latitude] = geolib.useDecimal(point[latitude]);
+			coord[longitude] = geolib.useDecimal(point[longitude]);
+			var radLat = coord[latitude].toRad();
+			var radLon = coord[longitude].toRad();
+			var radDist = distance / radius;
+			var minLat = radLat - radDist;
+			var maxLat = radLat + radDist;
+			var MAX_LAT_RAD = MAX_LAT.toRad();
+			var MIN_LAT_RAD = MIN_LAT.toRad();
+			var MAX_LON_RAD = MAX_LON.toRad();
+			var MIN_LON_RAD = MIN_LON.toRad();
+			var minLon, maxLon;
+			if (minLat > MIN_LAT_RAD && maxLat < MAX_LAT_RAD) {
+				var deltaLon = Math.asin(Math.sin(radDist) / Math.cos(radLat));
+				minLon = radLon - deltaLon;
+				if (minLon < MIN_LON_RAD) {
+					minLon += 2 * Math.PI;
+				}
+				maxLon = radLon + deltaLon;
+				if (maxLon > MAX_LON_RAD) {
+					maxLon -= 2 * Math.PI;
+				}
+			} else {
+				// A pole is within the distance.
+				minLat = Math.max(minLat, MIN_LAT_RAD);
+				maxLat = Math.min(maxLat, MAX_LAT_RAD);
+				minLon = MIN_LON_RAD;
+				maxLon = MAX_LON_RAD;
+			}
+
+			return [
+				// Southwest
+				{"latitude": minLat.toDeg(), "longitude": minLon.toDeg()},
+				// Northeast
+				{"latitude": maxLat.toDeg(), "longitude": maxLon.toDeg()}
+			];
 		},
 
 		/**
@@ -843,144 +899,3 @@
 	}
 
 }(this));
-(function(global) {
-
-	var geolib = global.geolib;
-
-	/* Optional elevation addon requires Googlemaps API JS */
-
-	/*global google:true geolib:true require:true module:true elevationResult*/
-	/**
-	*  @param      Array Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
-	*
-	*  @return     Array [{lat:#lat, lng:#lng, elev:#elev},....]}
-	*/
-	geolib.getElevation = function() {
-		if (typeof window.navigator !== 'undefined') {
-			geolib.getElevationClient.apply(this, arguments);
-		} else {
-			geolib.getElevationServer.apply(this, arguments);
-		}
-	};
-
-	geolib.getElevationClient = function(coords, cb) {
-
-		if (!window.google) {
-			throw new Error("Google maps api not loaded");
-		}
-
-		if (coords.length === 0) {
-			return cb(null, null);
-		}
-
-		if (coords.length === 1) {
-			return cb(new Error("getElevation requires at least 2 points."));
-		}
-
-		var path  = [];
-		var keys = geolib.getKeys(coords[0]);
-		var latitude = keys.latitude;
-		var longitude = keys.longitude;
-
-		for(var i = 0; i < coords.length; i++) {
-			path.push(new google.maps.LatLng(
-				geolib.useDecimal(coords[i][latitude]),
-				geolib.useDecimal(coords[i][longitude])
-			));
-		}
-
-		var positionalRequest = {
-			'path': path,
-			'samples': path.length
-		};
-		var elevationService = new google.maps.ElevationService();
-		elevationService.getElevationAlongPath(positionalRequest,function (results, status) {
-			geolib.elevationHandler(results, status, coords, keys, cb);
-		});
-
-	};
-
-	geolib.getElevationServer = function(coords, cb) {
-
-		if (coords.length === 0) {
-			return cb(null, null);
-		}
-
-		if (coords.length === 1) {
-			return cb(new Error("getElevation requires at least 2 points."));
-		}
-
-		var gm = require('googlemaps');
-		var path  = [];
-		var keys = geolib.getKeys(coords[0]);
-		//coords[0]
-		var latitude = keys.latitude;
-		var longitude = keys.longitude;
-
-		for(var i = 0; i < coords.length; i++) {
-			path.push(geolib.useDecimal(coords[i][latitude]) + ',' +
-			  geolib.useDecimal(coords[i][longitude]));
-		}
-
-		gm.elevationFromPath(path.join('|'), path.length, function(err, results) {
-			geolib.elevationHandler(results.results, results.status, coords, keys, cb);
-		});
-
-	},
-
-	geolib.elevationHandler = function(results, status, coords, keys, cb){
-		var latsLngsElevs = [];
-		var latitude = keys.latitude;
-		var longitude = keys.longitude;
-		if (status == "OK" ) {
-			for (var i = 0; i < results.length; i++) {
-				latsLngsElevs.push({
-					"lat":coords[i][latitude],
-					"lng":coords[i][longitude],
-					"elev":results[i].elevation
-				});
-			}
-			cb(null, latsLngsElevs);
-		} else {
-			cb(new Error("Could not get elevation using Google's API"), elevationResult.status);
-		}
-	};
-
-	/**
-	*  @param      Array [{lat:#lat, lng:#lng, elev:#elev},....]}
-	*
-	*  @return     Number % grade
-	*/
-	geolib.getGrade = function(coords){
-		var keys = geolib.getKeys(coords[0]);
-		var elevation = keys.elevation;
-		var rise = Math.abs(coords[coords.length-1][elevation] - coords[0][elevation]);
-		var run = geolib.getPathLength(coords);
-		return Math.floor((rise/run)*100);
-	};
-
-	/**
-	*  @param      Array [{lat:#lat, lng:#lng, elev:#elev},....]}
-	*
-	*  @return     Object {gain:#gain, loss:#loss}
-	*/
-	geolib.getTotalElevationGainAndLoss = function(coords){
-		var keys = geolib.getKeys(coords[0]);
-		var elevation = keys.elevation;
-		var gain = 0;
-		var loss = 0;
-		for(var i = 0; i < coords.length - 1; i++){
-			var deltaElev = coords[i][elevation] - coords[i + 1][elevation];
-			if (deltaElev > 0) {
-				loss += deltaElev;
-			} else {
-				gain += Math.abs(deltaElev);
-			}
-		}
-		return {
-			"gain": gain,
-			"loss": loss
-		};
-	};
-
-})(this);
