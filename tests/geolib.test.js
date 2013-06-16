@@ -43,6 +43,14 @@
 		{"latitude": 51.517443592, "longitude": 7.463232037, "elevation":521.12}
 	];
 
+
+	function nearlyEqual(result, expected, epsilon) {
+		var diff = Math.abs(expected - result);
+		ok(diff < epsilon,
+		   'Expected ' + expected + ', got ' + result + ', diff= ' + diff +
+		   ' (max diff=' + epsilon + ')');
+	}
+
 	test("Testing distance calculation: getDistance()", function() {
 
 		expect(3);
@@ -92,6 +100,22 @@
 		equal(box.maxElev, 524.54, "maxElev should be 524.54");
 		equal(box.minElev, 521.12, "minElev should be 521.12");
   });
+
+	test("Testing bounding box: getBoundsDistance()", function() {
+		expect(6);
+		var point = {latitude: 34.090166, longitude: -118.276736555556};
+		var bounds = geolib.getBoundsOfDistance(point, 1000);
+		ok(bounds[0].latitude < bounds[1].latitude);
+		ok(bounds[0].longitude < bounds[1].longitude);
+		var north = {latitude: bounds[1].latitude, longitude: point.longitude};
+		var south = {latitude: bounds[0].latitude, longitude: point.longitude};
+		var east = {latitude: point.latitude, longitude: bounds[1].longitude};
+		var west = {latitude: point.latitude, longitude: bounds[0].longitude};
+		nearlyEqual(geolib.getDistance(point, north), 1000, 10);
+		nearlyEqual(geolib.getDistance(point, south), 1000, 10);
+		nearlyEqual(geolib.getDistance(point, east), 1000, 10);
+		nearlyEqual(geolib.getDistance(point, west), 1000, 10);
+	});
 
 	asyncTest("Testing elevation: getElevation()", function() {
 		expect(4);
