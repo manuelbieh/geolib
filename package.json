@@ -15,7 +15,8 @@
     "devDependencies": {
         "grunt": "~0.3.17",
         "grunt-contrib-clean": "~0.3.0",
-        "grunt-contrib-copy": "~0.3.0"
+        "grunt-contrib-copy": "~0.3.0",
+        "phantomjs": "~1.9.0"
     },
     "licenses": [
         {
@@ -32,9 +33,16 @@
         "geo",
         "distance"
     ],
+<<<<<<< HEAD
 	"scripts": {
 		"test": "grunt travis --verbose"
 	},
     "version": "1.2.9",
+=======
+    "scripts": {
+        "test": "grunt travis --verbose"
+    },
+    "version": "1.2.8",
+>>>>>>> 89c41094a5e580f00ee8d76b4e2bad14eb49355f
     "main": "./geolib"
 }
