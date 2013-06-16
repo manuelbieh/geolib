@@ -14,6 +14,10 @@
 
 	var radius = 6378137; // Earth radius
 	var sexagesimalPattern = /^([0-9]{1,3})°\s*([0-9]{1,3})'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/;
+	var MIN_LAT = -90;
+	var MAX_LAT = 90;
+	var MIN_LON = -180;
+	var MAX_LON = 180;
 
 	var geolib = {
 
@@ -363,6 +367,58 @@
 				}
 			}
 			return stats;
+		},
+
+		/**
+		* Computes the bounding coordinates of all points on the surface
+		* of the earth less than or equal to the specified great circle
+		* distance.
+		*
+		* @param object Point position {latitude: 123, longitude: 123}
+		* @param number Distance (in meters).
+		* @return array Collection of two points defining the SW and NE corners.
+		*/
+		getBoundsOfDistance: function(point, distance) {
+			var keys = geolib.getKeys(point);
+			var latitude = keys.latitude;
+			var longitude = keys.longitude;
+			var coord = {};
+			coord[latitude] = geolib.useDecimal(point[latitude]);
+			coord[longitude] = geolib.useDecimal(point[longitude]);
+			var radLat = coord[latitude].toRad();
+			var radLon = coord[longitude].toRad();
+			var radDist = distance / radius;
+			var minLat = radLat - radDist;
+			var maxLat = radLat + radDist;
+			var MAX_LAT_RAD = MAX_LAT.toRad();
+			var MIN_LAT_RAD = MIN_LAT.toRad();
+			var MAX_LON_RAD = MAX_LON.toRad();
+			var MIN_LON_RAD = MIN_LON.toRad();
+			var minLon, maxLon;
+			if (minLat > MIN_LAT_RAD && maxLat < MAX_LAT_RAD) {
+				var deltaLon = Math.asin(Math.sin(radDist) / Math.cos(radLat));
+				minLon = radLon - deltaLon;
+				if (minLon < MIN_LON_RAD) {
+					minLon += 2 * Math.PI;
+				}
+				maxLon = radLon + deltaLon;
+				if (maxLon > MAX_LON_RAD) {
+					maxLon -= 2 * Math.PI;
+				}
+			} else {
+				// A pole is within the distance.
+				minLat = Math.max(minLat, MIN_LAT_RAD);
+				maxLat = Math.min(maxLat, MAX_LAT_RAD);
+				minLon = MIN_LON_RAD;
+				maxLon = MAX_LON_RAD;
+			}
+
+			return [
+				// Southwest
+				{"latitude": minLat.toDeg(), "longitude": minLon.toDeg()},
+				// Northeast
+				{"latitude": maxLat.toDeg(), "longitude": maxLon.toDeg()}
+			];
 		},
 
 		/**
@@ -843,6 +899,7 @@
 	}
 
 }(this));
+
 (function(global) {
 
 	var geolib = global.geolib;
