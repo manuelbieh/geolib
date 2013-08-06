@@ -1,7 +1,3 @@
-(function(global) {
-
-	var geolib = global.geolib;
-
 	/* Optional elevation addon requires Googlemaps API JS */
 
 	/*global google:true geolib:true require:true module:true elevationResult*/
@@ -137,5 +133,3 @@
 			"loss": loss
 		};
 	};
-
-})(this);

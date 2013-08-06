@@ -1,16 +1,16 @@
-/*! geolib 1.2.9 by Manuel Bieh
+/*! geolib 1.3.0 by Manuel Bieh
 * A small library to provide some basic geo functions like distance calculation,
 * conversion of decimal coordinates to sexagesimal and vice versa, etc.
 * WGS 84 (World Geodetic System 1984)
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 1.2.9
+* @version 1.3.0
 * @license LGPL 
 **/
 
-/*global console:true geolib:true require:true module:true window:true*/
-(function (window, undefined) {
+/*global console:true geolib:true require:true module:true window:true global:true define:true*/
+(function (global, undefined) {
 
 	var radius = 6378137; // Earth radius
 	var sexagesimalPattern = /^([0-9]{1,3})°\s*([0-9]{1,3})'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/;
@@ -880,6 +880,8 @@
 
 	};
 
+	/* %ELEVATION% */
+
 	if (typeof(Number.prototype.toRad) === "undefined") {
 		Number.prototype.toRad = function() {
 			return this * Math.PI / 180;
@@ -892,17 +894,38 @@
 		};
 	}
 
+/*
 	// we're in a browser
 	window.geolib = geolib;
 	if (typeof module != 'undefined') {
 		module.exports = geolib;
 	}
+*/
+
+	if (typeof module != 'undefined') {
+
+		// Node module
+		global.geolib = module.exports = geolib;
+
+	} else if (typeof define === "function" && define.amd) {
+
+		// AMD module
+		define("geolib", [], function () {
+			return geolib; 
+		});
+
+		// what's the difference to:
+		//define(function() { return geolib; });
+		// ?
+
+	} else {
+
+		// we're in a browser, yay
+		global.geolib = geolib;
+
+	}
 
 }(this));
-
-(function(global) {
-
-	var geolib = global.geolib;
 
 	/* Optional elevation addon requires Googlemaps API JS */
 
@@ -1039,5 +1062,3 @@
 			"loss": loss
 		};
 	};
-
-})(this);
