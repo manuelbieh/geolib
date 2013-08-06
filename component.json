@@ -36,6 +36,6 @@
 	"scripts": {
 		"test": "grunt travis --verbose"
 	},
-    "version": "1.2.9",
+    "version": "1.3.0",
     "main": "./geolib"
 }
