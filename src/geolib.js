@@ -897,4 +897,9 @@
 		module.exports = geolib;
 	}
 
+	// Register as a named AMD module
+	if ( typeof define === "function" && define.amd ) {
+		define( "geolib", [], function () { return geolib; } );
+	}
+
 }(this));
