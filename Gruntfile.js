@@ -6,6 +6,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-text-replace');
+  grunt.loadNpmTasks('grunt-jslint');
 
   var fs = require('fs');
 
