@@ -5,54 +5,46 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-text-replace');
-  grunt.loadNpmTasks('grunt-jslint');
 
   var fs = require('fs');
 
   // Project configuration.
   grunt.initConfig({
     pkg: '<json:package.json>',
-    meta: {
-      banner: '/*! <%= pkg.name %> <%= pkg.version %> by <%= pkg.author.name %>\n'+
-		'* A growing library to provide some basic geo functions like distance calculation,\n' +
-        '* conversion of decimal coordinates to sexagesimal and vice versa, etc.\n' +
-        '* WGS 84 (World Geodetic System 1984)\n' +
-        '* \n' + 
-        '* @author <%= pkg.author.name %>\n' + 
-        '* @url <%= pkg.author.url %>\n' + 
-        '* @version <%= pkg.version %>\n' +
-        '* @license <%= _.pluck(pkg.licenses, "type").join(", ") %> \n**/'
-    },
+	banner: '/*! <%= pkg.name %> <%= pkg.version %> by <%= pkg.author.name %>\n'+
+	'* A growing library to provide some basic geo functions like distance calculation,\n' +
+	'* conversion of decimal coordinates to sexagesimal and vice versa, etc.\n' +
+	'* WGS 84 (World Geodetic System 1984)\n' +
+	'* \n' + 
+	'* @author <%= pkg.author.name %>\n' + 
+	'* @url <%= pkg.author.url %>\n' + 
+	'* @version <%= pkg.version %>\n' +
+	'* @license <%= _.pluck(pkg.licenses, "type").join(", ") %> \n**/',
     lint: {
       files: ['src/geolib.js']
     },
     qunit: {
       files: ['tests/*.html']
     },
-    clean: {
-      component: [
-        "component.json"
-      ]
-    },
+	concat: {
+		options: {
+			banner: '<% banner %>',
+			stripBanners: false
+		},
+		full: {
+			src: ['src/geolib.js'],
+			dest: 'geolib.js'
+		}
+	},
     copy: {
       component: {
         files: {
-          "component.json": "package.json"
+          src: "package.json",
+          dest: "component.json"
         }
       }
-    },
-    concat: {
-      full: {
-        src: ['<banner:meta.banner>', 'src/geolib.js'],
-        dest: 'geolib.js'
-      },
-    /*
-      noelevation: {
-        src: ['<banner:meta.banner>', '<file_strip_banner:src/<%= pkg.name %>.js>'],
-        dest: '<%= pkg.name %>.js'
-      }
-    */
     },
 	replace: {
 		noelevation: {
@@ -72,10 +64,11 @@ module.exports = function(grunt) {
 			}]
 		}
 	},
-    min: {
-      dist: {
-        src: ['<banner:meta.banner>', '<config:concat.full.dest>'],
-        dest: '<%= pkg.name %>.min.js'
+    uglify: {
+      full: {
+        files: {
+			'geolib.min.js': ['geolib.js']
+        }
       }
     },
     watch: {
@@ -97,16 +90,16 @@ module.exports = function(grunt) {
       },
       globals: {}
     },
-    uglify: {}
   });
 
   // Default task.
   //grunt.registerTask('default', 'lint test concat min');
   //grunt.registerTask('default', 'lint qunit clean concat:full min copy');
-  grunt.registerTask('default', ['clean', 'concat', 'replace:full','copy']);
+  grunt.registerTask('a', ['concat']);
+  grunt.registerTask('default', ['concat', 'replace:full', 'uglify']);
   grunt.registerTask('travis', ['lint','qunit']);
   grunt.registerTask('test', ['qunit']);
   //grunt.registerTask('no-elevation', 'lint qunit concat:noelevation min');
-  grunt.registerTask('no-elevation', ['concat', 'replace:noelevation']);
+  grunt.registerTask('no-elevation', ['concat', 'qunit', 'replace:noelevation', 'uglify']);
 
 };
