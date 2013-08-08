@@ -6,13 +6,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-text-replace');
 
   var fs = require('fs');
 
   // Project configuration.
   grunt.initConfig({
-    pkg: '<json:package.json>',
+    pkg: grunt.file.readJSON('package.json'),
 	banner: '/*! <%= pkg.name %> <%= pkg.version %> by <%= pkg.author.name %>\n'+
 	'* A growing library to provide some basic geo functions like distance calculation,\n' +
 	'* conversion of decimal coordinates to sexagesimal and vice versa, etc.\n' +
@@ -30,8 +31,8 @@ module.exports = function(grunt) {
     },
 	concat: {
 		options: {
-			banner: '<% banner %>',
-			stripBanners: false
+			banner: '<%= banner %>',
+			report: false
 		},
 		full: {
 			src: ['src/geolib.js'],
@@ -40,10 +41,10 @@ module.exports = function(grunt) {
 	},
     copy: {
       component: {
-        files: {
+        files: [{
           src: "package.json",
           dest: "component.json"
-        }
+        }]
       }
     },
 	replace: {
@@ -65,6 +66,9 @@ module.exports = function(grunt) {
 		}
 	},
     uglify: {
+      options: {
+        banner: "<%= banner %>"
+      },
       full: {
         files: {
 			'geolib.min.js': ['geolib.js']
@@ -76,6 +80,9 @@ module.exports = function(grunt) {
       tasks: 'lint test'
     },
     jshint: {
+	  all: [
+	    'src/geolib.js'
+	  ],
       options: {
         curly: true,
         eqeqeq: false,
@@ -86,20 +93,23 @@ module.exports = function(grunt) {
         sub: true,
         undef: true,
         boss: true,
-        eqnull: true
-      },
-      globals: {}
-    },
+        eqnull: true,
+        globals: {
+	      module: true,
+	      define: true
+        }
+      }
+    }
   });
 
   // Default task.
   //grunt.registerTask('default', 'lint test concat min');
   //grunt.registerTask('default', 'lint qunit clean concat:full min copy');
-  grunt.registerTask('a', ['concat']);
-  grunt.registerTask('default', ['concat', 'replace:full', 'uglify']);
-  grunt.registerTask('travis', ['lint','qunit']);
+ 
+  grunt.registerTask('default', ['concat:full', 'copy', 'replace:full', 'uglify']);
+  grunt.registerTask('travis', ['jshint','qunit']);
   grunt.registerTask('test', ['qunit']);
   //grunt.registerTask('no-elevation', 'lint qunit concat:noelevation min');
-  grunt.registerTask('no-elevation', ['concat', 'qunit', 'replace:noelevation', 'uglify']);
+  grunt.registerTask('no-elevation', ['concat:full', 'replace:noelevation', 'uglify']);
 
 };

@@ -13,13 +13,14 @@
     "url": "http://github.com/manuelbieh/geolib.git"
   },
   "devDependencies": {
-    "grunt": ">0.3",
+    "grunt": "~0.4",
     "grunt-cli": "*",
-    "grunt-contrib-uglify": "*",
-    "grunt-contrib-concat": "*",
-    "grunt-contrib-clean": "*",
-    "grunt-contrib-copy": "*",
-    "grunt-text-replace": "*",
+    "grunt-contrib-uglify": "~0.2",
+    "grunt-contrib-concat": "~0.3",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-copy": "~0.4",
+    "grunt-text-replace": "~0.3.6",
+    "grunt-contrib-jshint": "~0.6.2",
     "phantomjs": "~1.8.0",
     "grunt-jslint": "~1.0.0"
   },
@@ -41,6 +42,6 @@
   "scripts": {
     "test": "grunt travis --verbose"
   },
-  "version": "1.3.0",
+  "version": "1.3.1",
   "main": "./geolib"
 }

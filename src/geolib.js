@@ -1,13 +1,3 @@
-/**
-* A small library to provide some basic geo functions like distance calculation,
-* conversion of decimal coordinates to sexagesimal and vice versa, etc.
-* WGS 84 (World Geodetic System 1984)
-* 
-* @author Manuel Bieh
-* @url http://www.manuelbieh.com/
-* @license LGPL 
-**/
-
 /*global console:true geolib:true require:true module:true window:true global:true define:true*/
 (function (global, undefined) {
 
