@@ -199,7 +199,7 @@
 		var dec3 = geolib.useDecimal("19°    22'   32\"      S");
 		var dec4 = geolib.useDecimal("71° 3'     34\" W");
 		var dec5 = geolib.useDecimal("71°3'W");
-		var dec6 = geolib.useDecimal("51.519475");
+		var dec6 = geolib.useDecimal("51.519470");
 		var dec7 = geolib.useDecimal("-122.418079");
 
 		equal(dec1, 51.519475, "Decimal value should be 51.519475" );
@@ -207,7 +207,7 @@
 		equal(dec3, -19.37555556, "Decimal value should be -19.37555556" );
 		equal(dec4, -71.05944444, "Decimal value should be -71.05944444" );
 		equal(dec5, -71.05, "Decimal value should be -71.05" );
-		equal(dec6, 51.519475, "Decimal value should be 51.519475" );
+		equal(dec6, 51.51947, "Decimal value should be 51.51947" );
 		equal(dec7, -122.418079, "Decimal value should be -122.418079" );
 
 	});
