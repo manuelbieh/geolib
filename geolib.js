@@ -1,11 +1,11 @@
-/*! geolib 1.3.1 by Manuel Bieh
+/*! geolib 1.3.2 by Manuel Bieh
 * A growing library to provide some basic geo functions like distance calculation,
 * conversion of decimal coordinates to sexagesimal and vice versa, etc.
 * WGS 84 (World Geodetic System 1984)
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 1.3.1
+* @version 1.3.2
 * @license LGPL 
 **//*global console:true geolib:true require:true module:true window:true global:true define:true*/
 (function (global, undefined) {
