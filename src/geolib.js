@@ -637,10 +637,17 @@
 					direction = {exact: "N", rough: "N"};
 			}
 
+			direction['bearing'] = bearing;
 			return direction;
 
 		},
 
+		/**
+		* Shortcut for getCompassDirection
+		*/
+		getDirection: function(originLL, destLL, bearingMode) {
+			
+		},
 
 		/**
 		* Sorts an array of coords by distance from a reference coordinate
