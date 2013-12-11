@@ -323,6 +323,7 @@
 		*                     minElev: minElev}
 		*/
 		getBounds: function(coords) {
+
 			if (!coords.length) {
 				return false;
 			}
@@ -646,7 +647,7 @@
 		* Shortcut for getCompassDirection
 		*/
 		getDirection: function(originLL, destLL, bearingMode) {
-			
+			return geolib.getCompassDirection.apply(geolib, arguments);
 		},
 
 		/**

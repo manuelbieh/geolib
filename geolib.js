@@ -1,11 +1,11 @@
-/*! geolib 1.3.3 by Manuel Bieh
+/*! geolib 1.3.4 by Manuel Bieh
 * A growing library to provide some basic geo functions like distance calculation,
 * conversion of decimal coordinates to sexagesimal and vice versa, etc.
 * WGS 84 (World Geodetic System 1984)
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 1.3.3
+* @version 1.3.4
 * @license LGPL 
 **//*global console:true geolib:true require:true module:true window:true global:true define:true*/
 (function (global, undefined) {
@@ -332,6 +332,7 @@
 		*                     minElev: minElev}
 		*/
 		getBounds: function(coords) {
+
 			if (!coords.length) {
 				return false;
 			}
@@ -655,7 +656,7 @@
 		* Shortcut for getCompassDirection
 		*/
 		getDirection: function(originLL, destLL, bearingMode) {
-			
+			return geolib.getCompassDirection.apply(geolib, arguments);
 		},
 
 		/**
