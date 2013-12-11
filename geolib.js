@@ -343,9 +343,9 @@
 
 			var useElevation = coords[0].hasOwnProperty(elevation);
 			var stats = {
-				maxLat: -Infinity,
+				maxLat: 0,
 				minLat: Infinity,
-				maxLng: -Infinity,
+				maxLng: 0,
 				minLng: Infinity
 			};
 
@@ -794,7 +794,7 @@
 
 			// looks silly but works as expected
 			// checks if value is in decimal format
-			if (!isNaN(parseFloat(value)) && parseFloat(value).toString() == value) {    
+			if (!isNaN(parseFloat(value)) && parseFloat(value) == value) {
 				return parseFloat(value);
 			// checks if it's sexagesimal format (HHH° MM' SS" (NESW))
 			} else if(geolib.isSexagesimal(value) === true) {
