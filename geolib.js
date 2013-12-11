@@ -1,11 +1,11 @@
-/*! geolib 1.3.4 by Manuel Bieh
+/*! geolib 1.3.5 by Manuel Bieh
 * A growing library to provide some basic geo functions like distance calculation,
 * conversion of decimal coordinates to sexagesimal and vice versa, etc.
 * WGS 84 (World Geodetic System 1984)
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 1.3.4
+* @version 1.3.5
 * @license LGPL 
 **//*global console:true geolib:true require:true module:true window:true global:true define:true*/
 (function (global, undefined) {
@@ -344,9 +344,9 @@
 
 			var useElevation = coords[0].hasOwnProperty(elevation);
 			var stats = {
-				maxLat: 0,
+				maxLat: -Infinity,
 				minLat: Infinity,
-				maxLng: 0,
+				maxLng: -Infinity,
 				minLng: Infinity
 			};
 

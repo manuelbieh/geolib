@@ -335,9 +335,9 @@
 
 			var useElevation = coords[0].hasOwnProperty(elevation);
 			var stats = {
-				maxLat: 0,
+				maxLat: -Infinity,
 				minLat: Infinity,
-				maxLng: 0,
+				maxLng: -Infinity,
 				minLng: Infinity
 			};
 
