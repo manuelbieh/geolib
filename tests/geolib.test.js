@@ -53,7 +53,7 @@
 
 		equal(distance1, 422592, "Distance 1 should be 422592" );
 		equal(distance2, 422600, "Distance 2 should be 422600" );
-		equal(distance3, 8980260, "Distance 2 should be 8980260" );
+		equal(distance3, 8980260, "Distance 3 should be 8980260" );
 
 	});
 
