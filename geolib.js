@@ -250,7 +250,7 @@
 		* @return   float     Distance (in meters)
 		*/
 
-		getDistanceHaversine: function(start, end) {
+		getDistanceHaversine: function(start, end, accuracy) {
 			var keys = geolib.getKeys(start);
 			var latitude = keys.latitude;
 			var longitude = keys.longitude;
@@ -263,6 +263,8 @@
 			coord2[latitude] = geolib.useDecimal(end[latitude]);
 			coord2[longitude] = geolib.useDecimal(end[longitude]);
 
+			accuracy = accuracy || 0.00000001;
+
 			var R = 6378137 // Radius of earth in meters
 			var dLat = (coord2[latitude] - coord1[latitude]).toRad()
 			var dLng = (coord2[longitude] - coord1[longitude]).toRad()
@@ -271,7 +273,7 @@
 			        Math.sin(dLng/2) * Math.sin(dLng/2);
 			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
 			var d = R * c; // Distance in meters
-			return d;
+			return geolib.distance = Math.round(d/accuracy)*accuracy;
 		},
 
 
