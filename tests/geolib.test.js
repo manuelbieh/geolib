@@ -50,8 +50,8 @@
 		var distance1 = geolib.getDistance({latitude: 52.518611, longitude: 13.408056}, {latitude: 51.519475, longitude: 7.46694444});
 		var distance2 = geolib.getDistance({latitude: 37.774514, longitude: -122.418079}, {latitude: 51.519475, longitude: 7.46694444});
 
-		equal(distance1, 421786.4636986285, "Distance 1 should be 421786.4636986285" );
-		equal(distance2, 8967171.799418665, "Distance 2 should be 8967171.799418665" );
+		equal(distance1, 422592, "Distance 1 should be 422592" );
+		equal(distance2, 8980260, "Distance 2 should be 8980260" );
 
 	});
 
@@ -138,10 +138,10 @@
                   {"lat":40.76481,"lng":-111.76778999999999,"elev":1660.49609375}];
 
     var grade = geolib.getGrade(coords1, 1);
-		equal(grade, 59.6, "grade should be 59.6");
+		equal(grade, 51.4, "grade should be 51.4");
 
     grade = geolib.getGrade(coords2, 0);
-		equal(grade, -34, "grade should be -34");
+		equal(grade, -32, "grade should be -32");
   });
 
 	test("Testing elevation gain and loss: getTotalElevationGainAndLoss()", function() {
@@ -214,7 +214,7 @@
 		var near1 = geolib.findNearest({latitude: 36.1168, longitude: -115.173798}, cities);
 
 		equal(near1.key, 'San Francisco', 'Nearest city to Las Vegas from predefined set should be San Francisco');
-		equal(near1.distance, 670193.9091223773, 'Distance should be 670193.9091223773');
+		equal(near1.distance, 670788, 'Distance should be 670788');
 		equal(near1.latitude, 37.774514, 'Latitude should be 37.774514');
 		equal(near1.longitude, -122.418079, 'Latitude should be -122.418079');
 
@@ -223,7 +223,7 @@
 	test("Testing: getPathLength()", function() {
 
 		var pathLength = geolib.getPathLength(polygon);
-		equal(pathLength, 3372.8551987674737, 'Path length should be 3372.8551987674737');
+		equal(pathLength, 3377, 'Path length should be 3377');
 
 	});
 
@@ -259,5 +259,52 @@
 		ok(geolib.isSexagesimal('51° 31\' 12.27" N'), '51° 31\' 12.27" N');
 		ok(geolib.isSexagesimal('51° 31\' N'), '51° 31\' N');
 		//ok(geolib.isSexagesimal('51° N'), '51°'); // coming soon
+
+	});
+
+	test("Testing haversine distance calculation: getDistance()", function() {
+
+		expect(2);
+
+    geolib.setDistanceFormula('haversine');
+
+		var distance1 = geolib.getDistance({latitude: 52.518611, longitude: 13.408056}, {latitude: 51.519475, longitude: 7.46694444});
+		var distance2 = geolib.getDistance({latitude: 37.774514, longitude: -122.418079}, {latitude: 51.519475, longitude: 7.46694444});
+
+		equal(distance1, 421786.4636986285, "Distance 1 should be 421786.4636986285" );
+		equal(distance2, 8967171.799418665, "Distance 2 should be 8967171.799418665" );
+
+	});
+
+	test("Testing grade with haversine: getGrade()", function() {
+		expect(2);
+    var coords1 = [{"lat":41.72977,"lng":-111.77621999999997,"elev":1702.72412109375},
+                    {"lat":41.73198,"lng":-111.77636999999999,"elev":1849.7333984375}];
+    var coords2 = [{"lat":40.75402,"lng":-111.75475,"elev":2209.137451171875},
+                  {"lat":40.76481,"lng":-111.76778999999999,"elev":1660.49609375}];
+
+    var grade = geolib.getGrade(coords1, 1);
+		equal(grade, 59.6, "grade should be 59.6");
+
+    grade = geolib.getGrade(coords2, 0);
+		equal(grade, -34, "grade should be -34");
+  });
+
+	test("Testing with haversine: findNearest()", function() {
+
+		expect(4);
+		var near1 = geolib.findNearest({latitude: 36.1168, longitude: -115.173798}, cities);
+
+		equal(near1.key, 'San Francisco', 'Nearest city to Las Vegas from predefined set should be San Francisco');
+		equal(near1.distance, 670193.9091223773, 'Distance should be 670193.9091223773');
+		equal(near1.latitude, 37.774514, 'Latitude should be 37.774514');
+		equal(near1.longitude, -122.418079, 'Latitude should be -122.418079');
+
+	});
+
+	test("Testing with haversine: getPathLength()", function() {
+
+		var pathLength = geolib.getPathLength(polygon);
+		equal(pathLength, 3372.8551987674737, 'Path length should be 3372.8551987674737');
 
 	});
