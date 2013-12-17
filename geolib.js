@@ -20,7 +20,7 @@
 	}
 
 	var geolib = {
-		distanceFormula: 'vincenty',
+		distanceFormula: 'haversine',
 
 		decimal: {},
 
