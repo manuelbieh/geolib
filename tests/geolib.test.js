@@ -45,13 +45,15 @@
 
 	test("Testing distance calculation: getDistance()", function() {
 
-		expect(2);
+		expect(3);
 
 		var distance1 = geolib.getDistance({latitude: 52.518611, longitude: 13.408056}, {latitude: 51.519475, longitude: 7.46694444});
-		var distance2 = geolib.getDistance({latitude: 37.774514, longitude: -122.418079}, {latitude: 51.519475, longitude: 7.46694444});
+		var distance2 = geolib.getDistance({latitude: 52.518611, longitude: 13.408056}, {latitude: 51.519475, longitude: 7.46694444}, 100);
+		var distance3 = geolib.getDistance({latitude: 37.774514, longitude: -122.418079}, {latitude: 51.519475, longitude: 7.46694444});
 
 		equal(distance1, 422592, "Distance 1 should be 422592" );
-		equal(distance2, 8980260, "Distance 2 should be 8980260" );
+		equal(distance2, 422600, "Distance 2 should be 422600" );
+		equal(distance3, 8980260, "Distance 2 should be 8980260" );
 
 	});
 
