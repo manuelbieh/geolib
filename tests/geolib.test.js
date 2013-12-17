@@ -45,15 +45,13 @@
 
 	test("Testing distance calculation: getDistance()", function() {
 
-		expect(3);
+		expect(2);
 
 		var distance1 = geolib.getDistance({latitude: 52.518611, longitude: 13.408056}, {latitude: 51.519475, longitude: 7.46694444});
-		var distance2 = geolib.getDistance({latitude: 52.518611, longitude: 13.408056}, {latitude: 51.519475, longitude: 7.46694444}, 100);
-		var distance3 = geolib.getDistance({latitude: 37.774514, longitude: -122.418079}, {latitude: 51.519475, longitude: 7.46694444});
+		var distance2 = geolib.getDistance({latitude: 37.774514, longitude: -122.418079}, {latitude: 51.519475, longitude: 7.46694444});
 
-		equal(distance1, 422592, "Distance 1 should be 422592" );
-		equal(distance2, 422600, "Distance 2 should be 422600" );
-		equal(distance3, 8980260, "Distance 3 should be 8980260" );
+		equal(distance1, 421786.46369862865, "Distance 1 should be 421786.46369862865" );
+		equal(distance2, 8967171.799418665, "Distance 2 should be 8967171.799418665" );
 
 	});
 
@@ -115,8 +113,8 @@
         throw err;
       }
       latsLngsElevs = results;
-      equal(latsLngsElevs[0].elev, 297.8508605957031, "1st elev should be 297.8508605957031");
-      equal(latsLngsElevs[1].elev, 281.1884155273438, "2nd elev should be 281.1884155273438");
+      equal(latsLngsElevs[0].elev, 299.4249877929688, "1st elev should be 299.4249877929688");
+      equal(latsLngsElevs[1].elev, 280.3750305175781, "2nd elev should be 280.3750305175781");
       done();
     });
 
@@ -140,10 +138,10 @@
                   {"lat":40.76481,"lng":-111.76778999999999,"elev":1660.49609375}];
 
     var grade = geolib.getGrade(coords1, 1);
-		equal(grade, 51.4, "grade should be 51.4");
+		equal(grade, 59.6, "grade should be 59.6");
 
     grade = geolib.getGrade(coords2, 0);
-		equal(grade, -32, "grade should be -32");
+		equal(grade, -34, "grade should be -34");
   });
 
 	test("Testing elevation gain and loss: getTotalElevationGainAndLoss()", function() {
@@ -216,7 +214,7 @@
 		var near1 = geolib.findNearest({latitude: 36.1168, longitude: -115.173798}, cities);
 
 		equal(near1.key, 'San Francisco', 'Nearest city to Las Vegas from predefined set should be San Francisco');
-		equal(near1.distance, 670788, 'Distance should be 670788');
+		equal(near1.distance, 670193.9091223775, 'Distance should be 670193.9091223775');
 		equal(near1.latitude, 37.774514, 'Latitude should be 37.774514');
 		equal(near1.longitude, -122.418079, 'Latitude should be -122.418079');
 
@@ -225,7 +223,7 @@
 	test("Testing: getPathLength()", function() {
 
 		var pathLength = geolib.getPathLength(polygon);
-		equal(pathLength, 3377, 'Path length should be 3377');
+		equal(pathLength, 3372.855198767473, 'Path length should be 3372.855198767473');
 
 	});
 
