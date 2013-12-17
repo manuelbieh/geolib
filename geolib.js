@@ -63,10 +63,6 @@
 		*/
 
 		getDistance: function(start, end) {
-			function deg2Rad(deg) {
-				return deg * (Math.PI / 180);
-			}
-
 			var keys = geolib.getKeys(start);
 			var latitude = keys.latitude;
 			var longitude = keys.longitude;
@@ -80,10 +76,10 @@
 			coord2[longitude] = geolib.useDecimal(end[longitude]);
 
 			var R = 6378137 // Radius of earth in meters
-			var dLat = deg2Rad(coord2[latitude] - coord1[latitude]);
-			var dLng = deg2Rad(coord2[longitude] - coord1[longitude]);
+			var dLat = (coord2[latitude] - coord1[latitude]).toRad()
+			var dLng = (coord2[longitude] - coord1[longitude]).toRad()
 			var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-			        Math.cos(deg2Rad(coord1[latitude])) * Math.cos(deg2Rad(coord2[latitude])) *
+			        Math.cos((coord1[latitude]).toRad()) * Math.cos((coord2[latitude].toRad())) *
 			        Math.sin(dLng/2) * Math.sin(dLng/2);
 			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
 			var d = R * c; // Distance in meters
