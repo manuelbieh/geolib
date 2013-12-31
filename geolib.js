@@ -16,10 +16,11 @@
 	var googleClientId;
 	var googlePrivateKey;
 	if (typeof window.navigator === 'undefined') {
-    var gm = require('googlemaps');
-  }
+		var gm = require('googlemaps');
+	}
 
 	var geolib = {
+		distanceFormula: 'haversine',
 
 		decimal: {},
 
@@ -53,6 +54,37 @@
 			};
 		},
 
+		setDistanceFormula: function(formula) {
+			formula = formula ? formula.toLowerCase() : 'vincenty';
+			geolib.distanceFormula = formula;
+		},
+
+		/**
+		* Calculates geodetic distance between two points specified by latitude/longitude using 
+		* haversine by default, but can be changed in config
+		*
+		* @param    object    Start position {latitude: 123, longitude: 123}
+		* @param    object    End position {latitude: 123, longitude: 123}
+		* @param    integer   Accuracy (in meters)
+		* @return   float     Distance (in meters)
+		*/
+
+		getDistance: function(start, end, accuracy) {
+			switch (geolib.distanceFormula) {
+				case 'haversine':
+					return geolib.getDistanceHaversine(start, end, accuracy);
+					break;
+				case 'simple':
+					return geolib.getDistanceSimple(start, end, accuracy);
+					break;
+				case 'vincenty':
+				default:
+					return geolib.getDistanceVincenty(start, end, accuracy);
+					break;
+			}
+		},
+
+
 		/**
 		* Calculates geodetic distance between two points specified by latitude/longitude using 
 		* Vincenty inverse formula for ellipsoids
@@ -65,7 +97,7 @@
 		* @return   integer   Distance (in meters)
 		*/
 
-		getDistance: function(start, end, accuracy) {
+		getDistanceVincenty: function(start, end, accuracy) {
 
 			var keys = geolib.getKeys(start);
 			var latitude = keys.latitude;
@@ -207,6 +239,41 @@
 			return { distance: s, initialBearing: fwdAz.toDeg(), finalBearing: revAz.toDeg() };
 			*/
 
+		},
+
+		/**
+		* Calculates geodetic distance between two points specified by latitude/longitude using 
+		* haversine equation
+		*
+		* @param    object    Start position {latitude: 123, longitude: 123}
+		* @param    object    End position {latitude: 123, longitude: 123}
+		* @return   float     Distance (in meters)
+		*/
+
+		getDistanceHaversine: function(start, end, accuracy) {
+			var keys = geolib.getKeys(start);
+			var latitude = keys.latitude;
+			var longitude = keys.longitude;
+			var elevation = keys.elevation;
+
+			var coord1 = {}, coord2 = {};
+			coord1[latitude] = geolib.useDecimal(start[latitude]);
+			coord1[longitude] = geolib.useDecimal(start[longitude]);
+
+			coord2[latitude] = geolib.useDecimal(end[latitude]);
+			coord2[longitude] = geolib.useDecimal(end[longitude]);
+
+			accuracy = accuracy || 0.00000001;
+
+			var R = 6378137 // Radius of earth in meters
+			var dLat = (coord2[latitude] - coord1[latitude]).toRad()
+			var dLng = (coord2[longitude] - coord1[longitude]).toRad()
+			var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+			        Math.cos((coord1[latitude]).toRad()) * Math.cos((coord2[latitude].toRad())) *
+			        Math.sin(dLng/2) * Math.sin(dLng/2);
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+			var d = R * c; // Distance in meters
+			return geolib.distance = Math.round(d/accuracy)*accuracy;
 		},
 
 
@@ -637,8 +704,8 @@
 		 *  @return     Array [{lat:#lat, lng:#lng, elev:#elev},....]}
 		 */
 		setBusinessSpecificParameters: function(clientId, privateKey){
-      gm.config('google-client-id', clientId);
-      gm.config('google-private-key', privateKey);
+			gm.config('google-client-id', clientId);
+			gm.config('google-private-key', privateKey);
 		},
 
 		/**
