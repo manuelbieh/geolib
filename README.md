@@ -154,7 +154,7 @@ geolib.findNearest(spots['Dortmund U-Tower'], spots, 1)
 
 Calculates the length of a collection of coordinates
 
-Returns the length of the path in kilometers
+Returns the length of the path in meters
 
 <h4>Example</h4>
 
