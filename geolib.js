@@ -11,7 +11,7 @@
 (function (global, undefined) {
 
 	var radius = 6378137; // Earth radius
-	var sexagesimalPattern = /^([0-9]{1,3})°\s*([0-9]{1,3})'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/;
+	var sexagesimalPattern = /^([0-9]{1,3})°\s*([0-9]{1,3}(?:\.(?:[0-9]{1,2}))?)'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/;
 	var MIN_LAT = -90;
 	var MAX_LAT = 90;
 	var MIN_LON = -180;

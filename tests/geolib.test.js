@@ -192,7 +192,7 @@
 
 	test("Testing conversion: sexagesimal2decimal()", function() {
 
-		expect(7);
+		expect(8);
 
 		var dec1 = geolib.useDecimal("51° 31' 10.11\" N");
 		var dec2 = geolib.useDecimal("7° 28' 01\" E");
@@ -201,7 +201,8 @@
 		var dec5 = geolib.useDecimal("71°3'W");
 		var dec6 = geolib.useDecimal("51.519470");
 		var dec7 = geolib.useDecimal("-122.418079");
-
+		var dec8 = geolib.useDecimal("51° 31.52' 10.11\" N");
+		
 		equal(dec1, 51.519475, "Decimal value should be 51.519475" );
 		equal(dec2, 7.46694444, "Decimal value should be 7.46694444" );
 		equal(dec3, -19.37555556, "Decimal value should be -19.37555556" );
@@ -209,7 +210,7 @@
 		equal(dec5, -71.05, "Decimal value should be -71.05" );
 		equal(dec6, 51.51947, "Decimal value should be 51.51947" );
 		equal(dec7, -122.418079, "Decimal value should be -122.418079" );
-
+		equal(dec8, 51.52814167, "Decimal value should be 51.52814167");
 	});
 
 	test("Testing conversion: decimal2sexagesimal()", function() {
@@ -290,7 +291,9 @@
 		ok(geolib.isSexagesimal('51° 31\' 12"'), '51° 31\' 12"');
 		ok(geolib.isSexagesimal('51° 31\' 12.27"'), '51° 31\' 12.27"');
 		ok(geolib.isSexagesimal('51° 31\' 12.27" N'), '51° 31\' 12.27" N');
+		ok(geolib.isSexagesimal('51° 31.34\' 12.27" N'), '51° 31.34\' 12.27" N');
 		ok(geolib.isSexagesimal('51° 31\' N'), '51° 31\' N');
+
 		//ok(geolib.isSexagesimal('51° N'), '51°'); // coming soon
 
 	});
