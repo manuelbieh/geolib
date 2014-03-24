@@ -801,7 +801,7 @@
 			} else if(geolib.isSexagesimal(value) === true) {
 				return parseFloat(geolib.sexagesimal2decimal(value));
 			} else {
-				throw 'Unknown format.';
+				throw new Error('Unknown format.');
 			}
 
 		},
