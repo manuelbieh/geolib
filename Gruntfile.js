@@ -63,6 +63,14 @@ module.exports = function(grunt) {
 				from: '/* %ELEVATION% */',
 				to: fs.readFileSync('src/geolib.elevation.js', 'utf-8')
 			}]
+		},
+		version: {
+			src: 'geolib.js',
+			dest: 'geolib.js',
+			replacements: [{
+				from: '$version$',
+				to: '<%= pkg.version %>'
+			}]
 		}
 	},
     uglify: {
