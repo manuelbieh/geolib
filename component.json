@@ -29,8 +29,8 @@
   },
   "licenses": [
     {
-      "type": "LGPL",
-      "url": "http://www.gnu.org/licenses/lgpl-3.0.txt"
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
     }
   ],
   "files": [

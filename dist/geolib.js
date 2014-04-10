@@ -6,7 +6,7 @@
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
 * @version 2.0.0+beta-1
-* @license LGPL 
+* @license MIT 
 **/"use strict";
 
 ;(function(global, undefined) {
