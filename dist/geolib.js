@@ -1,72 +1,139 @@
-/*! geolib 1.3.5 by Manuel Bieh
-* A growing library to provide some basic geo functions like distance calculation,
+/*! geolib 2.0.0+beta-1 by Manuel Bieh
+* Library to provide geo functions like distance calculation,
 * conversion of decimal coordinates to sexagesimal and vice versa, etc.
 * WGS 84 (World Geodetic System 1984)
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 1.3.5
+* @version 2.0.0+beta-1
 * @license LGPL 
-**//*global console:true geolib:true require:true module:true window:true global:true define:true*/
-(function (global, undefined) {
+**/"use strict";
 
-	var radius = 6378137; // Earth radius
-	var sexagesimalPattern = /^([0-9]{1,3})°\s*([0-9]{1,3}(?:\.(?:[0-9]{1,2}))?)'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/;
-	var MIN_LAT = -90;
-	var MAX_LAT = 90;
-	var MIN_LON = -180;
-	var MAX_LON = 180;
+;(function(global, undefined) {
 
-	var geolib = {
+	function Geolib() {}
 
-		version: '1.3.5',
+	// Setting readonly defaults
+	var geolib = Object.create(Geolib.prototype, {
+		version: {
+			value: "2.0.0+beta-1"
+		},
+		radius: {
+			value: 6378137
+		},
+		sexagesimalPattern: {
+			value: /^([0-9]{1,3})°\s*([0-9]{1,3}(?:\.(?:[0-9]{1,2}))?)'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/
+		},
+		measures: {
+			value: Object.create(Object.prototype, {
+				"m" : {value: 1},
+				"km": {value: 0.001},
+				"cm": {value: 100},
+				"mm": {value: 1000},
+				"mi": {value: (1 / 1609.344)},
+				"sm": {value: (1 / 1852.216)},
+				"ft": {value: (100 / 30.48)},
+				"in": {value: (100 / 2.54)},
+				"yd": {value: (1 / 0.9144)}
+			})
+		},
+		prototype: {
+			value: Geolib.prototype
+		},
+		extend: {
+			value: function(methods, overwrite) {
+				for(var prop in methods) {
+					if(typeof geolib.prototype[prop] === 'undefined' || overwrite === true) {
+						geolib.prototype[prop] = methods[prop];
+					}
+				}
+			}
+		}
+	});
+
+	if (typeof(Number.prototype.toRad) === "undefined") {
+		Number.prototype.toRad = function() {
+			return this * Math.PI / 180;
+		};
+	}
+
+	if (typeof(Number.prototype.toDeg) === "undefined") {
+		Number.prototype.toDeg = function() {
+			return this * 180 / Math.PI;
+		};
+	}
+
+	// Here comes the magic
+	geolib.extend({
+
 		decimal: {},
 
 		sexagesimal: {},
 
-		distance: 0,
+		distance: null,
 
-		measures: {
-			m: 1,
-			km: 0.001,
-			cm: 100,
-			mm: 1000,
-			mi: (1 / 1609.344),
-			sm: (1 / 1852.216),
-			ft: (100 / 30.48),
-			"in": (100 / 2.54),
-			yd: (1 / 0.9144)
-		},
-
-		/**
-		* Get the key names for a geo point.
-		*
-		* @param	object	Point position {latitude: 123, longitude: 123, elevation: 123}
-		* @return	object	{
-		*						longitude: 'lng|long|longitude',
-		*						latitude: 'lat|latitude',
-		*						elevation: 'alt|altitude|elev|elevation' 
-		*					}
-		*/
 		getKeys: function(point) {
 
-			var latitude = point.hasOwnProperty('lat') ? 'lat' : 'latitude';
+			if(Object.prototype.toString.call(point) == '[object Array]') {
 
-			var longitude = (point.hasOwnProperty('lng') ? 'lng' : false) ||
-							(point.hasOwnProperty('long') ? 'long' : false) ||
-							'longitude';
+				return {
+					latitude: point.length >= 1 ? 1 : undefined,
+					longitude: point.length >= 2 ? 1 : undefined,
+					elevation: point.length >= 3 ? 2 : undefined
+				}
 
-			var elevation = (point.hasOwnProperty('alt') ? 'alt' : false) ||
-							(point.hasOwnProperty('altitude') ? 'altitude' : false) ||
-							(point.hasOwnProperty('elev') ? 'elev' : false) ||
-							'elevation';
+			}
+
+			var getKey = function(possibleValues) {
+
+				var key;
+				possibleValues.every(function(val) {
+					return point.hasOwnProperty(val) ? (function() { key = val; return false; }()) : true;
+				});
+
+				return key;
+
+			}
 
 			return {
-				latitude: latitude,
-				longitude: longitude,
-				elevation: elevation
+				latitude: getKey(['lat', 'latitude']),
+				longitude: getKey(['lng', 'lon', 'longitude']),
+				elevation: getKey(['alt', 'altitude', 'elevation', 'elev'])
 			};
 
+		},
+
+		// returns latitude of a given point, converted to decimal
+		// set raw to true to avoid converting
+		getLat: function(point, raw) {
+			return raw === true ? point[this.getKeys(point).latitude] : this.useDecimal(point[this.getKeys(point).latitude]);
+		},
+		// Alias for getLat
+		latitude: function(point) {
+			return this.getLat.call(this, point);
+		},
+		// returns longitude of a given point, converted to decimal
+		// set raw to true to avoid converting
+		getLon: function(point, raw) {
+			return raw === true ? point[this.getKeys(point).longitude] : this.useDecimal(point[this.getKeys(point).longitude]);
+		},
+		// Alias for getLon
+		longitude: function(point) {
+			return this.getLon.call(this, point);
+		},
+		getElev: function(point) {
+			return point[this.getKeys(point).elevation];
+		},
+		// Alias for getLon
+		elevation: function(point) {
+			return this.getElev.call(this, point);
+		},
+		coords: function(point, raw) {
+			return {
+				latitude: raw === true ? point[this.getKeys(point).latitude] : this.useDecimal(point[this.getKeys(point).latitude]),
+				longitude: raw === true ? point[this.getKeys(point).longitude] : this.useDecimal(point[this.getKeys(point).longitude]),
+				elevation: this.useDecimal(point[this.getKeys(point).elevation])
+			}
 		},
 
 		/**
@@ -80,7 +147,6 @@
 		* @param    integer   Accuracy (in meters)
 		* @return   integer   Distance (in meters)
 		*/
-
 		getDistance: function(start, end, accuracy) {
 
 			var keys = geolib.getKeys(start);
@@ -90,20 +156,23 @@
 
 			accuracy = Math.floor(accuracy) || 1;
 
-			var coord1 = {}, coord2 = {};
-			coord1[latitude] = geolib.useDecimal(start[latitude]);
-			coord1[longitude] = geolib.useDecimal(start[longitude]);
+			var s = {
+				latitude: this.latitude(start),
+				longitude: this.longitude(start),
+			};
 
-			coord2[latitude] = geolib.useDecimal(end[latitude]);
-			coord2[longitude] = geolib.useDecimal(end[longitude]);
+			var e = {
+				latitude: this.latitude(end),
+				longitude: this.longitude(end),
+			};
 
 			var a = 6378137, b = 6356752.314245,  f = 1/298.257223563;  // WGS-84 ellipsoid params
-			var L = (coord2[longitude]-coord1[longitude]).toRad();
+			var L = (e['longitude']-s['longitude']).toRad();
 
 			var cosSigma, sigma, sinAlpha, cosSqAlpha, cos2SigmaM, sinSigma;
 
-			var U1 = Math.atan((1-f) * Math.tan(parseFloat(coord1[latitude]).toRad()));
-			var U2 = Math.atan((1-f) * Math.tan(parseFloat(coord2[latitude]).toRad()));
+			var U1 = Math.atan((1-f) * Math.tan(parseFloat(s['latitude']).toRad()));
+			var U2 = Math.atan((1-f) * Math.tan(parseFloat(e['latitude']).toRad()));
 			var sinU1 = Math.sin(U1), cosU1 = Math.cos(U1);
 			var sinU2 = Math.sin(U2), cosU2 = Math.cos(U2);
 
@@ -208,12 +277,15 @@
 
 			distance = distance.toFixed(3); // round to 1mm precision
 
-			if (start.hasOwnProperty(elevation) && end.hasOwnProperty(elevation)) {
-				var climb = Math.abs(start[elevation] - end[elevation]);
-				distance = Math.sqrt(distance*distance + climb*climb);
+			//if (start.hasOwnProperty(elevation) && end.hasOwnProperty(elevation)) {
+			if (typeof this.elevation(start) !== 'undefined' && typeof this.elevation(end) !== 'undefined') {
+				var climb = Math.abs(this.elevation(start) - this.elevation(end));
+				distance = Math.sqrt(distance * distance + climb * climb);
 			}
 
-			return geolib.distance = Math.floor(Math.round(distance/accuracy)*accuracy);
+			return this.distance = Math.floor(
+				Math.round(distance / accuracy) * accuracy
+			);
 
 			/*
 			// note: to return initial/final bearings in addition to distance, use something like:
@@ -228,7 +300,7 @@
 
 		/**
 		* Calculates the distance between two spots. 
-		* This method is more simple but also more inaccurate
+		* This method is more simple but also far more inaccurate
 		*
 		* @param    object    Start position {latitude: 123, longitude: 123}
 		* @param    object    End position {latitude: 123, longitude: 123}
@@ -237,38 +309,27 @@
 		*/
 		getDistanceSimple: function(start, end, accuracy) {
 
-			var keys = geolib.getKeys(start);
-			var latitude = keys.latitude;
-			var longitude = keys.longitude;
-
 			accuracy = Math.floor(accuracy) || 1;
-
-			var coord1 = {}, coord2 = {};
-			coord1[latitude] = parseFloat(geolib.useDecimal(start[latitude])).toRad();
-			coord1[longitude] = parseFloat(geolib.useDecimal(start[longitude])).toRad();
-
-			coord2[latitude] = parseFloat(geolib.useDecimal(end[latitude])).toRad();
-			coord2[longitude] = parseFloat(geolib.useDecimal(end[longitude])).toRad();
 
 			var distance = 
 				Math.round(
 					Math.acos(
 						Math.sin(
-							coord2[latitude]
+							this.latitude(end).toRad()
 						) * 
 						Math.sin(
-							coord1[latitude]
+							this.latitude(start).toRad()
 						) + 
 						Math.cos(
-							coord2[latitude]
+							this.latitude(end).toRad()
 						) * 
 						Math.cos(
-							coord1[latitude]
+							this.latitude(start).toRad()
 						) * 
 						Math.cos(
-							coord1[longitude] - coord2[longitude]
+							this.longitude(start).toRad() - this.longitude(end).toRad()
 						) 
-					) * radius
+					) * this.radius
 				);
 
 			return geolib.distance = Math.floor(Math.round(distance/accuracy)*accuracy);
@@ -288,10 +349,6 @@
 				return false;
 			}
 
-			var keys = geolib.getKeys(coords[0]);
-			var latitude = keys.latitude;
-			var longitude = keys.longitude;
-
 			var max = function( array ){
 				return Math.max.apply( Math, array );
 			};
@@ -300,27 +357,46 @@
 				return Math.min.apply( Math, array );
 			};
 
-			var	lat, lng, splitCoords = {lat: [], lng: []};
+			var	latitude;
+			var longitude;
+			var splitCoords = {latitude: [], longitude: []};
 
 			for(var coord in coords) {
-				splitCoords.lat.push(geolib.useDecimal(coords[coord][latitude]));
-				splitCoords.lng.push(geolib.useDecimal(coords[coord][longitude]));
+
+				splitCoords.latitude.push(
+					this.useDecimal(
+						this.latitude(coords[coord])
+					)
+				);
+
+				splitCoords.longitude.push(
+					this.useDecimal(
+						this.longitude(coords[coord])
+					)
+				);
+
 			}
 
-			var minLat = min(splitCoords.lat);
-			var minLng = min(splitCoords.lng);
-			var maxLat = max(splitCoords.lat);
-			var maxLng = max(splitCoords.lng);
+			var minLat = min(splitCoords.latitude);
+			var minLng = min(splitCoords.longitude);
+			var maxLat = max(splitCoords.latitude);
+			var maxLng = max(splitCoords.longitude);
 
-			lat = ((minLat + maxLat)/2).toFixed(6);
-			lng = ((minLng + maxLng)/2).toFixed(6);
+			latitude = ((minLat + maxLat)/2).toFixed(6);
+			longitude = ((minLng + maxLng)/2).toFixed(6);
 
 			// distance from the deepest left to the highest right point (diagonal distance)
-			var distance = geolib.convertUnit('km', geolib.getDistance({lat:minLat, lng:minLng}, {lat:maxLat, lng:maxLng}));
+			var distance = this.convertUnit('km', this.getDistance({latitude: minLat, longitude: minLng}, {latitude: maxLat, longitude: maxLng}));
 
-			return {"latitude": lat, "longitude": lng, "distance": distance};
+			return {
+				latitude: latitude, 
+				longitude: longitude, 
+				distance: distance
+			};
 
 		},
+
+
 
 		/**
 		* Gets the max and min, latitude, longitude, and elevation (if provided).
@@ -369,6 +445,7 @@
 			return stats;
 		},
 
+
 		/**
 		* Computes the bounding coordinates of all points on the surface
 		* of the earth less than or equal to the specified great circle
@@ -379,22 +456,34 @@
 		* @return array Collection of two points defining the SW and NE corners.
 		*/
 		getBoundsOfDistance: function(point, distance) {
-			var keys = geolib.getKeys(point);
-			var latitude = keys.latitude;
-			var longitude = keys.longitude;
-			var coord = {};
-			coord[latitude] = geolib.useDecimal(point[latitude]);
-			coord[longitude] = geolib.useDecimal(point[longitude]);
-			var radLat = coord[latitude].toRad();
-			var radLon = coord[longitude].toRad();
-			var radDist = distance / radius;
+
+			var MIN_LAT = -90;
+			var MAX_LAT = 90;
+			var MIN_LON = -180;
+			var MAX_LON = 180;
+
+			var latitude = this.useDecimal(
+				this.latitude(point)
+			);
+			var longitude = this.useDecimal(
+				this.longitude(point)
+			);
+
+			var radLat = latitude.toRad();
+			var radLon = longitude.toRad();
+
+			var radDist = distance / this.radius;
 			var minLat = radLat - radDist;
 			var maxLat = radLat + radDist;
+
 			var MAX_LAT_RAD = MAX_LAT.toRad();
 			var MIN_LAT_RAD = MIN_LAT.toRad();
 			var MAX_LON_RAD = MAX_LON.toRad();
 			var MIN_LON_RAD = MIN_LON.toRad();
-			var minLon, maxLon;
+
+			var minLon;
+			var maxLon;
+
 			if (minLat > MIN_LAT_RAD && maxLat < MAX_LAT_RAD) {
 				var deltaLon = Math.asin(Math.sin(radDist) / Math.cos(radLat));
 				minLon = radLon - deltaLon;
@@ -415,11 +504,19 @@
 
 			return [
 				// Southwest
-				{"latitude": minLat.toDeg(), "longitude": minLon.toDeg()},
+				{
+					latitude: minLat.toDeg(), 
+					longitude: minLon.toDeg()
+				},
 				// Northeast
-				{"latitude": maxLat.toDeg(), "longitude": maxLon.toDeg()}
+				{
+					latitude: maxLat.toDeg(), 
+					longitude: maxLon.toDeg()
+				}
 			];
+
 		},
+
 
 		/**
 		* Checks whether a point is inside of a polygon or not.
@@ -431,22 +528,18 @@
 		*/
 		isPointInside: function(latlng, coords) {
 
-			var keys = geolib.getKeys(latlng);
-			var latitude = keys.latitude;
-			var longitude = keys.longitude;
-
 			for(var c = false, i = -1, l = coords.length, j = l - 1; ++i < l; j = i) {
 
 				if(
 					(
-						(coords[i][longitude] <= latlng[longitude] && latlng[longitude] < coords[j][longitude]) ||
-						(coords[j][longitude] <= latlng[longitude] && latlng[longitude] < coords[i][longitude])
+						(this.longitude(coords[i]) <= this.longitude(latlng) && this.longitude(latlng) < this.longitude(coords[j])) ||
+						(this.longitude(coords[j]) <= this.longitude(latlng) && this.longitude(latlng) < this.longitude(coords[i]))
 					) && 
 					(
-						latlng[latitude] < (coords[j][latitude] - coords[i][latitude]) * 
-						(latlng[longitude] - coords[i][longitude]) / 
-						(coords[j][longitude] - coords[i][longitude]) + 
-						coords[i][latitude]
+						this.latitude(latlng) < (this.latitude(coords[j]) - this.latitude(coords[i])) * 
+						(this.longitude(latlng) - this.longitude(coords[i])) / 
+						(this.longitude(coords[j]) - this.longitude(coords[i])) + 
+						this.latitude(coords[i])
 					)
 				) {
 					c = !c;
@@ -458,11 +551,12 @@
 
 		},
 
+
 		/**
 		* Shortcut for geolib.isPointInside()
 		*/
 		isInside: function() {
-			return geolib.isPointInside.apply(geolib, arguments);
+			return this.isPointInside.apply(this, arguments);
 		},
 
 
@@ -472,19 +566,18 @@
 		* @param		object		coordinate to check (e.g. {latitude: 51.5023, longitude: 7.3815})
 		* @param		object		coordinate of the circle's center (e.g. {latitude: 51.4812, longitude: 7.4025})
 		* @param		integer		maximum radius in meters 
-		* @return		bool		true if the coordinate is inside the given radius
+		* @return		bool		true if the coordinate is within the given radius
 		*/
 		isPointInCircle: function(latlng, center, radius) {
-
-			return geolib.getDistance(latlng, center) < radius;
-
+			return this.getDistance(latlng, center) < radius;
 		},
+
 
 		/**
 		* Shortcut for geolib.isPointInCircle()
 		*/
 		withinRadius: function() {
-			return geolib.isPointInCircle.apply(geolib, arguments);
+			return this.isPointInCircle.apply(this, arguments);
 		},
 
 
@@ -503,15 +596,18 @@
 		*/
 		getRhumbLineBearing: function(originLL, destLL) {
 
-			var keys = geolib.getKeys(originLL);
-			var latitude = keys.latitude;
-			var longitude = keys.longitude;
-
 			// difference of longitude coords
-			var diffLon = geolib.useDecimal(destLL[longitude]).toRad() - geolib.useDecimal(originLL[longitude]).toRad();
+			var diffLon = this.useDecimal(this.longitude(destLL)).toRad() - this.useDecimal(this.longitude(originLL)).toRad();
 
 			// difference latitude coords phi
-			var diffPhi = Math.log(Math.tan(geolib.useDecimal(destLL[latitude]).toRad() / 2 + Math.PI / 4) / Math.tan(geolib.useDecimal(originLL[latitude]).toRad() / 2 + Math.PI / 4));
+			var diffPhi = Math.log(
+				Math.tan(
+					this.useDecimal(this.latitude(destLL)).toRad() / 2 + Math.PI / 4
+				) / 
+				Math.tan(
+					this.useDecimal(this.latitude(originLL)).toRad() / 2 + Math.PI / 4
+				)
+			);
 
 			// recalculate diffLon if it is greater than pi
 			if(Math.abs(diffLon) > Math.PI) {
@@ -538,39 +634,35 @@
 		*/
 		getBearing: function(originLL, destLL) {
 
-			var keys = geolib.getKeys(originLL);
-			var latitude = keys.latitude;
-			var longitude = keys.longitude;
-
-			destLL[latitude] = geolib.useDecimal(destLL[latitude]);
-			destLL[longitude] = geolib.useDecimal(destLL[longitude]);
-			originLL[latitude] = geolib.useDecimal(originLL[latitude]);
-			originLL[longitude] = geolib.useDecimal(originLL[longitude]);
+			destLL['latitude'] = this.latitude(destLL);
+			destLL['longitude'] = this.longitude(destLL);
+			originLL['latitude'] = this.latitude(originLL);
+			originLL['longitude'] = this.longitude(originLL);
 
 			var bearing = (
 				(
 					Math.atan2(
 						Math.sin(
-							destLL[longitude].toRad() - 
-							originLL[longitude].toRad()
+							destLL['longitude'].toRad() - 
+							originLL['longitude'].toRad()
 						) * 
 						Math.cos(
-							destLL[latitude].toRad()
+							destLL['latitude'].toRad()
 						), 
 						Math.cos(
-							originLL[latitude].toRad()
+							originLL['latitude'].toRad()
 						) * 
 						Math.sin(
-							destLL[latitude].toRad()
+							destLL['latitude'].toRad()
 						) - 
 						Math.sin(
-							originLL[latitude].toRad()
+							originLL['latitude'].toRad()
 						) * 
 						Math.cos(
-							destLL[latitude].toRad()
+							destLL['latitude'].toRad()
 						) * 
 						Math.cos(
-							destLL[longitude].toRad() - originLL[longitude].toRad()
+							destLL['longitude'].toRad() - originLL['longitude'].toRad()
 						)
 					)
 				).toDeg() + 360
@@ -591,11 +683,15 @@
 		*/
 		getCompassDirection: function(originLL, destLL, bearingMode) {
 
-			var direction, bearing;
-			if(bearingMode == 'circle') { // use great circle bearing
-				bearing = geolib.getBearing(originLL, destLL);
-			} else { // default is rhumb line bearing
-				bearing = geolib.getRhumbLineBearing(originLL, destLL);
+			var direction;
+			var bearing;
+
+			// use great circle bearing
+			if(bearingMode == 'circle') { 
+				bearing = this.getBearing(originLL, destLL);
+			// default is rhumb line bearing
+			} else { 
+				bearing = this.getRhumbLineBearing(originLL, destLL);
 			}
 
 			switch(Math.round(bearing/22.5)) {
@@ -642,7 +738,7 @@
 					direction = {exact: "NW", rough: "W"};
 					break;
 				case 15:
-					direction = {exact: "NNW", rough: "N"};
+					direction = {exact: "NNW", rough: "N"}; 
 					break;
 				default:
 					direction = {exact: "N", rough: "N"};
@@ -653,12 +749,14 @@
 
 		},
 
+
 		/**
 		* Shortcut for getCompassDirection
 		*/
 		getDirection: function(originLL, destLL, bearingMode) {
-			return geolib.getCompassDirection.apply(geolib, arguments);
+			return this.getCompassDirection.apply(this, arguments);
 		},
+
 
 		/**
 		* Sorts an array of coords by distance from a reference coordinate
@@ -669,19 +767,19 @@
 		*/
 		orderByDistance: function(latlng, coords) {
 
-			var keys = geolib.getKeys(latlng);
-			var latitude = keys.latitude;
-			var longitude = keys.longitude;
-
 			var coordsArray = [];
 			for(var coord in coords) {
-				var d = geolib.getDistance(latlng, coords[coord]);
+
+				var d = this.getDistance(latlng, coords[coord]);
 				coordsArray.push({
-					key: coord, latitude: coords[coord][latitude], 
-					longitude: coords[coord][longitude], distance: d
+					key: coord, 
+					latitude: this.latitude(coords[coord]), 
+					longitude: this.longitude(coords[coord]), 
+					distance: d
 				});
+
 			}
-			
+
 			return coordsArray.sort(function(a, b) { return a.distance - b.distance; });
 
 		},
@@ -697,7 +795,7 @@
 		findNearest: function(latlng, coords, offset) {
 
 			offset = offset || 0;
-			var ordered = geolib.orderByDistance(latlng, coords);
+			var ordered = this.orderByDistance(latlng, coords);
 			return ordered[offset];
 
 		},
@@ -711,10 +809,13 @@
 		*/
 		getPathLength: function(coords) {
 
-			var dist = 0, last;
+			var dist = 0;
+			var last;
+
 			for (var i = 0, l = coords.length; i < l; ++i) {
 				if(last) {
-					dist += geolib.getDistance(coords[i], last);
+					//console.log(coords[i], last, this.getDistance(coords[i], last));
+					dist += this.getDistance(coords[i], last);
 				}
 				last = coords[i];
 			}
@@ -730,7 +831,7 @@
 		* @param		object		coords with javascript timestamp {latitude: 51.5143, longitude: 7.4138, time: 1360231200880}
 		* @param		object		coords with javascript timestamp {latitude: 51.5502, longitude: 7.4323, time: 1360245600460}
 		* @param		object		options (currently "unit" is the only option. Default: km(h));
-		* @return		float		speed in *unit* per hour
+		* @return		float		speed in unit per hour
 		*/
 		getSpeed: function(start, end, options) {
 
@@ -745,7 +846,7 @@
 			var distance = geolib.getDistance(start, end);
 			var time = ((end.time*1)/1000) - ((start.time*1)/1000);
 			var mPerHr = (distance/time)*3600;
-			var speed = Math.round(mPerHr * geolib.measures[unit] * 10000)/10000;
+			var speed = Math.round(mPerHr * this.measures[unit] * 10000)/10000;
 			return speed;
 
 		},
@@ -756,18 +857,18 @@
 		*
 		* @param		string		Format to be converted in
 		* @param		float		Distance in meters
-		* @param               float           Decimal places for rounding (default: 4)
+		* @param		float		Decimal places for rounding (default: 4)
 		* @return		float		Converted distance
 		*/
 		convertUnit: function(unit, distance, round) {
 
-			if(distance === 0 || typeof distance == 'undefined') {
+			if(distance === 0 || typeof distance === 'undefined') {
 
-				if(geolib.distance === 0) {
+				if(this.distance === 0) {
 					// throw 'No distance given.';
 					return 0;
 				} else {
-					distance = geolib.distance;
+					distance = this.distance;
 				}
 
 			}
@@ -775,8 +876,8 @@
 			unit = unit || 'm';
 			round = (null == round ? 4 : round);
 
-			if(typeof geolib.measures[unit] !== 'undefined') {
-				return geolib.round(distance * geolib.measures[unit], round);
+			if(typeof this.measures[unit] !== 'undefined') {
+				return this.round(distance * this.measures[unit], round);
 			} else {
 				throw new Error('Unknown unit for conversion.');
 			}
@@ -799,14 +900,13 @@
 			if (!isNaN(parseFloat(value)) && parseFloat(value) == value) {
 				return parseFloat(value);
 			// checks if it's sexagesimal format (HHH° MM' SS" (NESW))
-			} else if(geolib.isSexagesimal(value) === true) {
-				return parseFloat(geolib.sexagesimal2decimal(value));
+			} else if(this.isSexagesimal(value) === true) {
+				return parseFloat(this.sexagesimal2decimal(value));
 			} else {
 				throw new Error('Unknown format.');
 			}
 
 		},
-
 
 		/**
 		* Converts a decimal coordinate value to sexagesimal format
@@ -816,8 +916,8 @@
 		*/
 		decimal2sexagesimal: function(dec) {
 
-			if (dec in geolib.sexagesimal) {
-				return geolib.sexagesimal[dec];
+			if (dec in this.sexagesimal) {
+				return this.sexagesimal[dec];
 			}
 
 			var tmp = dec.toString().split('.');
@@ -829,9 +929,9 @@
 			min = Math.floor(min);
 			sec = (('0.' + sec[1]) * 60).toFixed(2);
 
-			geolib.sexagesimal[dec] = (deg + '° ' + min + "' " + sec + '"');
+			this.sexagesimal[dec] = (deg + '° ' + min + "' " + sec + '"');
 
-			return geolib.sexagesimal[dec];
+			return this.sexagesimal[dec];
 
 		},
 
@@ -844,11 +944,11 @@
 		*/
 		sexagesimal2decimal: function(sexagesimal) {
 
-			if (sexagesimal in geolib.decimal) {
-				return geolib.decimal[sexagesimal];
+			if (sexagesimal in this.decimal) {
+				return this.decimal[sexagesimal];
 			}
 
-			var	regEx = new RegExp(sexagesimalPattern);
+			var	regEx = new RegExp(this.sexagesimalPattern);
 			var	data = regEx.exec(sexagesimal);
 			var min = 0, sec = 0;
 
@@ -861,7 +961,7 @@
 				// South and West are negative decimals
 				dec = (data[7] == 'S' || data[7] == 'W') ? dec * -1 : dec;
 
-			geolib.decimal[sexagesimal] = dec;
+			this.decimal[sexagesimal] = dec;
 
 			return dec;
 
@@ -875,9 +975,7 @@
 		* @return		bool		True if in sexagesimal format
 		*/
 		isSexagesimal: function(value) {
-
-			return sexagesimalPattern.test(value);
-
+			return this.sexagesimalPattern.test(value);
 		},
 
 		round: function(value, n) {
@@ -885,184 +983,23 @@
 			return Math.round(value * decPlace)/decPlace;
 		}
 
-	};
+	});
 
-		/* Optional elevation addon requires Googlemaps API JS */
+	// Node module
+	if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
 
-	/*global google:true geolib:true require:true module:true elevationResult*/
-	/**
-	*  @param      Array Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
-	*
-	*  @return     Array [{lat:#lat, lng:#lng, elev:#elev},....]}
-	*/
-	geolib.getElevation = function() {
-		if (typeof window.navigator !== 'undefined') {
-			geolib.getElevationClient.apply(this, arguments);
-		} else {
-			geolib.getElevationServer.apply(this, arguments);
-		}
-	};
-
-	geolib.getElevationClient = function(coords, cb) {
-
-		if (!window.google) {
-			throw new Error("Google maps api not loaded");
-		}
-
-		if (coords.length === 0) {
-			return cb(null, null);
-		}
-
-		if (coords.length === 1) {
-			return cb(new Error("getElevation requires at least 2 points."));
-		}
-
-		var path  = [];
-		var keys = geolib.getKeys(coords[0]);
-		var latitude = keys.latitude;
-		var longitude = keys.longitude;
-
-		for(var i = 0; i < coords.length; i++) {
-			path.push(new google.maps.LatLng(
-				geolib.useDecimal(coords[i][latitude]),
-				geolib.useDecimal(coords[i][longitude])
-			));
-		}
-
-		var positionalRequest = {
-			'path': path,
-			'samples': path.length
-		};
-		var elevationService = new google.maps.ElevationService();
-		elevationService.getElevationAlongPath(positionalRequest,function (results, status) {
-			geolib.elevationHandler(results, status, coords, keys, cb);
-		});
-
-	};
-
-	geolib.getElevationServer = function(coords, cb) {
-
-		if (coords.length === 0) {
-			return cb(null, null);
-		}
-
-		if (coords.length === 1) {
-			return cb(new Error("getElevation requires at least 2 points."));
-		}
-
-		var gm = require('googlemaps');
-		var path  = [];
-		var keys = geolib.getKeys(coords[0]);
-		//coords[0]
-		var latitude = keys.latitude;
-		var longitude = keys.longitude;
-
-		for(var i = 0; i < coords.length; i++) {
-			path.push(geolib.useDecimal(coords[i][latitude]) + ',' +
-			  geolib.useDecimal(coords[i][longitude]));
-		}
-
-		gm.elevationFromPath(path.join('|'), path.length, function(err, results) {
-			geolib.elevationHandler(results.results, results.status, coords, keys, cb);
-		});
-
-	},
-
-	geolib.elevationHandler = function(results, status, coords, keys, cb){
-		var latsLngsElevs = [];
-		var latitude = keys.latitude;
-		var longitude = keys.longitude;
-		if (status == "OK" ) {
-			for (var i = 0; i < results.length; i++) {
-				latsLngsElevs.push({
-					"lat":coords[i][latitude],
-					"lng":coords[i][longitude],
-					"elev":results[i].elevation
-				});
-			}
-			cb(null, latsLngsElevs);
-		} else {
-			cb(new Error("Could not get elevation using Google's API"), elevationResult.status);
-		}
-	};
-
-	/**
-	*  @param      Array [{lat:#lat, lng:#lng, elev:#elev},....]}
-	*
-	*  @return     Number % grade
-	*/
-	geolib.getGrade = function(coords){
-		var keys = geolib.getKeys(coords[0]);
-		var elevation = keys.elevation;
-		var rise = Math.abs(coords[coords.length-1][elevation] - coords[0][elevation]);
-		var run = geolib.getPathLength(coords);
-		return Math.floor((rise/run)*100);
-	};
-
-	/**
-	*  @param      Array [{lat:#lat, lng:#lng, elev:#elev},....]}
-	*
-	*  @return     Object {gain:#gain, loss:#loss}
-	*/
-	geolib.getTotalElevationGainAndLoss = function(coords){
-		var keys = geolib.getKeys(coords[0]);
-		var elevation = keys.elevation;
-		var gain = 0;
-		var loss = 0;
-		for(var i = 0; i < coords.length - 1; i++){
-			var deltaElev = coords[i][elevation] - coords[i + 1][elevation];
-			if (deltaElev > 0) {
-				loss += deltaElev;
-			} else {
-				gain += Math.abs(deltaElev);
-			}
-		}
-		return {
-			"gain": gain,
-			"loss": loss
-		};
-	};
-
-
-	if (typeof(Number.prototype.toRad) === "undefined") {
-		Number.prototype.toRad = function() {
-			return this * Math.PI / 180;
-		};
-	}
-
-	if (typeof(Number.prototype.toDeg) === "undefined") {
-		Number.prototype.toDeg = function() {
-			return this * 180 / Math.PI;
-		};
-	}
-
-/*
-	// we're in a browser
-	window.geolib = geolib;
-	if (typeof module != 'undefined') {
-		module.exports = geolib;
-	}
-*/
-
-	if (typeof module != 'undefined') {
-
-		// Node module
 		global.geolib = module.exports = geolib;
 
+	// AMD module
 	} else if (typeof define === "function" && define.amd) {
 
-		// AMD module
 		define("geolib", [], function () {
 			return geolib; 
 		});
 
-		// what's the difference to:
-		//define(function() { return geolib; });
-		// ?
-
+	// we're in a browser
 	} else {
 
-		// we're in a browser, yay
 		global.geolib = geolib;
 
 	}

@@ -1,7 +1,7 @@
-# Geolib
+# Geolib v2
 [![Build Status](https://secure.travis-ci.org/manuelbieh/Geolib.png?branch=master)](http://travis-ci.org/manuelbieh/Geolib)
 
-A small library to provide some basic geo functions like distance calculation, conversion of decimal coordinates to sexagesimal and vice versa, etc.
+Library to provide basic geospatial operations like distance calculation, conversion of decimal coordinates to sexagesimal and vice versa, etc.
 
 [View demo](http://www.manuel-bieh.de/publikationen/scripts/geolib/demo.html)
 
