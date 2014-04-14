@@ -81,7 +81,6 @@
 				possibleValues.every(function(val) {
 					// TODO: check if point is an object
 					if(typeof point != 'object') {
-						console.log(point, val);
 						return true;
 					}
 					return point.hasOwnProperty(val) ? (function() { key = val; return false; }()) : true;
