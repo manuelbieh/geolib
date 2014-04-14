@@ -1,4 +1,4 @@
-# Geolib v2
+# Geolib v2.0.0+beta1
 [![Build Status](https://secure.travis-ci.org/manuelbieh/Geolib.png?branch=master)](http://travis-ci.org/manuelbieh/Geolib)
 
 Library to provide basic geospatial operations like distance calculation, conversion of decimal coordinates to sexagesimal and vice versa, etc.
@@ -11,7 +11,7 @@ Library to provide basic geospatial operations like distance calculation, conver
 
 Calculates the distance between two geo coordinates
 
-Takes 2 or 3. First 2 arguments must be an object with a latitude and a longitude property (e.g. {latitude: 52.518611, longitude: 13.408056}). Coordinates can be in sexagesimal or decimal format. 3rd argument is accuracy (in meters). So a calculated distance of 1248 meters with an accuracy of 100 is returned as 1200.
+Takes 2 or 3 arguments. First 2 arguments must be an object with latitude and a longitude properties (e.g. `{latitude: 52.518611, longitude: 13.408056}`). Coordinates can be in sexagesimal or decimal format. 3rd argument is accuracy (in meters). So a calculated distance of 1248 meters with an accuracy of 100 is returned as `1200` (accuracy 10 = `1250` etc.).
 
 Return value is always an integer and represents the distance in meters.
 
@@ -64,6 +64,7 @@ Returns an object: `{"latitude": centerLat, "longitude": centerLng, "distance": 
 }
 
 geolib.getCenter(spots);
+
 geolib.getCenter([
 	{latitude: 52.516272, longitude: 13.377722}, 
 	{latitude: 51.515, longitude: 7.453619}, 
@@ -166,10 +167,9 @@ geolib.getPathLength([
 	{latitude: 51.503333, longitude: -0.119722} // London
 ]); // -> 945235</pre>
 
-
 <h3>geolib.getSpeed(coords, coords[, options])</h3>
 
-Calculates the speed between to points within a given time span.
+Calculates the speed between two points within a given time span.
 
 Returns the speed in <em>options.unit</em> (default is km/h).
 
@@ -181,8 +181,6 @@ geolib.getSpeed(
 	{lat: 52.54944, lng: 13.468509, time: 1360245600880},
 	{unit: 'mph'}
 ); // -> 66.9408 (mph)</pre>
-
-
 
 <h3>geolib.convertUnit(string unit, float distance[, int round])</h3>
 
@@ -222,16 +220,43 @@ Converts a sexagesimal coordinate to decimal format
 
 Converts a decimal coordinate to sexagesimal format
 
-
 <h4>Example</h4>
 
 `geolib.decimal2sexagesimal(51.49611111); // -> 51° 29' 46.00`
 
+<h3>geolib.latitude(object latlng)</h3>
+<h3>geolib.longitude(object latlng)</h3>
+<h3>geolib.elevation(object latlng)</h3>
 
-<h3>geolib.useDecimal(mixed coordinate)</h3>
+Returns the latitude/longitude/elevation for a given point and converts it to decimal.
+
+Works with:
+- latitude: `latitude`, `lat`, 0 (GeoJSON array)
+- longitude: `longitude`, `lng`, `lon`, 1 (GeoJSON array)
+- elevation: `elevation`, `elev`, `alt`, `altitude`, 2 (GeoJSON array)
+
+<h4>Examples</h4>
+
+`geolib.latitude({lat: 51.49611, lng: 7.38896}); // -> 51.49611`
+`geolib.longitude({lat: 51.49611, lng: 7.38896}); // -> 7.38896`
+
+<h3>geolib.useDecimal(mixed latlng)</h3>
 
 Checks if a coordinate is already in decimal format and, if not, converts it to
 
 <h4>Example</h4>
+
 <pre>geolib.useDecimal("51° 29' 46\" N"); // -> 51.59611111
 geolib.useDecimal(51.59611111) // -> 51.59611111</pre>
+
+<h2>Changelog</h2>
+<h3>v2.0.0+beta1</h3>
+
+- Added new methods `geolib.latitude()`, `geolib.longitude()`, `geolib.elevation()` to get latitude, longitude or elevation of points. Will be converted to decimal format automatically
+- Added new method `geolib.extend()` to extend geolib object
+- Added support for GeoJSON format (`[lat, lon, elev]`)
+- Added property `geolib.version` to query the currently used version
+- Moved `geolib.elevation` to an optional module (`geolib.elevation.js`)
+- Using `Object.create(Geolib.prototype)` instead of object literal `{}`
+- New folder structure: compiled `geolib.js` can now be found in `dist/` instead of root dir
+- Improved Grunt build task

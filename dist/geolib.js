@@ -88,6 +88,11 @@
 
 				var key;
 				possibleValues.every(function(val) {
+					// TODO: check if point is an object
+					if(typeof point != 'object') {
+						console.log(point, val);
+						return true;
+					}
 					return point.hasOwnProperty(val) ? (function() { key = val; return false; }()) : true;
 				});
 
@@ -95,10 +100,21 @@
 
 			}
 
+			var latitude = getKey(['lat', 'latitude']);
+			var longitude = getKey(['lng', 'lon', 'longitude']);
+			var elevation = getKey(['alt', 'altitude', 'elevation', 'elev']);
+
+			// return undefined if not at least one valid property was found
+			if(typeof latitude == 'undefined' 
+			&& typeof longitude == 'undefined' 
+			&& typeof elevation == 'undefined') {
+				return undefined;
+			}
+
 			return {
-				latitude: getKey(['lat', 'latitude']),
-				longitude: getKey(['lng', 'lon', 'longitude']),
-				elevation: getKey(['alt', 'altitude', 'elevation', 'elev'])
+				latitude: latitude,
+				longitude: longitude,
+				elevation: elevation
 			};
 
 		},
@@ -129,11 +145,25 @@
 			return this.getElev.call(this, point);
 		},
 		coords: function(point, raw) {
-			return {
+
+			var retval = {
 				latitude: raw === true ? point[this.getKeys(point).latitude] : this.useDecimal(point[this.getKeys(point).latitude]),
-				longitude: raw === true ? point[this.getKeys(point).longitude] : this.useDecimal(point[this.getKeys(point).longitude]),
-				elevation: this.useDecimal(point[this.getKeys(point).elevation])
+				longitude: raw === true ? point[this.getKeys(point).longitude] : this.useDecimal(point[this.getKeys(point).longitude])
+			};
+
+			var elev = point[this.getKeys(point).elevation];
+
+			if(typeof elev !== 'undefined') {
+				retval['elevation'] = elev;
 			}
+
+			return retval;
+
+		},
+
+		// checks if a variable contains a valid latlong object
+		validate: function(point) {
+			return typeof this.getKeys(point) != 'undefined';
 		},
 
 		/**
@@ -888,23 +918,68 @@
 		/**
 		* Checks if a value is in decimal format or, if neccessary, converts to decimal
 		*
-		* @param		mixed		Value to be checked/converted
-		* @return		float		Coordinate in decimal format
+		* @param		mixed		Value(s) to be checked/converted (array of latlng objects, latlng object, sexagesimal string, float)
+		* @return		float		Input data in decimal format
 		*/
 		useDecimal: function(value) {
+
+			if(Object.prototype.toString.call(value) === '[object Array]') {
+
+				var geolib = this;
+
+				value = value.map(function(val) {
+
+					if(!isNaN(parseFloat(val))) {
+
+						return geolib.useDecimal(val);
+
+					} else if(typeof value == 'object') {
+
+						if(geolib.validate(val)) {
+
+							return geolib.coords(val);
+
+						} else {
+
+							for(var prop in val) {
+								val[prop] = geolib.useDecimal(val[prop]);
+							}
+
+							return val;
+
+						}
+
+					} else {
+
+						return val;
+
+					}
+
+				});
+
+				return value;
+
+			} else if(typeof value === 'object' && this.validate(value)) {
+
+				return this.coords(value);
+
+			}
 
 			value = value.toString().replace(/\s*/, '');
 
 			// looks silly but works as expected
 			// checks if value is in decimal format
 			if (!isNaN(parseFloat(value)) && parseFloat(value) == value) {
+
 				return parseFloat(value);
-			// checks if it's sexagesimal format (HHH° MM' SS" (NESW))
+
 			} else if(this.isSexagesimal(value) === true) {
+
 				return parseFloat(this.sexagesimal2decimal(value));
-			} else {
-				throw new Error('Unknown format.');
+
 			}
+
+			throw new Error('Unknown format.');
 
 		},
 

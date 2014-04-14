@@ -215,6 +215,35 @@
 		equal(dec8, 51.52814167, "Decimal value should be 51.52814167");
 	});
 
+	test("Testing different useDecimal() formats", function() {
+
+		expect(6);
+
+		var latToCheck = "51° 31.52'";
+		var latExpected = "51.52533333";
+		var lngToCheck = "7° 28' 01\"";
+		var lngExpected = "7.46694444";
+
+		var dec1 = geolib.useDecimal(latToCheck);
+		var dec2 = geolib.useDecimal(latExpected);
+		var dec3 = geolib.useDecimal({lat: latToCheck, lng: lngToCheck});
+		var dec4 = geolib.useDecimal([{lat: latToCheck, lng: lngToCheck}, {lat: latToCheck, lng: lngToCheck}]);
+		var dec5 = geolib.useDecimal([latToCheck, lngToCheck]);
+		var dec6 = geolib.useDecimal({example: {lat: latToCheck, lng: lngToCheck}});
+
+		equal(dec1, latExpected, "Sexagesimal conversion of " + latToCheck);
+		equal(dec2, lngExpected, "Sexagesimal conversion of " + lngToCheck);
+		equal(dec3.latitude, latExpected, "Sexagesimal conversion of object with lat property");
+		equal(dec3.longitude, lngExpected, "Sexagesimal conversion of object with lng property");
+		equal(dec4.length, 2, "Conversion of array with latlng objects returns array");
+		equal(typeof dec4[0], "object", "... objects are still objects");
+		equal(dec4[1].latitude, latExpected, "Array[1].latitude is converted");
+		equal(dec5[0], latExpected, "Conversion of array returns array of decimals");
+		
+		
+
+	});
+
 	test("Testing conversion: decimal2sexagesimal()", function() {
 
 		expect(2);
