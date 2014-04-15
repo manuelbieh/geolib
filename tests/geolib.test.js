@@ -217,7 +217,7 @@
 
 	test("Testing different useDecimal() formats", function() {
 
-		expect(6);
+		expect(8);
 
 		var latToCheck = "51° 31.52'";
 		var latExpected = 51.52533333;
@@ -240,7 +240,7 @@
 		equal(dec4[1].latitude, latExpected, "Array[1].latitude is converted");
 		//equal(dec5[0], {lat: latExpected}, "Conversion of array returns array of decimals");
 		//deepEqual(dec5[0], {"lat": 51.52533333}, "Conversion of array returns array of decimals");
-		deepEqual(dec5[0], [51.52533333, 7.46694444], "Conversion of array returns array of decimals");
+		deepEqual(dec5, [51.52533333, 7.46694444], "Conversion of array returns array of decimals");
 		
 		
 

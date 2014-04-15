@@ -1,22 +1,22 @@
-/*! geolib 2.0.2+beta-1 by Manuel Bieh
+/*! geolib 2.0.3+beta-1 by Manuel Bieh
 * Library to provide geo functions like distance calculation,
 * conversion of decimal coordinates to sexagesimal and vice versa, etc.
 * WGS 84 (World Geodetic System 1984)
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 2.0.2+beta-1
+* @version 2.0.3+beta-1
 * @license MIT 
-**/"use strict";
+**/;(function(global, undefined) {
 
-;(function(global, undefined) {
+	"use strict";
 
 	function Geolib() {}
 
 	// Setting readonly defaults
 	var geolib = Object.create(Geolib.prototype, {
 		version: {
-			value: "2.0.2+beta-1"
+			value: "2.0.3+beta-1"
 		},
 		radius: {
 			value: 6378137
@@ -92,7 +92,7 @@
 					latitude: point.length >= 1 ? 1 : undefined,
 					longitude: point.length >= 2 ? 1 : undefined,
 					elevation: point.length >= 3 ? 2 : undefined
-				}
+				};
 
 			}
 
@@ -109,16 +109,16 @@
 
 				return key;
 
-			}
+			};
 
 			var latitude = getKey(['lat', 'latitude']);
 			var longitude = getKey(['lng', 'lon', 'longitude']);
 			var elevation = getKey(['alt', 'altitude', 'elevation', 'elev']);
 
 			// return undefined if not at least one valid property was found
-			if(typeof latitude == 'undefined' 
-			&& typeof longitude == 'undefined' 
-			&& typeof elevation == 'undefined') {
+			if(typeof latitude == 'undefined' && 
+				typeof longitude == 'undefined' && 
+				typeof elevation == 'undefined') {
 				return undefined;
 			}
 
@@ -861,7 +861,7 @@
 		findNearest: function(latlng, coords, offset, limit) {
 
 			offset = offset || 0;
-			limit = limit || 1
+			limit = limit || 1;
 			var ordered = this.orderByDistance(latlng, coords);
 			if(limit === 1) {
 				return ordered[offset];
@@ -1083,15 +1083,16 @@
 				sec = parseFloat(data[4]/3600) || 0;
 			}
 
-			//var	dec = ((parseFloat(data[1]) + min + sec)).toFixed(8);
-			var	dec = ((parseFloat(data[1]) + min + sec));
+			var	dec = ((parseFloat(data[1]) + min + sec)).toFixed(8);
+			//var	dec = ((parseFloat(data[1]) + min + sec));
 
 				// South and West are negative decimals
-				dec = (data[7] == 'S' || data[7] == 'W') ? -dec : dec;
+				dec = (data[7] == 'S' || data[7] == 'W') ? parseFloat(-dec) : parseFloat(dec);
+				//dec = (data[7] == 'S' || data[7] == 'W') ? -dec : dec;
 
 			this.decimal[sexagesimal] = dec;
 
-			return parseFloat(dec);
+			return dec;
 
 		},
 

@@ -163,7 +163,8 @@ module.exports = function(grunt) {
 				globals: {
 					module: true,
 					define: true,
-					require: true
+					require: true,
+					elevationResult: true
 				}
 			}
 		}

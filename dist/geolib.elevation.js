@@ -1,4 +1,4 @@
-/*! geolib.elevation 2.0.2+beta-1 by Manuel Bieh
+/*! geolib.elevation 2.0.3+beta-1 by Manuel Bieh
 *
 * Elevation Addon for Geolib.js
 * 
@@ -11,14 +11,14 @@
 
 	var elevation = {
 
-		/*global google:true geolib:true require:true module:true elevationResult*/
+		/*global google:true geolib:true require:true module:true elevationResult:true */
 
 		/**
 		*  @param      Array Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
 		*  @return     Array [{lat:#lat, lng:#lng, elev:#elev},....]}
 		*/
 		getElevation: function() {
-			if (typeof window.navigator !== 'undefined') {
+			if (typeof global.navigator !== 'undefined') {
 				this.getElevationClient.apply(this, arguments);
 			} else {
 				this.getElevationServer.apply(this, arguments);
@@ -29,7 +29,7 @@
 		/* Optional elevation addon requires Googlemaps API JS */
 		getElevationClient: function(coords, cb) {
 
-			if (!window.google) {
+			if (!global.google) {
 				throw new Error("Google maps api not loaded");
 			}
 
@@ -79,12 +79,15 @@
 			var path  = [];
 
 			for(var i = 0; i < coords.length; i++) {
-				path.push(this.latitude(coords[i]) + ',' +
-				  this.longitude(coords[i]));
+				path.push(
+					this.latitude(coords[i]) + ',' + this.longitude(coords[i])
+				);
 			}
 
+			var geolib = this;
+
 			gm.elevationFromPath(path.join('|'), path.length, function(err, results) {
-				this.elevationHandler(results.results, results.status, coords, cb);
+				geolib.elevationHandler(results.results, results.status, coords, cb);
 			});
 
 		},
@@ -119,20 +122,13 @@
 		*  @param      Array [{lat:#lat, lng:#lng, elev:#elev},....]}
 		*  @return     Number % grade
 		*/
-		getGrade: function(coords){
+		getGrade: function(coords) {
+
 			var rise = Math.abs(
 				this.elevation(coords[coords.length-1]) - this.elevation(coords[0])
 			);
 
 			var run = this.getPathLength(coords);
-
-			/*
-			console.group('new');
-			console.log(coords);
-			console.log('rise', rise);
-			console.log('run', run);
-			console.groupEnd();
-			*/
 
 			return Math.floor((rise/run)*100);
 
@@ -143,7 +139,7 @@
 		*  @param      Array [{lat:#lat, lng:#lng, elev:#elev},....]}
 		*  @return     Object {gain:#gain, loss:#loss}
 		*/
-		getTotalElevationGainAndLoss: function(coords){
+		getTotalElevationGainAndLoss: function(coords) {
 
 			var gain = 0;
 			var loss = 0;
@@ -173,7 +169,7 @@
 	if (typeof module !== 'undefined' && 
 		typeof module.exports !== 'undefined') {
 
-		var geolib = require('geolib');
+		geolib = require('geolib');
 		geolib.extend(elevation);
 
 	// AMD module
