@@ -162,7 +162,8 @@ module.exports = function(grunt) {
 				eqnull: true,
 				globals: {
 					module: true,
-					define: true
+					define: true,
+					require: true
 				}
 			}
 		}

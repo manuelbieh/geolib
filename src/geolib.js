@@ -966,7 +966,7 @@
 
 						return geolib.useDecimal(val);
 
-					} else if(typeof value == 'object') {
+					} else if(typeof val == 'object') {
 
 						if(geolib.validate(val)) {
 
@@ -981,6 +981,10 @@
 							return val;
 
 						}
+
+					} else if(geolib.isSexagesimal(val)) {
+
+						return geolib.sexagesimal2decimal(val);
 
 					} else {
 
@@ -1070,13 +1074,15 @@
 				sec = parseFloat(data[4]/3600) || 0;
 			}
 
-			var	dec = ((parseFloat(data[1]) + min + sec)).toFixed(8);
+			//var	dec = ((parseFloat(data[1]) + min + sec)).toFixed(8);
+			var	dec = ((parseFloat(data[1]) + min + sec));
+
 				// South and West are negative decimals
-				dec = (data[7] == 'S' || data[7] == 'W') ? dec * -1 : dec;
+				dec = (data[7] == 'S' || data[7] == 'W') ? -dec : dec;
 
 			this.decimal[sexagesimal] = dec;
 
-			return dec;
+			return parseFloat(dec);
 
 		},
 
