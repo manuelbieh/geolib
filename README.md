@@ -131,7 +131,7 @@ geolib.orderByDistance({latitude: 51.515, longitude: 7.453619}, {
 });
 </pre>
 
-<h3>geolib.findNearest(object latlng, mixed coords[, int offset])</h3>
+<h3>geolib.findNearest(object latlng, mixed coords[[, int offset], int limit])</h3>
 
 Finds the nearest coordinate to a reference coordinate.
 
