@@ -1,4 +1,4 @@
-# Geolib v2.0.0+beta1
+# Geolib v2.0.2+beta1
 [![Build Status](https://secure.travis-ci.org/manuelbieh/Geolib.png?branch=master)](http://travis-ci.org/manuelbieh/Geolib)
 
 Library to provide basic geospatial operations like distance calculation, conversion of decimal coordinates to sexagesimal and vice versa, etc.
