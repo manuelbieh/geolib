@@ -12,6 +12,18 @@
 		radius: {
 			value: 6378137
 		},
+		minLat: {
+			value: -90
+		},
+		maxLat: {
+			value: 90
+		},
+		minLng: {
+			value: -180
+		},
+		maxLng: {
+			value: 180
+		},
 		sexagesimalPattern: {
 			value: /^([0-9]{1,3})°\s*([0-9]{1,3}(?:\.(?:[0-9]{1,2}))?)'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/
 		},
@@ -153,7 +165,32 @@
 
 		// checks if a variable contains a valid latlong object
 		validate: function(point) {
-			return typeof this.getKeys(point) != 'undefined';
+
+			var keys = this.getKeys(point);
+
+			if(typeof keys === 'undefined' || typeof keys.latitude === 'undefined' || keys.longitude === 'undefined') {
+				return false;
+			}
+			var lat = point[keys.latitude];
+			var lng = point[keys.longitude];
+
+			if(typeof lat === 'undefined' || !this.isDecimal(lat) && !this.isSexagesimal(lat)) {
+				return false;
+			}
+
+			if(typeof lng === 'undefined' || !this.isDecimal(lng) && !this.isSexagesimal(lng)) {
+				return false;
+			}
+
+			lat = this.useDecimal(lat);
+			lng = this.useDecimal(lng);
+
+			if(lat < this.minLat || lat > this.maxLat || lng < this.minLng || lng > this.maxLng) {
+				return false;
+			}
+
+			return true;
+
 		},
 
 		/**
@@ -812,11 +849,16 @@
 		* @param		mixed		array or object with coords [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...] 
 		* @return		array		ordered array
 		*/
-		findNearest: function(latlng, coords, offset) {
+		findNearest: function(latlng, coords, offset, limit) {
 
 			offset = offset || 0;
+			limit = limit || 1
 			var ordered = this.orderByDistance(latlng, coords);
-			return ordered[offset];
+			if(limit === 1) {
+				return ordered[offset];
+			} else {
+				return ordered.splice(offset, limit);
+			}
 
 		},
 
@@ -919,7 +961,8 @@
 
 				value = value.map(function(val) {
 
-					if(!isNaN(parseFloat(val))) {
+					//if(!isNaN(parseFloat(val))) {
+					if(geolib.isDecimal(val)) {
 
 						return geolib.useDecimal(val);
 
@@ -953,13 +996,18 @@
 
 				return this.coords(value);
 
+			} else if(typeof value === 'object') {
+
+				for(var prop in value) {
+					value[prop] = this.useDecimal(value[prop]);
+				}
+
+				return value;
+
 			}
 
-			value = value.toString().replace(/\s*/, '');
 
-			// looks silly but works as expected
-			// checks if value is in decimal format
-			if (!isNaN(parseFloat(value)) && parseFloat(value) == value) {
+			if (this.isDecimal(value)) {
 
 				return parseFloat(value);
 
@@ -1034,13 +1082,34 @@
 
 
 		/**
+		* Checks if a value is in decimal format
+		*
+		* @param		string		Value to be checked
+		* @return		bool		True if in sexagesimal format
+		*/
+		isDecimal: function(value) {
+
+			value = value.toString().replace(/\s*/, '');
+
+			// looks silly but works as expected
+			// checks if value is in decimal format
+			return (!isNaN(parseFloat(value)) && parseFloat(value) == value);
+
+		},
+
+
+		/**
 		* Checks if a value is in sexagesimal format
 		*
 		* @param		string		Value to be checked
 		* @return		bool		True if in sexagesimal format
 		*/
 		isSexagesimal: function(value) {
+
+			value = value.toString().replace(/\s*/, '');
+
 			return this.sexagesimalPattern.test(value);
+
 		},
 
 		round: function(value, n) {
