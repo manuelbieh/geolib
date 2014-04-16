@@ -80,7 +80,7 @@
 			if(Object.prototype.toString.call(point) == '[object Array]') {
 
 				return {
-					longitude: point.length >= 1 ? 1 : undefined,
+					longitude: point.length >= 1 ? 0 : undefined,
 					latitude: point.length >= 2 ? 1 : undefined,
 					elevation: point.length >= 3 ? 2 : undefined
 				};

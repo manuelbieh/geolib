@@ -53,17 +53,19 @@
 
 	test("Testing distance calculation: getDistance()", function() {
 
-		expect(4);
+		expect(5);
 
 		var distance1 = geolib.getDistance({latitude: 52.518611, longitude: 13.408056}, {latitude: 51.519475, longitude: 7.46694444});
 		var distance2 = geolib.getDistance({latitude: 52.518611, longitude: 13.408056}, {latitude: 51.519475, longitude: 7.46694444}, 100);
 		var distance3 = geolib.getDistance({latitude: 37.774514, longitude: -122.418079}, {latitude: 51.519475, longitude: 7.46694444});
 		var distance4 = geolib.getDistance({"lat": 41.72977, "lng":-111.77621999999997}, {"lat":41.73198,"lng":-111.77636999999999});
+		var geoJSON = geolib.getDistance([-111.77621999999997, 41.72977], [-111.77636999999999, 41.73198]);
 
 		equal(distance1, 422592, "Distance 1 should be 422592" );
 		equal(distance2, 422600, "Distance 2 should be 422600" );
 		equal(distance3, 8980260, "Distance 3 should be 8980260" );
 		equal(distance4, 246, "Distance 4 should be 246" );
+		equal(geoJSON, 246, "Testing getDistance() with geoJSON data");
 
 	});
 
