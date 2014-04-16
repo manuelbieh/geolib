@@ -40,11 +40,15 @@
   "keywords": [
     "geolocation",
     "geo",
-    "distance"
+    "distance",
+    "geojson",
+    "geospatial",
+    "lbs",
+    "location"
   ],
   "scripts": {
     "test": "grunt travis --verbose"
   },
-  "version": "2.0.4+beta-1",
+  "version": "2.0.5+beta-1",
   "main": "./geolib"
 }

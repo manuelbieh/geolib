@@ -1,11 +1,11 @@
-/*! geolib 2.0.4+beta-1 by Manuel Bieh
+/*! geolib 2.0.5+beta-1 by Manuel Bieh
 * Library to provide geo functions like distance calculation,
 * conversion of decimal coordinates to sexagesimal and vice versa, etc.
 * WGS 84 (World Geodetic System 1984)
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 2.0.4+beta-1
+* @version 2.0.5+beta-1
 * @license MIT 
 **/;(function(global, undefined) {
 
@@ -16,7 +16,7 @@
 	// Setting readonly defaults
 	var geolib = Object.create(Geolib.prototype, {
 		version: {
-			value: "2.0.4+beta-1"
+			value: "2.0.5+beta-1"
 		},
 		radius: {
 			value: 6378137
@@ -432,8 +432,8 @@
 			var maxLat = max(splitCoords.latitude);
 			var maxLon = max(splitCoords.longitude);
 
-			latitude = ((minLat + maxLat)/2).toFixed(6);
-			longitude = ((minLng + maxLng)/2).toFixed(6);
+			latitude = ((minLat + maxLon)/2).toFixed(6);
+			longitude = ((minLng + maxLon)/2).toFixed(6);
 
 			// distance from the deepest left to the highest right point (diagonal distance)
 			var distance = this.convertUnit('km', this.getDistance({latitude: minLat, longitude: minLon}, {latitude: maxLat, longitude: maxLon}));
