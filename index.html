@@ -79,16 +79,22 @@ button {
 }
 
 .box {
+	float: left;
+	min-width: 280px;
+	width: 25%;
+	box-sizing: border-box;
+	padding: 4px;
+}
+
+.box .inner {
 	border: 1px solid #ccc;
 	box-sizing: border-box;
-	float: left;
-	width: 360px;
-	padding: 10px;
-	margin: 4px;
 	height: 310px;
+	padding: 10px;
+	/*margin: 4px;*/
 	overflow: auto;
-	max-width: 98%;
-	min-width: 280px;
+	/*width: 360px;*/
+	width: 100%;
 }
 
 .highlight {
@@ -103,6 +109,24 @@ button {
 	color: #C00;
 }
 
+@media all and (max-width: 1144px) {
+	.box {
+		width: 33.3%;
+	}
+}
+
+@media all and (max-width: 864px) {
+	.box {
+		width: 50%;
+	}
+}
+
+@media all and (max-width: 584px) {
+	.box {
+		width: 100%;
+	}
+}
+
 </style>
 
 </head>
@@ -114,87 +138,92 @@ button {
 
 	<div class="content">
 
-		<div class="box highlight">
-			<!-- 
-				earth icon licensed under http://creativecommons.org/licenses/by-nc-nd/3.0/
-				Limpa (Björn Lindberg) - http://www.limpa.net
-			-->
-			<img src="earth.png" alt="" title="Björn Lindberg, CC BY-NC-ND 3.0" style="float: right; margin-left: 5px; " />
+		<div class="box">
+			<div class="inner highlight">
+				<!-- 
+					earth icon licensed under http://creativecommons.org/licenses/by-nc-nd/3.0/
+					Limpa (Björn Lindberg) - http://www.limpa.net
+				-->
+				<img src="earth.png" alt="" title="Björn Lindberg, CC BY-NC-ND 3.0" style="float: right; margin-left: 5px; " />
 
-			<h1>geolib.js</h1>
-			<h2>Settings</h2>
+				<h1>geolib.js</h1>
+				<h2>Settings</h2>
 
-			<p>Show all distances in 
-				<select name="unit">
-					<option value="km">km</option><option value="m">m</option><option value="cm">cm</option><option value="mm">mm</option><option value="mi">mi</option><option value="sm">sm</option><option value="ft">ft</option><option value="in">in</option><option value="yd">yd</option>
-				</select>.
-			</p>
+				<p>Show all distances in 
+					<select name="unit">
+						<option value="km">Kilometers (km)</option><option value="m">Meters (m)</option><option value="cm">Centimeter (cm)</option><option value="mm">Millimeters (mm)</option><option value="mi">Miles (mi)</option><option value="sm">Seamiles (sm)</option><option value="ft">Feet (ft)</option><option value="in">Inches (in)</option><option value="yd">Yards (yd)</option>
+					</select>.
+				</p>
+				<br>
+				<iframe src="http://ghbtns.com/github-btn.html?user=manuelbieh&repo=geolib&type=watch&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="152" height="30"></iframe>
 
-			<iframe src="http://ghbtns.com/github-btn.html?user=manuelbieh&repo=geolib&type=watch&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="152" height="30"></iframe>
-
+			</div>
 		</div>
 
 		<div class="box" id="distance">
-
-			<h2>Distance calculation</h2>
-			<p>Calculate distance from<br> <select name="city1"><option></option></select> to<br> <select name="city2"><option></option></select>.</p>
-			<p class="result"></p>
-
+			<div class="inner">
+				<h2>Distance calculation</h2>
+				<p>Calculate distance from<br> <select name="city1"><option></option></select> to<br> <select name="city2"><option></option></select>.</p>
+				<p class="result"></p>
+			</div>
 		</div>
 
 		<div class="box" id="custom">
+			<div class="inner">
+				<h2>Custom distance calculation</h2>
 
-			<h2>Custom distance calculation</h2>
+				<p>
+					Calculate distance from<br> 
+					<input name="lat1" placeholder="Start latitude" class="small">
+					<input name="lng1" placeholder="Start longitude" class="small"> <br>
+					to <br>
+					<input name="lat2" placeholder="End latitude" class="small">
+					<input name="lng2" placeholder="End longitude" class="small">.
+				</p>
 
-			<p>
-				Calculate distance from<br> 
-				<input name="lat1" placeholder="Start latitude" class="small">
-				<input name="lng1" placeholder="Start longitude" class="small"> <br>
-				to <br>
-				<input name="lat2" placeholder="End latitude" class="small">
-				<input name="lng2" placeholder="End longitude" class="small">.
-			</p>
+				<button>Calculate</button>
 
-			<button>Calculate</button>
-
-			<p class="result"></p>
-
+				<p class="result"></p>
+			</div>
 		</div>
 
 		<div class="box">
-
-			<h2>What's near?</h2>
-			<h3>Static example</h3>
-			<p>
-				Show what's the nearest to <select name="city3"><option></option></select> 
-			</p>
-			<p id="nearest"></p>
-
+			<div class="inner">
+				<h2>What's near?</h2>
+				<h3>Static example</h3>
+				<p>
+					Show what's the nearest to <select name="city3"><option></option></select> 
+				</p>
+				<p id="nearest"></p>
+			</div>
 		</div>
 
 		<div class="box" id="geolocation">
-			<h2>Geolocation example</h2>
-			<p>Show me some cities near me (uses W3C Geolocation API)<br>
-			<button>click!</button></p>
-			<div class="result"></div>
+			<div class="inner">
+				<h2>Geolocation example</h2>
+				<p>Show me some cities near me (uses W3C Geolocation API)<br>
+				<button>click!</button></p>
+				<div class="result"></div>
+			</div>
 		</div>
 
 		<div class="box" id="conversion">
-			<h2>Format conversion</h2>
-			<p data-method="sexagesimal2decimal" data-validation="isSexagesimal">
-				Convert sexagesimal to decimal<br>
-				<input class="in" placeholder="Sexagesimal input" value="51° 31' 10.11&quot;">
-				<span class="out"></span><br>
-				<button>convert!</button>
-			</p>
-			<p data-method="decimal2sexagesimal" data-validation="isDecimal">
-				Convert decimal to sexagesimal<br>
-				<input class="in" placeholder="Decimal input" value="51.51947500">
-				<span class="out"></span><br>
-				<button>convert!</button>
-			</p>
+			<div class="inner">
+				<h2>Format conversion</h2>
+				<p data-method="sexagesimal2decimal" data-validation="isSexagesimal">
+					Convert sexagesimal to decimal<br>
+					<input class="in" placeholder="Sexagesimal input" value="51° 31' 10.11&quot;">
+					<span class="out"></span><br>
+					<button>convert!</button>
+				</p>
+				<p data-method="decimal2sexagesimal" data-validation="isDecimal">
+					Convert decimal to sexagesimal<br>
+					<input class="in" placeholder="Decimal input" value="51.51947500">
+					<span class="out"></span><br>
+					<button>convert!</button>
+				</p>
+			</div>
 		</div>
-
 
 	</div>
 
