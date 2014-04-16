@@ -27,10 +27,10 @@
 		maxLat: {
 			value: 90
 		},
-		minLng: {
+		minLon: {
 			value: -180
 		},
-		maxLng: {
+		maxLon: {
 			value: 180
 		},
 		sexagesimalPattern: {
@@ -194,7 +194,7 @@
 			lat = this.useDecimal(lat);
 			lng = this.useDecimal(lng);
 
-			if(lat < this.minLat || lat > this.maxLat || lng < this.minLng || lng > this.maxLng) {
+			if(lat < this.minLat || lat > this.maxLat || lng < this.minLon || lng > this.maxLon) {
 				return false;
 			}
 
@@ -215,22 +215,10 @@
 		*/
 		getDistance: function(start, end, accuracy) {
 
-			var keys = geolib.getKeys(start);
-			var latitude = keys.latitude;
-			var longitude = keys.longitude;
-			var elevation = keys.elevation;
-
 			accuracy = Math.floor(accuracy) || 1;
 
-			var s = {
-				latitude: this.latitude(start),
-				longitude: this.longitude(start),
-			};
-
-			var e = {
-				latitude: this.latitude(end),
-				longitude: this.longitude(end),
-			};
+			var s = this.coords(start);
+			var e = this.coords(end);
 
 			var a = 6378137, b = 6356752.314245,  f = 1/298.257223563;  // WGS-84 ellipsoid params
 			var L = (e['longitude']-s['longitude']).toRad();
@@ -430,29 +418,25 @@
 			for(var coord in coords) {
 
 				splitCoords.latitude.push(
-					this.useDecimal(
-						this.latitude(coords[coord])
-					)
+					this.latitude(coords[coord])
 				);
 
 				splitCoords.longitude.push(
-					this.useDecimal(
-						this.longitude(coords[coord])
-					)
+					this.longitude(coords[coord])
 				);
 
 			}
 
 			var minLat = min(splitCoords.latitude);
-			var minLng = min(splitCoords.longitude);
+			var minLon = min(splitCoords.longitude);
 			var maxLat = max(splitCoords.latitude);
-			var maxLng = max(splitCoords.longitude);
+			var maxLon = max(splitCoords.longitude);
 
 			latitude = ((minLat + maxLat)/2).toFixed(6);
 			longitude = ((minLng + maxLng)/2).toFixed(6);
 
 			// distance from the deepest left to the highest right point (diagonal distance)
-			var distance = this.convertUnit('km', this.getDistance({latitude: minLat, longitude: minLng}, {latitude: maxLat, longitude: maxLng}));
+			var distance = this.convertUnit('km', this.getDistance({latitude: minLat, longitude: minLon}, {latitude: maxLat, longitude: maxLon}));
 
 			return {
 				latitude: latitude, 
@@ -480,12 +464,7 @@
 				return false;
 			}
 
-			var keys = geolib.getKeys(coords[0]);
-			var latitude = keys.latitude;
-			var longitude = keys.longitude;
-			var elevation = keys.elevation;
-
-			var useElevation = coords[0].hasOwnProperty(elevation);
+			var useElevation = this.elevation(coords[0]);
 			var stats = {
 				maxLat: -Infinity,
 				minLat: Infinity,
@@ -493,19 +472,19 @@
 				minLng: Infinity
 			};
 
-			if (useElevation) {
+			if (typeof useElevation != 'undefined') {
 				stats.maxElev = 0;
 				stats.minElev = Infinity;
 			}
 
 			for (var i = 0, l = coords.length; i < l; ++i) {
-				stats.maxLat = Math.max(coords[i][latitude], stats.maxLat);
-				stats.minLat = Math.min(coords[i][latitude], stats.minLat);
-				stats.maxLng = Math.max(coords[i][longitude], stats.maxLng);
-				stats.minLng = Math.min(coords[i][longitude], stats.minLng);
+				stats.maxLat = Math.max(this.latitude(coords[i]), stats.maxLat);
+				stats.minLat = Math.min(this.latitude(coords[i]), stats.minLat);
+				stats.maxLng = Math.max(this.longitude(coords[i]), stats.maxLng);
+				stats.minLng = Math.min(this.longitude(coords[i]), stats.minLng);
 				if (useElevation) {
-					stats.maxElev = Math.max(coords[i][elevation], stats.maxElev);
-					stats.minElev = Math.min(coords[i][elevation], stats.minElev);
+					stats.maxElev = Math.max(this.elevation(coords[i]), stats.maxElev);
+					stats.minElev = Math.min(this.elevation(coords[i]), stats.minElev);
 				}
 			}
 			return stats;
@@ -523,17 +502,15 @@
 		*/
 		getBoundsOfDistance: function(point, distance) {
 
+			/*
 			var MIN_LAT = -90;
 			var MAX_LAT = 90;
 			var MIN_LON = -180;
 			var MAX_LON = 180;
+			*/
 
-			var latitude = this.useDecimal(
-				this.latitude(point)
-			);
-			var longitude = this.useDecimal(
-				this.longitude(point)
-			);
+			var latitude = this.latitude(point);
+			var longitude = this.longitude(point);
 
 			var radLat = latitude.toRad();
 			var radLon = longitude.toRad();
@@ -542,10 +519,10 @@
 			var minLat = radLat - radDist;
 			var maxLat = radLat + radDist;
 
-			var MAX_LAT_RAD = MAX_LAT.toRad();
-			var MIN_LAT_RAD = MIN_LAT.toRad();
-			var MAX_LON_RAD = MAX_LON.toRad();
-			var MIN_LON_RAD = MIN_LON.toRad();
+			var MAX_LAT_RAD = this.maxLat.toRad();
+			var MIN_LAT_RAD = this.minLat.toRad();
+			var MAX_LON_RAD = this.maxLon.toRad();
+			var MIN_LON_RAD = this.minLon.toRad();
 
 			var minLon;
 			var maxLon;
@@ -663,15 +640,15 @@
 		getRhumbLineBearing: function(originLL, destLL) {
 
 			// difference of longitude coords
-			var diffLon = this.useDecimal(this.longitude(destLL)).toRad() - this.useDecimal(this.longitude(originLL)).toRad();
+			var diffLon = this.longitude(destLL).toRad() - this.longitude(originLL).toRad();
 
 			// difference latitude coords phi
 			var diffPhi = Math.log(
 				Math.tan(
-					this.useDecimal(this.latitude(destLL)).toRad() / 2 + Math.PI / 4
+					this.latitude(destLL).toRad() / 2 + Math.PI / 4
 				) / 
 				Math.tan(
-					this.useDecimal(this.latitude(originLL)).toRad() / 2 + Math.PI / 4
+					this.latitude(originLL).toRad() / 2 + Math.PI / 4
 				)
 			);
 
