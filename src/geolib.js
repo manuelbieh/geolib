@@ -80,8 +80,8 @@
 			if(Object.prototype.toString.call(point) == '[object Array]') {
 
 				return {
-					latitude: point.length >= 1 ? 1 : undefined,
-					longitude: point.length >= 2 ? 1 : undefined,
+					longitude: point.length >= 1 ? 1 : undefined,
+					latitude: point.length >= 2 ? 1 : undefined,
 					elevation: point.length >= 3 ? 2 : undefined
 				};
 
@@ -102,8 +102,8 @@
 
 			};
 
-			var latitude = getKey(['lat', 'latitude']);
 			var longitude = getKey(['lng', 'lon', 'longitude']);
+			var latitude = getKey(['lat', 'latitude']);
 			var elevation = getKey(['alt', 'altitude', 'elevation', 'elev']);
 
 			// return undefined if not at least one valid property was found
@@ -877,9 +877,9 @@
 			for (var i = 0, l = coords.length; i < l; ++i) {
 				if(last) {
 					//console.log(coords[i], last, this.getDistance(coords[i], last));
-					dist += this.getDistance(coords[i], last);
+					dist += this.getDistance(this.coords(coords[i]), last);
 				}
-				last = coords[i];
+				last = this.coords(coords[i]);
 			}
 
 			return dist;

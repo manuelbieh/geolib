@@ -1,4 +1,4 @@
-# Geolib v2.0.2+beta1
+# Geolib v2.0.4+beta1
 [![Build Status](https://secure.travis-ci.org/manuelbieh/Geolib.png?branch=master)](http://travis-ci.org/manuelbieh/Geolib)
 
 Library to provide basic geospatial operations like distance calculation, conversion of decimal coordinates to sexagesimal and vice versa, etc.
@@ -254,7 +254,7 @@ geolib.useDecimal(51.59611111) // -> 51.59611111</pre>
 
 - Added new methods `geolib.latitude()`, `geolib.longitude()`, `geolib.elevation()` to get latitude, longitude or elevation of points. Will be converted to decimal format automatically
 - Added new method `geolib.extend()` to extend geolib object
-- Added support for GeoJSON format (`[lat, lon, elev]`)
+- Added support for GeoJSON format (`[lon, lat, elev]`)
 - Added property `geolib.version` to query the currently used version
 - Moved `geolib.elevation` to an optional module (`geolib.elevation.js`)
 - Using `Object.create(Geolib.prototype)` instead of object literal `{}`
