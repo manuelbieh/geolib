@@ -423,8 +423,8 @@
 			var maxLat = max(splitCoords.latitude);
 			var maxLon = max(splitCoords.longitude);
 
-			latitude = ((minLat + maxLon)/2).toFixed(6);
-			longitude = ((minLng + maxLon)/2).toFixed(6);
+			latitude = ((minLat + maxLat)/2).toFixed(6);
+			longitude = ((minLon + maxLon)/2).toFixed(6);
 
 			// distance from the deepest left to the highest right point (diagonal distance)
 			var distance = this.convertUnit('km', this.getDistance({latitude: minLat, longitude: minLon}, {latitude: maxLat, longitude: maxLon}));
