@@ -1,11 +1,9 @@
 {
   "name": "Geolib",
-  "main": ["geolib.js"],
+  "main": "geolib.js",
   "version": "1.3.5",
   "homepage": "https://github.com/manuelbieh/Geolib",
-  "authors": [
-    "Manuel Bieh <github@manuelbieh.de>"
-  ],
+  "authors": "Manuel Bieh <github@manuelbieh.de>"  ,
   "description": "Library to perform geo specific tasks",
   "keywords": [
     "geolocation",
