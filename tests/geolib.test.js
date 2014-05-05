@@ -53,17 +53,19 @@
 
 	test("Testing distance calculation: getDistance()", function() {
 
-		expect(4);
+		expect(5);
 
 		var distance1 = geolib.getDistance({latitude: 52.518611, longitude: 13.408056}, {latitude: 51.519475, longitude: 7.46694444});
 		var distance2 = geolib.getDistance({latitude: 52.518611, longitude: 13.408056}, {latitude: 51.519475, longitude: 7.46694444}, 100);
 		var distance3 = geolib.getDistance({latitude: 37.774514, longitude: -122.418079}, {latitude: 51.519475, longitude: 7.46694444});
 		var distance4 = geolib.getDistance({"lat": 41.72977, "lng":-111.77621999999997}, {"lat":41.73198,"lng":-111.77636999999999});
+		var geoJSON = geolib.getDistance([-111.77621999999997, 41.72977], [-111.77636999999999, 41.73198]);
 
 		equal(distance1, 422592, "Distance 1 should be 422592" );
 		equal(distance2, 422600, "Distance 2 should be 422600" );
 		equal(distance3, 8980260, "Distance 3 should be 8980260" );
 		equal(distance4, 246, "Distance 4 should be 246" );
+		equal(geoJSON, 246, "Testing getDistance() with geoJSON data");
 
 	});
 
@@ -213,6 +215,37 @@
 		equal(dec6, 51.51947, "Decimal value should be 51.51947" );
 		equal(dec7, -122.418079, "Decimal value should be -122.418079" );
 		equal(dec8, 51.52814167, "Decimal value should be 51.52814167");
+	});
+
+	test("Testing different useDecimal() formats", function() {
+
+		expect(8);
+
+		var latToCheck = "51° 31.52'";
+		var latExpected = 51.52533333;
+		var lngToCheck = "7° 28' 01\"";
+		var lngExpected = 7.46694444;
+
+		var dec1 = geolib.useDecimal(latToCheck);
+		var dec2 = geolib.useDecimal(latExpected);
+		var dec3 = geolib.useDecimal({lat: latToCheck, lng: lngToCheck});
+		var dec4 = geolib.useDecimal([{lat: latToCheck, lng: lngToCheck}, {lat: latToCheck, lng: lngToCheck}]);
+		var dec5 = geolib.useDecimal([latToCheck, lngToCheck]);
+		var dec6 = geolib.useDecimal({example: {lat: latToCheck, lng: lngToCheck}});
+
+		equal(dec1, latExpected, "Sexagesimal conversion of " + latToCheck);
+		equal(dec2, latExpected, "Conversion of " + latExpected);
+		equal(dec3.latitude, latExpected, "Sexagesimal conversion of object with lat property");
+		equal(dec3.longitude, lngExpected, "Sexagesimal conversion of object with lng property");
+		equal(dec4.length, 2, "Conversion of array with latlng objects returns array");
+		equal(typeof dec4[0], "object", "... objects are still objects");
+		equal(dec4[1].latitude, latExpected, "Array[1].latitude is converted");
+		//equal(dec5[0], {lat: latExpected}, "Conversion of array returns array of decimals");
+		//deepEqual(dec5[0], {"lat": 51.52533333}, "Conversion of array returns array of decimals");
+		deepEqual(dec5, [51.52533333, 7.46694444], "Conversion of array returns array of decimals");
+		
+		
+
 	});
 
 	test("Testing conversion: decimal2sexagesimal()", function() {
