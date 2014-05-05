@@ -25,7 +25,8 @@
     "grunt-contrib-jshint": "~0.6.2",
     "phantomjs": "~1.8.0",
     "grunt-jslint": "~1.0.0",
-    "time-grunt": "~0.3.1"
+    "time-grunt": "~0.3.1",
+    "load-grunt-tasks": "~0.4.0"
   },
   "licenses": [
     {
@@ -49,6 +50,6 @@
   "scripts": {
     "test": "grunt travis --verbose"
   },
-  "version": "2.0.6+beta-1",
+  "version": "2.0.7",
   "main": "./geolib"
 }

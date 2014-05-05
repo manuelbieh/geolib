@@ -77,6 +77,7 @@
 
 		getKeys: function(point) {
 
+			// GeoJSON Array [longitude, latitude(, elevation)]
 			if(Object.prototype.toString.call(point) == '[object Array]') {
 
 				return {
@@ -90,6 +91,7 @@
 			var getKey = function(possibleValues) {
 
 				var key;
+
 				possibleValues.every(function(val) {
 					// TODO: check if point is an object
 					if(typeof point != 'object') {
@@ -122,30 +124,36 @@
 		},
 
 		// returns latitude of a given point, converted to decimal
-		// set raw to true to avoid converting
+		// set raw to true to avoid conversion
 		getLat: function(point, raw) {
 			return raw === true ? point[this.getKeys(point).latitude] : this.useDecimal(point[this.getKeys(point).latitude]);
 		},
+
 		// Alias for getLat
 		latitude: function(point) {
 			return this.getLat.call(this, point);
 		},
+
 		// returns longitude of a given point, converted to decimal
-		// set raw to true to avoid converting
+		// set raw to true to avoid conversion
 		getLon: function(point, raw) {
 			return raw === true ? point[this.getKeys(point).longitude] : this.useDecimal(point[this.getKeys(point).longitude]);
 		},
+
 		// Alias for getLon
 		longitude: function(point) {
 			return this.getLon.call(this, point);
 		},
+
 		getElev: function(point) {
 			return point[this.getKeys(point).elevation];
 		},
-		// Alias for getLon
+
+		// Alias for getElev
 		elevation: function(point) {
 			return this.getElev.call(this, point);
 		},
+
 		coords: function(point, raw) {
 
 			var retval = {
@@ -171,6 +179,7 @@
 			if(typeof keys === 'undefined' || typeof keys.latitude === 'undefined' || keys.longitude === 'undefined') {
 				return false;
 			}
+
 			var lat = point[keys.latitude];
 			var lng = point[keys.longitude];
 
@@ -456,6 +465,7 @@
 			}
 
 			var useElevation = this.elevation(coords[0]);
+
 			var stats = {
 				maxLat: -Infinity,
 				minLat: Infinity,
@@ -469,16 +479,21 @@
 			}
 
 			for (var i = 0, l = coords.length; i < l; ++i) {
+
 				stats.maxLat = Math.max(this.latitude(coords[i]), stats.maxLat);
 				stats.minLat = Math.min(this.latitude(coords[i]), stats.minLat);
 				stats.maxLng = Math.max(this.longitude(coords[i]), stats.maxLng);
 				stats.minLng = Math.min(this.longitude(coords[i]), stats.minLng);
+
 				if (useElevation) {
 					stats.maxElev = Math.max(this.elevation(coords[i]), stats.maxElev);
 					stats.minElev = Math.min(this.elevation(coords[i]), stats.minElev);
 				}
+
 			}
+
 			return stats;
+
 		},
 
 
@@ -492,13 +507,6 @@
 		* @return array Collection of two points defining the SW and NE corners.
 		*/
 		getBoundsOfDistance: function(point, distance) {
-
-			/*
-			var MIN_LAT = -90;
-			var MAX_LAT = 90;
-			var MIN_LON = -180;
-			var MAX_LON = 180;
-			*/
 
 			var latitude = this.latitude(point);
 			var longitude = this.longitude(point);
@@ -519,15 +527,20 @@
 			var maxLon;
 
 			if (minLat > MIN_LAT_RAD && maxLat < MAX_LAT_RAD) {
+
 				var deltaLon = Math.asin(Math.sin(radDist) / Math.cos(radLat));
 				minLon = radLon - deltaLon;
+
 				if (minLon < MIN_LON_RAD) {
 					minLon += 2 * Math.PI;
 				}
+
 				maxLon = radLon + deltaLon;
+
 				if (maxLon > MAX_LON_RAD) {
 					maxLon -= 2 * Math.PI;
 				}
+
 			} else {
 				// A pole is within the distance.
 				minLat = Math.max(minLat, MIN_LAT_RAD);
@@ -720,11 +733,11 @@
 			var direction;
 			var bearing;
 
-			// use great circle bearing
 			if(bearingMode == 'circle') { 
+				// use great circle bearing
 				bearing = this.getBearing(originLL, destLL);
-			// default is rhumb line bearing
 			} else { 
+				// default is rhumb line bearing
 				bearing = this.getRhumbLineBearing(originLL, destLL);
 			}
 
@@ -802,9 +815,11 @@
 		orderByDistance: function(latlng, coords) {
 
 			var coordsArray = [];
+
 			for(var coord in coords) {
 
 				var d = this.getDistance(latlng, coords[coord]);
+
 				coordsArray.push({
 					key: coord, 
 					latitude: this.latitude(coords[coord]), 
@@ -831,6 +846,7 @@
 			offset = offset || 0;
 			limit = limit || 1;
 			var ordered = this.orderByDistance(latlng, coords);
+
 			if(limit === 1) {
 				return ordered[offset];
 			} else {

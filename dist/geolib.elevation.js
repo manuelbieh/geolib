@@ -1,4 +1,4 @@
-/*! geolib.elevation 2.0.6+beta-1 by Manuel Bieh
+/*! geolib.elevation 2.0.7 by Manuel Bieh
 *
 * Elevation Addon for Geolib.js
 * 
