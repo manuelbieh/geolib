@@ -4,7 +4,7 @@
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 2.0.0+beta-1
+* @version 2.0.7
 * @license MIT
 */
 ;(function(global, geolib, undefined) {
