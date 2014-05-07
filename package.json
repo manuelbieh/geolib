@@ -5,10 +5,6 @@
     "name": "Manuel Bieh",
     "url": "http://www.manuelbieh.com/"
   },
-  "bin": {
-    "geolib": "dist/geolib.js",
-    "geolib-elevation": "dist/geolib.elevation.js"
-  },
   "repository": {
     "type": "git",
     "url": "http://github.com/manuelbieh/geolib.git"
