@@ -5,6 +5,10 @@
     "name": "Manuel Bieh",
     "url": "http://www.manuelbieh.com/"
   },
+  "bin": {
+    "geolib": "./dist/geolib.js",
+    "geolib-elevation": "./dist/geolib.elevation.js"
+  },
   "repository": {
     "type": "git",
     "url": "http://github.com/manuelbieh/geolib.git"
@@ -46,6 +50,6 @@
   "scripts": {
     "test": "grunt travis --verbose"
   },
-  "version": "2.0.9",
+  "version": "2.0.10",
   "main": "./geolib"
 }
