@@ -35,7 +35,8 @@
     }
   ],
   "files": [
-    "geolib.js"
+    ".dist/geolib.js",
+    ".dist/geolib.elevation.js"
   ],
   "description": "Library to perform geo specific tasks",
   "keywords": [
@@ -50,6 +51,6 @@
   "scripts": {
     "test": "grunt travis --verbose"
   },
-  "version": "2.0.10",
-  "main": "./geolib"
+  "version": "2.0.11",
+  "main": "./dist/geolib.js"
 }
