@@ -35,8 +35,8 @@
     }
   ],
   "files": [
-    ".dist/geolib.js",
-    ".dist/geolib.elevation.js"
+    "./dist/geolib.js",
+    "./dist/geolib.elevation.js"
   ],
   "description": "Library to perform geo specific tasks",
   "keywords": [
