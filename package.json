@@ -6,8 +6,8 @@
     "url": "http://www.manuelbieh.com/"
   },
   "bin": {
-    "geolib": "./dist/geolib.js",
-    "geolib-elevation": "./dist/geolib.elevation.js"
+    "geolib": "dist/geolib.js",
+    "geolib-elevation": "dist/geolib.elevation.js"
   },
   "repository": {
     "type": "git",
@@ -35,8 +35,8 @@
     }
   ],
   "files": [
-    "./dist/geolib.js",
-    "./dist/geolib.elevation.js"
+    "dist/geolib.js",
+    "dist/geolib.elevation.js"
   ],
   "description": "Library to perform geo specific tasks",
   "keywords": [
@@ -51,6 +51,6 @@
   "scripts": {
     "test": "grunt travis --verbose"
   },
-  "version": "2.0.11",
-  "main": "./dist/geolib.js"
+  "version": "2.0.13",
+  "main": "dist/geolib.js"
 }
