@@ -105,15 +105,20 @@ module.exports = function(grunt) {
 		},
 		replace: {
 			version: {
-				src: ['dist/*.js', 'bower.json'],
+				src: ['dist/*.js', 'bower.json', 'README.md'],
 				overwrite: true,
-				replacements: [{
-					from: '$version$',
-					to: '<%= pkg.version %>'
-				}, {
-					from: /"version": "([0-9a-zA-Z\-\.\+]*)",/,
-					to: '"version": "<%= pkg.version %>",'
-				}]
+				replacements: [
+					{
+						from: '$version$',
+						to: '<%= pkg.version %>'
+					}, {
+						from: /"version": "([0-9a-zA-Z\-\.\+]*)",/,
+						to: '"version": "<%= pkg.version %>",'
+					}, {
+						from: /v[0-9]+\.[0-9]{1,2}\.[0-9]{1,}/,
+						to: 'v<%= pkg.version %>'
+					}
+				]
 			}
 		},
 		uglify: {
