@@ -1,10 +1,10 @@
-/*! geolib.elevation 2.0.8 by Manuel Bieh
+/*! geolib.elevation 2.0.9 by Manuel Bieh
 *
 * Elevation Addon for Geolib.js
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 2.0.8
+* @version 2.0.9
 * @license MIT
 */
 ;(function(global, geolib, undefined) {

@@ -1,11 +1,11 @@
-/*! geolib 2.0.8 by Manuel Bieh
+/*! geolib 2.0.9 by Manuel Bieh
 * Library to provide geo functions like distance calculation,
 * conversion of decimal coordinates to sexagesimal and vice versa, etc.
 * WGS 84 (World Geodetic System 1984)
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 2.0.8
+* @version 2.0.9
 * @license MIT 
 **/;(function(global, undefined) {
 
@@ -16,7 +16,7 @@
 	// Setting readonly defaults
 	var geolib = Object.create(Geolib.prototype, {
 		version: {
-			value: "2.0.8"
+			value: "2.0.9"
 		},
 		radius: {
 			value: 6378137
