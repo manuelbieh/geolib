@@ -306,6 +306,17 @@
 
 	});
 
+    test("Testing: isPointInsideWithPreparedPolygon()", function() {
+      geolib.preparePolygonForIsPointInsideOptimized(polygon);
+
+      var isInside1 = geolib.isPointInsideWithPreparedPolygon({latitude: 51.514252208, longitude: 7.464905736}, polygon); // Point is inside of the polygon
+      var isInside2 = geolib.isPointInsideWithPreparedPolygon({latitude: 51.510539773, longitude: 7.454691884}, polygon); // Point is not inside polygon
+
+      ok(isInside1, "Point 1 is inside polygon");
+      ok(!isInside2, "Point 2 is not inside polygon");
+
+    });
+
 	test("Testing: convertUnit()", function() {
 
 		equal(geolib.convertUnit('km', 1000), 1, 'Conversion of 1000 m to km');
