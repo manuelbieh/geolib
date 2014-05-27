@@ -47,6 +47,6 @@
   "scripts": {
     "test": "grunt travis --verbose"
   },
-  "version": "2.0.14",
+  "version": "2.0.15",
   "main": "dist/geolib.js"
 }

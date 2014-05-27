@@ -598,6 +598,52 @@
 
 		},
 
+       /**
+        * Pre calculate the polygon coords, to speed up the point inside check.
+        * Use this function before calling isPointInsideWithPreparedPolygon()
+        * @see          Algorythm from http://alienryderflex.com/polygon/
+        * @param		array		array with coords e.g. [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...]
+        */
+        preparePolygonForIsPointInsideOptimized: function(coords) {
+         for(var i = 0, j = coords.length-1; i < coords.length; i++) {
+            if(this.longitude(coords[j]) === this.longitude(coords[i])) {
+              coords[i].constant = this.latitude(coords[i]);
+              coords[i].multiple = 0;
+            } else {
+              coords[i].constant = this.latitude(coords[i])-(this.longitude(coords[i])*this.latitude(coords[j]))/(this.longitude(coords[j])-this.longitude(coords[i]))+(this.longitude(coords[i])*this.latitude(coords[i]))/(this.longitude(coords[j])-this.longitude(coords[i]));
+              coords[i].multiple = (this.latitude(coords[j])-this.latitude(coords[i]))/(this.longitude(coords[j])-this.longitude(coords[i]));;
+            }
+            j=i;
+         }
+        },
+
+      /**
+       * Checks whether a point is inside of a polygon or not.
+       * "This is useful if you have many points that need to be tested against the same (static) polygon."
+       * Please call the function preparePolygonForIsPointInsideOptimized() with the same coords object before using this function.
+       * Note that the polygon coords must be in correct order!
+       *
+       * @see          Algorythm from http://alienryderflex.com/polygon/
+       *
+       * @param		object		coordinate to check e.g. {latitude: 51.5023, longitude: 7.3815}
+       * @param		array		array with coords e.g. [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...]
+       * @return		bool		true if the coordinate is inside the given polygon
+       */
+        isPointInsideWithPreparedPolygon: function(point, coords) {
+         var flgPointInside = false,
+           y = this.longitude(point),
+           x = this.latitude(point);
+
+         for(var i = 0, j = coords.length-1; i < coords.length; i++) {
+           if ((this.longitude(coords[i]) < y && this.longitude(coords[j]) >=y
+             ||   this.longitude(coords[j]) < y && this.longitude(coords[i]) >= y)) {
+             flgPointInside^=(y*coords[i].multiple+coords[i].constant < x);
+           }
+           j=i;
+         }
+         return flgPointInside;
+        },
+
 
 		/**
 		* Shortcut for geolib.isPointInside()
