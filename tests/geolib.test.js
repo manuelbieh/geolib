@@ -8,6 +8,7 @@
 		"Manchester": {latitude: "53° 29' N", longitude: "2° 14' W"},
 		"New York City": {latitude: 40.715517, longitude: -73.9991},
 		"San Francisco": {latitude: 37.774514, longitude: -122.418079},
+    "Sydney": {latitude: -33.869085, longitude: 151.210046},
 		"Moscow": {latitude: 55.751667, longitude: 37.617778}
 	};
 
@@ -81,6 +82,18 @@
 		equal(distance2, 421800, "Distance 2 should be 421800" );
 		equal(distance3, 8967172, "Distance 3 should be 8967172" );
 
+	});
+
+	test("Testing center calculation: getCenter()", function() {
+		expect(4);
+
+		var europe = geolib.getCenter([cities["Berlin"], cities["Moscow"]]);
+		var pacific = geolib.getCenter([cities["Sydney"], cities["San Francisco"]]);
+
+    equal(europe.latitude, 54.743683, "Center of Berlin and Moscow should be near Minsk (latitude should be 54.743683)" );
+    equal(europe.longitude, 25.033239, "Center of Berlin and Moscow should be near Minsk (longitude should be 25.033239)" );
+    equal(pacific.latitude, 2.676493, "Center of Sydney and San-Francisco should be in the Pacific (latitude should be 2.676493)" );
+    equal(pacific.longitude, -166.927225, "Center of Sydney and San-Francisco should be in the Pacific (longitude should be -166.927225)" );
 	});
 
 	test("Testing bounding box: getBounds()", function() {

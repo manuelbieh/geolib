@@ -390,6 +390,46 @@
 
 		},
 
+    /**
+		* Calculates the center of a collection of geo coordinates
+		*
+		* @param		array		Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
+		* @return		object		{latitude: centerLat, longitude: centerLng}
+		*/
+		getCenter: function(coords) {
+
+			if (!coords.length) {
+				return false;
+			}
+
+      var X = 0.0;
+      var Y = 0.0;
+      var Z = 0.0;
+      var lat, lon, hyp;
+
+      coords.forEach(function(coord) {
+          lat = coord.latitude * Math.PI / 180;
+          lon = coord.longitude * Math.PI / 180;
+
+          X += Math.cos(lat) * Math.cos(lon);
+          Y += Math.cos(lat) * Math.sin(lon);
+          Z += Math.sin(lat);
+        });
+
+      var nb_coords = coords.length;
+      X = X / nb_coords;
+      Y = Y / nb_coords;
+      Z = Z / nb_coords;
+
+      lon = Math.atan2(Y, X);
+      hyp = Math.sqrt(X * X + Y * Y);
+      lat = Math.atan2(Z, hyp);
+
+      return {
+        latitude: (lat * 180 / Math.PI).toFixed(6),
+        longitude: (lon * 180 / Math.PI).toFixed(6)
+      };
+    },
 
 		/**
 		* Calculates the center of a collection of geo coordinates
@@ -397,7 +437,7 @@
 		* @param		array		Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
 		* @return		object		{latitude: centerLat, longitude: centerLng, distance: diagonalDistance}
 		*/
-		getCenter: function(coords) {
+		getCenter_bak: function(coords) {
 
 			if (!coords.length) {
 				return false;
