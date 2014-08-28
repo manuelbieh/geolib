@@ -390,6 +390,7 @@
 
 		},
 
+
     /**
 		* Calculates the center of a collection of geo coordinates
 		*
@@ -430,62 +431,6 @@
         longitude: (lon * 180 / Math.PI).toFixed(6)
       };
     },
-
-		/**
-		* Calculates the center of a collection of geo coordinates
-		*
-		* @param		array		Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
-		* @return		object		{latitude: centerLat, longitude: centerLng, distance: diagonalDistance}
-		*/
-		getCenter_bak: function(coords) {
-
-			if (!coords.length) {
-				return false;
-			}
-
-			var max = function( array ){
-				return Math.max.apply( Math, array );
-			};
-
-			var min = function( array ){
-				return Math.min.apply( Math, array );
-			};
-
-			var	latitude;
-			var longitude;
-			var splitCoords = {latitude: [], longitude: []};
-
-			for(var coord in coords) {
-
-				splitCoords.latitude.push(
-					this.latitude(coords[coord])
-				);
-
-				splitCoords.longitude.push(
-					this.longitude(coords[coord])
-				);
-
-			}
-
-			var minLat = min(splitCoords.latitude);
-			var minLon = min(splitCoords.longitude);
-			var maxLat = max(splitCoords.latitude);
-			var maxLon = max(splitCoords.longitude);
-
-			latitude = ((minLat + maxLat)/2).toFixed(6);
-			longitude = ((minLon + maxLon)/2).toFixed(6);
-
-			// distance from the deepest left to the highest right point (diagonal distance)
-			var distance = this.convertUnit('km', this.getDistance({latitude: minLat, longitude: minLon}, {latitude: maxLat, longitude: maxLon}));
-
-			return {
-				latitude: latitude, 
-				longitude: longitude, 
-				distance: distance
-			};
-
-		},
-
 
 
 		/**
