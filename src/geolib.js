@@ -171,6 +171,12 @@
 
 		},
 
+		// Alias for coords
+		ll: function(point, raw) {
+			return this.coords.call(this, point, raw);
+		},
+
+
 		// checks if a variable contains a valid latlong object
 		validate: function(point) {
 
