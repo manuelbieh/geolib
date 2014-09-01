@@ -397,11 +397,11 @@
 		},
 
 
-		/**
+    /**
 		* Calculates the center of a collection of geo coordinates
 		*
 		* @param		array		Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
-		* @return		object		{latitude: centerLat, longitude: centerLng, distance: diagonalDistance}
+		* @return		object		{latitude: centerLat, longitude: centerLng}
 		*/
 		getCenter: function(coords) {
 
@@ -409,49 +409,34 @@
 				return false;
 			}
 
-			var max = function( array ){
-				return Math.max.apply( Math, array );
-			};
+      var X = 0.0;
+      var Y = 0.0;
+      var Z = 0.0;
+      var lat, lon, hyp;
 
-			var min = function( array ){
-				return Math.min.apply( Math, array );
-			};
+      coords.forEach(function(coord) {
+          lat = coord.latitude * Math.PI / 180;
+          lon = coord.longitude * Math.PI / 180;
 
-			var	latitude;
-			var longitude;
-			var splitCoords = {latitude: [], longitude: []};
+          X += Math.cos(lat) * Math.cos(lon);
+          Y += Math.cos(lat) * Math.sin(lon);
+          Z += Math.sin(lat);
+        });
 
-			for(var coord in coords) {
+      var nb_coords = coords.length;
+      X = X / nb_coords;
+      Y = Y / nb_coords;
+      Z = Z / nb_coords;
 
-				splitCoords.latitude.push(
-					this.latitude(coords[coord])
-				);
+      lon = Math.atan2(Y, X);
+      hyp = Math.sqrt(X * X + Y * Y);
+      lat = Math.atan2(Z, hyp);
 
-				splitCoords.longitude.push(
-					this.longitude(coords[coord])
-				);
-
-			}
-
-			var minLat = min(splitCoords.latitude);
-			var minLon = min(splitCoords.longitude);
-			var maxLat = max(splitCoords.latitude);
-			var maxLon = max(splitCoords.longitude);
-
-			latitude = ((minLat + maxLat)/2).toFixed(6);
-			longitude = ((minLon + maxLon)/2).toFixed(6);
-
-			// distance from the deepest left to the highest right point (diagonal distance)
-			var distance = this.convertUnit('km', this.getDistance({latitude: minLat, longitude: minLon}, {latitude: maxLat, longitude: maxLon}));
-
-			return {
-				latitude: latitude, 
-				longitude: longitude, 
-				distance: distance
-			};
-
-		},
-
+      return {
+        latitude: (lat * 180 / Math.PI).toFixed(6),
+        longitude: (lon * 180 / Math.PI).toFixed(6)
+      };
+    },
 
 
 		/**
