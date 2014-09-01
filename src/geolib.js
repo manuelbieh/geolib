@@ -606,8 +606,21 @@
 
 				} else {
 
-					coords[i].constant = this.latitude(coords[i])-(this.longitude(coords[i])*this.latitude(coords[j]))/(this.longitude(coords[j])-this.longitude(coords[i]))+(this.longitude(coords[i])*this.latitude(coords[i]))/(this.longitude(coords[j])-this.longitude(coords[i]));
-					coords[i].multiple = (this.latitude(coords[j])-this.latitude(coords[i]))/(this.longitude(coords[j])-this.longitude(coords[i]));
+					coords[i].constant = this.latitude(coords[i]) - (
+						this.longitude(coords[i]) * this.latitude(coords[j])
+					) / (
+						this.longitude(coords[j]) - this.longitude(coords[i])
+					) + (
+						this.longitude(coords[i])*this.latitude(coords[i])
+					) / (
+						this.longitude(coords[j])-this.longitude(coords[i])
+					);
+
+					coords[i].multiple = (
+						this.latitude(coords[j])-this.latitude(coords[i])
+					) / (
+						this.longitude(coords[j])-this.longitude(coords[i])
+					);
 
 				}
 
