@@ -18,11 +18,11 @@ Return value is always an integer and represents the distance in meters.
 <h4>Examples</h4>
 
 <pre>geolib.getDistance(
-	{latitude: 51.5103, longitude: 7.49347}, 
+	{latitude: 51.5103, longitude: 7.49347},
 	{latitude: "51° 31' N", longitude: "7° 28' E"}
 );
 geolib.getDistance(
-	{latitude: 51.5103, longitude: 7.49347}, 
+	{latitude: 51.5103, longitude: 7.49347},
 	{latitude: "51° 31' N", longitude: "7° 28' E"}
 );
 
@@ -30,13 +30,13 @@ geolib.getDistance(
 navigator.geolocation.getCurrentPosition(
 	function(position) {
 		alert('You are ' + geolib.getDistance(position.coords, {
-			latitude: 51.525, 
+			latitude: 51.525,
 			longitude: 7.4575
 		}) + ' meters away from 51.525, 7.4575');
-	}, 
-	function() { 
+	},
+	function() {
 		alert('Position could not be determined.')
-	}, 
+	},
 	{
 		enableHighAccuracy: true
 	}
@@ -66,15 +66,15 @@ Returns an object: `{"latitude": centerLat, "longitude": centerLng, "distance": 
 geolib.getCenter(spots);
 
 geolib.getCenter([
-	{latitude: 52.516272, longitude: 13.377722}, 
-	{latitude: 51.515, longitude: 7.453619}, 
+	{latitude: 52.516272, longitude: 13.377722},
+	{latitude: 51.515, longitude: 7.453619},
 	{latitude: 51.503333, longitude: -0.119722}
 ]);
 </pre>
 
 <h3>geolib.isPointInside(object latlng, array coords)</h3>
 
-Checks whether a point is inside of a polygon or not. 
+Checks whether a point is inside of a polygon or not.
 Note: the polygon coords must be in correct order!
 
 Returns true or false
@@ -83,7 +83,7 @@ Returns true or false
 
 <pre>
 geolib.isPointInside(
-	{latitude: 51.5125, longitude: 7.485}, 
+	{latitude: 51.5125, longitude: 7.485},
 	[
 		{latitude: 51.50, longitude: 7.40},
 		{latitude: 51.555, longitude: 7.40},
@@ -94,7 +94,7 @@ geolib.isPointInside(
 
 <h3>geolib.isPointInCircle(object latlng, object center, integer radius)</h3>
 
-Similar to is point inside: checks whether a point is inside of a circle or not. 
+Similar to is point inside: checks whether a point is inside of a circle or not.
 
 Returns true or false
 
@@ -103,7 +103,7 @@ Returns true or false
 <pre>// checks if 51.525, 7.4575 is within a radius of 5km from 51.5175, 7.4678
 geolib.isPointInCircle(
 	{latitude: 51.525, longitude: 7.4575},
-	{latitude: 51.5175, longitude: 7.4678}, 
+	{latitude: 51.5175, longitude: 7.4678},
 	5000
 );</pre>
 
@@ -118,15 +118,15 @@ Returns a sorted array [{latitude: x, longitude: y, distance: z, key: property}]
 <pre>
 // coords array
 geolib.orderByDistance({latitude: 51.515, longitude: 7.453619}, [
-	{latitude: 52.516272, longitude: 13.377722}, 
-	{latitude: 51.518, longitude: 7.45425}, 
+	{latitude: 52.516272, longitude: 13.377722},
+	{latitude: 51.518, longitude: 7.45425},
 	{latitude: 51.503333, longitude: -0.119722}
 ]);
 
 // coords object
 geolib.orderByDistance({latitude: 51.515, longitude: 7.453619}, {
-	a: {latitude: 52.516272, longitude: 13.377722}, 
-	b: {latitude: 51.518, longitude: 7.45425}, 
+	a: {latitude: 52.516272, longitude: 13.377722},
+	b: {latitude: 51.518, longitude: 7.45425},
 	c: {latitude: 51.503333, longitude: -0.119722}
 });
 </pre>
@@ -148,7 +148,7 @@ Finds the nearest coordinate to a reference coordinate.
 }
 
 // in this case set offset to 1 otherwise the nearest point will always be your reference point
-geolib.findNearest(spots['Dortmund U-Tower'], spots, 1) 
+geolib.findNearest(spots['Dortmund U-Tower'], spots, 1)
 </pre>
 
 <h3>geolib.getPathLength(mixed coords)</h3>
@@ -177,7 +177,7 @@ Returns the speed in <em>options.unit</em> (default is km/h).
 
 <pre>
 geolib.getSpeed(
-	{lat: 51.567294, lng: 7.38896, time: 1360231200880}, 
+	{lat: 51.567294, lng: 7.38896, time: 1360231200880},
 	{lat: 52.54944, lng: 13.468509, time: 1360245600880},
 	{unit: 'mph'}
 ); // -> 66.9408 (mph)</pre>

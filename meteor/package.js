@@ -1,14 +1,15 @@
 // package metadata file for Meteor.js
 'use strict';
 
-var packageName = 'manuelbieh:geolib';  // https://atmospherejs.com/manuelbieh/geolib
+var packageName = 'outatime:geolib';  // https://atmospherejs.com/outatime/geolib
 
 var packageJson = JSON.parse(Npm.require("fs").readFileSync('package.json'));
 
 Package.describe({
   name: packageName,
-  summary: 'Geolib (official) - Library to perform geo specific tasks',
+  summary: 'Geolib - Library to perform geo specific tasks',
   version: packageJson.version,
+  documentation: 'meteor/README.md',
   git: 'https://github.com/manuelbieh/geolib.git'
 });
 
