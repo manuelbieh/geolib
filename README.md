@@ -11,7 +11,7 @@ Library to provide basic geospatial operations like distance calculation, conver
 
 Calculates the distance between two geo coordinates
 
-Takes 2 or 3 arguments. First 2 arguments must be an object with latitude and a longitude properties (e.g. `{latitude: 52.518611, longitude: 13.408056}`). Coordinates can be in sexagesimal or decimal format. 3rd argument is accuracy (in meters). So a calculated distance of 1248 meters with an accuracy of 100 is returned as `1200` (accuracy 10 = `1250` etc.).
+Takes 2 or 3 arguments. First 2 arguments must be objects that each have latitude and longitude properties (e.g. `{latitude: 52.518611, longitude: 13.408056}`). Coordinates can be in sexagesimal or decimal format. 3rd argument is accuracy (in meters). So a calculated distance of 1248 meters with an accuracy of 100 is returned as `1200` (accuracy 10 = `1250` etc.).
 
 Return value is always an integer and represents the distance in meters.
 
