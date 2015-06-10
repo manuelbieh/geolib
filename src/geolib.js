@@ -113,8 +113,8 @@
             var elevation = getKey(['alt', 'altitude', 'elevation', 'elev']);
 
             // return undefined if not at least one valid property was found
-            if(typeof latitude == 'undefined' && 
-                typeof longitude == 'undefined' && 
+            if(typeof latitude == 'undefined' &&
+                typeof longitude == 'undefined' &&
                 typeof elevation == 'undefined') {
                 return undefined;
             }
@@ -213,7 +213,7 @@
         },
 
         /**
-        * Calculates geodetic distance between two points specified by latitude/longitude using 
+        * Calculates geodetic distance between two points specified by latitude/longitude using
         * Vincenty inverse formula for ellipsoids
         * Vincenty Inverse Solution of Geodesics on the Ellipsoid (c) Chris Veness 2002-2010
         * (Licensed under CC BY 3.0)
@@ -363,7 +363,7 @@
 
 
         /**
-        * Calculates the distance between two spots. 
+        * Calculates the distance between two spots.
         * This method is more simple but also far more inaccurate
         *
         * @param    object    Start position {latitude: 123, longitude: 123}
@@ -375,24 +375,24 @@
 
             accuracy = Math.floor(accuracy) || 1;
 
-            var distance = 
+            var distance =
                 Math.round(
                     Math.acos(
                         Math.sin(
                             this.latitude(end).toRad()
-                        ) * 
+                        ) *
                         Math.sin(
                             this.latitude(start).toRad()
-                        ) + 
+                        ) +
                         Math.cos(
                             this.latitude(end).toRad()
-                        ) * 
+                        ) *
                         Math.cos(
                             this.latitude(start).toRad()
-                        ) * 
+                        ) *
                         Math.cos(
                             this.longitude(start).toRad() - this.longitude(end).toRad()
-                        ) 
+                        )
                     ) * this.radius
                 );
 
@@ -448,9 +448,9 @@
 
         /**
         * Gets the max and min, latitude, longitude, and elevation (if provided).
-        * @param        array       array with coords e.g. [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...] 
+        * @param        array       array with coords e.g. [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...]
         * @return   object      {maxLat: maxLat,
-        *                     minLat: minLat        
+        *                     minLat: minLat
         *                     maxLng: maxLng,
         *                     minLng: minLng,
         *                     maxElev: maxElev,
@@ -550,12 +550,12 @@
             return [
                 // Southwest
                 {
-                    latitude: minLat.toDeg(), 
+                    latitude: minLat.toDeg(),
                     longitude: minLon.toDeg()
                 },
                 // Northeast
                 {
-                    latitude: maxLat.toDeg(), 
+                    latitude: maxLat.toDeg(),
                     longitude: maxLon.toDeg()
                 }
             ];
@@ -568,7 +568,7 @@
         * Note that the polygon coords must be in correct order!
         *
         * @param        object      coordinate to check e.g. {latitude: 51.5023, longitude: 7.3815}
-        * @param        array       array with coords e.g. [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...] 
+        * @param        array       array with coords e.g. [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...]
         * @return       bool        true if the coordinate is inside the given polygon
         */
         isPointInside: function(latlng, coords) {
@@ -579,11 +579,11 @@
                     (
                         (this.longitude(coords[i]) <= this.longitude(latlng) && this.longitude(latlng) < this.longitude(coords[j])) ||
                         (this.longitude(coords[j]) <= this.longitude(latlng) && this.longitude(latlng) < this.longitude(coords[i]))
-                    ) && 
+                    ) &&
                     (
-                        this.latitude(latlng) < (this.latitude(coords[j]) - this.latitude(coords[i])) * 
-                        (this.longitude(latlng) - this.longitude(coords[i])) / 
-                        (this.longitude(coords[j]) - this.longitude(coords[i])) + 
+                        this.latitude(latlng) < (this.latitude(coords[j]) - this.latitude(coords[i])) *
+                        (this.longitude(latlng) - this.longitude(coords[i])) /
+                        (this.longitude(coords[j]) - this.longitude(coords[i])) +
                         this.latitude(coords[i])
                     )
                 ) {
@@ -686,7 +686,7 @@
         *
         * @param        object      coordinate to check (e.g. {latitude: 51.5023, longitude: 7.3815})
         * @param        object      coordinate of the circle's center (e.g. {latitude: 51.4812, longitude: 7.4025})
-        * @param        integer     maximum radius in meters 
+        * @param        integer     maximum radius in meters
         * @return       bool        true if the coordinate is within the given radius
         */
         isPointInCircle: function(latlng, center, radius) {
@@ -703,11 +703,11 @@
 
 
         /**
-        * Gets rhumb line bearing of two points. Find out about the difference between rhumb line and 
+        * Gets rhumb line bearing of two points. Find out about the difference between rhumb line and
         * great circle bearing on Wikipedia. It's quite complicated. Rhumb line should be fine in most cases:
         *
         * http://en.wikipedia.org/wiki/Rhumb_line#General_and_mathematical_description
-        * 
+        *
         * Function heavily based on Doug Vanderweide's great PHP version (licensed under GPL 3.0)
         * http://www.dougv.com/2009/07/13/calculating-the-bearing-and-compass-rose-direction-between-two-latitude-longitude-coordinates-in-php/
         *
@@ -724,7 +724,7 @@
             var diffPhi = Math.log(
                 Math.tan(
                     this.latitude(destLL).toRad() / 2 + Math.PI / 4
-                ) / 
+                ) /
                 Math.tan(
                     this.latitude(originLL).toRad() / 2 + Math.PI / 4
                 )
@@ -764,24 +764,24 @@
                 (
                     Math.atan2(
                         Math.sin(
-                            destLL['longitude'].toRad() - 
+                            destLL['longitude'].toRad() -
                             originLL['longitude'].toRad()
-                        ) * 
+                        ) *
                         Math.cos(
                             destLL['latitude'].toRad()
-                        ), 
+                        ),
                         Math.cos(
                             originLL['latitude'].toRad()
-                        ) * 
+                        ) *
                         Math.sin(
                             destLL['latitude'].toRad()
-                        ) - 
+                        ) -
                         Math.sin(
                             originLL['latitude'].toRad()
-                        ) * 
+                        ) *
                         Math.cos(
                             destLL['latitude'].toRad()
-                        ) * 
+                        ) *
                         Math.cos(
                             destLL['longitude'].toRad() - originLL['longitude'].toRad()
                         )
@@ -807,10 +807,10 @@
             var direction;
             var bearing;
 
-            if(bearingMode == 'circle') { 
+            if(bearingMode == 'circle') {
                 // use great circle bearing
                 bearing = this.getBearing(originLL, destLL);
-            } else { 
+            } else {
                 // default is rhumb line bearing
                 bearing = this.getRhumbLineBearing(originLL, destLL);
             }
@@ -859,7 +859,7 @@
                     direction = {exact: "NW", rough: "W"};
                     break;
                 case 15:
-                    direction = {exact: "NNW", rough: "N"}; 
+                    direction = {exact: "NNW", rough: "N"};
                     break;
                 default:
                     direction = {exact: "N", rough: "N"};
@@ -883,7 +883,7 @@
         * Sorts an array of coords by distance from a reference coordinate
         *
         * @param        object      reference coordinate e.g. {latitude: 51.5023, longitude: 7.3815}
-        * @param        mixed       array or object with coords [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...] 
+        * @param        mixed       array or object with coords [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...]
         * @return       array       ordered array
         */
         orderByDistance: function(latlng, coords) {
@@ -895,9 +895,9 @@
                 var d = this.getDistance(latlng, coords[coord]);
 
                 coordsArray.push({
-                    key: coord, 
-                    latitude: this.latitude(coords[coord]), 
-                    longitude: this.longitude(coords[coord]), 
+                    key: coord,
+                    latitude: this.latitude(coords[coord]),
+                    longitude: this.longitude(coords[coord]),
                     distance: d
                 });
 
@@ -912,7 +912,7 @@
         * Finds the nearest coordinate to a reference coordinate
         *
         * @param        object      reference coordinate e.g. {latitude: 51.5023, longitude: 7.3815}
-        * @param        mixed       array or object with coords [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...] 
+        * @param        mixed       array or object with coords [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...]
         * @return       array       ordered array
         */
         findNearest: function(latlng, coords, offset, limit) {
@@ -933,7 +933,7 @@
         /**
         * Calculates the length of a given path
         *
-        * @param        mixed       array or object with coords [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...] 
+        * @param        mixed       array or object with coords [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...]
         * @return       integer     length of the path (in meters)
         */
         getPathLength: function(coords) {
@@ -991,10 +991,15 @@
         */
         convertUnit: function(unit, distance, round) {
 
-            if(distance === 0 || typeof distance === 'undefined') {
+            if(distance === 0) {
 
-                if(this.distance === 0) {
-                    // throw 'No distance given.';
+                return 0;
+
+            } else if(typeof distance === 'undefined') {
+
+                if(this.distance === null) {
+                    throw new Error('No distance was given');
+                } else if(this.distance === 0) {
                     return 0;
                 } else {
                     distance = this.distance;
@@ -1202,7 +1207,7 @@
     } else if (typeof define === "function" && define.amd) {
 
         define("geolib", [], function () {
-            return geolib; 
+            return geolib;
         });
 
     // we're in a browser
