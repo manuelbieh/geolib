@@ -47,20 +47,24 @@
 			value: function(methods, overwrite) {
 				for(var prop in methods) {
 					if(typeof geolib.prototype[prop] === 'undefined' || overwrite === true) {
-						geolib.prototype[prop] = methods[prop];
+						if(typeof methods[prop] === 'function' && typeof methods[prop].bind === 'function') {
+                            geolib.prototype[prop] = methods[prop].bind(geolib);
+						} else {
+                            geolib.prototype[prop] = methods[prop];
+						}
 					}
 				}
 			}
 		}
 	});
 
-	if (typeof(Number.prototype.toRad) === "undefined") {
+	if (typeof(Number.prototype.toRad) === 'undefined') {
 		Number.prototype.toRad = function() {
 			return this * Math.PI / 180;
 		};
 	}
 
-	if (typeof(Number.prototype.toDeg) === "undefined") {
+	if (typeof(Number.prototype.toDeg) === 'undefined') {
 		Number.prototype.toDeg = function() {
 			return this * 180 / Math.PI;
 		};

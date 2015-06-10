@@ -166,8 +166,8 @@
         throw err;
       }
       latsLngsElevs = results;
-      equal(latsLngsElevs[0].elev, 1358.223999023438, "1st elev should be 1358.223999023438");
-      equal(latsLngsElevs[1].elev, 1360.70654296875, "2nd elev should be 1360.70654296875");
+      equal(latsLngsElevs[0].elev, 1358.987182617188, "1st elev should be 1358.987182617188");
+      equal(latsLngsElevs[1].elev, 1361.561279296875, "2nd elev should be 1361.561279296875");
       done();
     });
 

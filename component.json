@@ -19,7 +19,7 @@
     "grunt-contrib-qunit": "~0.2.0",
     "grunt-text-replace": "~0.3.6",
     "grunt-contrib-jshint": "~0.6.2",
-    "phantomjs": "~1.8.0",
+    "phantomjs": ">=1.8.0",
     "grunt-jslint": "~1.0.0",
     "time-grunt": "~0.3.1",
     "load-grunt-tasks": "~0.4.0"
@@ -47,6 +47,6 @@
   "scripts": {
     "test": "grunt travis --verbose"
   },
-  "version": "2.0.15",
+  "version": "2.0.16",
   "main": "dist/geolib.js"
 }

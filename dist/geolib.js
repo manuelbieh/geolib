@@ -1,11 +1,11 @@
-/*! geolib 2.0.15 by Manuel Bieh
+/*! geolib 2.0.16 by Manuel Bieh
 * Library to provide geo functions like distance calculation,
 * conversion of decimal coordinates to sexagesimal and vice versa, etc.
 * WGS 84 (World Geodetic System 1984)
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 2.0.15
+* @version 2.0.16
 * @license MIT 
 **/;(function(global, undefined) {
 
@@ -16,7 +16,7 @@
 	// Setting readonly defaults
 	var geolib = Object.create(Geolib.prototype, {
 		version: {
-			value: "2.0.15"
+			value: "2.0.16"
 		},
 		radius: {
 			value: 6378137
@@ -56,20 +56,24 @@
 			value: function(methods, overwrite) {
 				for(var prop in methods) {
 					if(typeof geolib.prototype[prop] === 'undefined' || overwrite === true) {
-						geolib.prototype[prop] = methods[prop];
+						if(typeof methods[prop] === 'function' && typeof methods[prop].bind === 'function') {
+                            geolib.prototype[prop] = methods[prop].bind(geolib);
+						} else {
+                            geolib.prototype[prop] = methods[prop];
+						}
 					}
 				}
 			}
 		}
 	});
 
-	if (typeof(Number.prototype.toRad) === "undefined") {
+	if (typeof(Number.prototype.toRad) === 'undefined') {
 		Number.prototype.toRad = function() {
 			return this * Math.PI / 180;
 		};
 	}
 
-	if (typeof(Number.prototype.toDeg) === "undefined") {
+	if (typeof(Number.prototype.toDeg) === 'undefined') {
 		Number.prototype.toDeg = function() {
 			return this * 180 / Math.PI;
 		};
@@ -179,6 +183,12 @@
 			return retval;
 
 		},
+
+		// Alias for coords
+		ll: function(point, raw) {
+			return this.coords.call(this, point, raw);
+		},
+
 
 		// checks if a variable contains a valid latlong object
 		validate: function(point) {
@@ -400,11 +410,11 @@
 		},
 
 
-		/**
+    /**
 		* Calculates the center of a collection of geo coordinates
 		*
 		* @param		array		Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
-		* @return		object		{latitude: centerLat, longitude: centerLng, distance: diagonalDistance}
+		* @return		object		{latitude: centerLat, longitude: centerLng}
 		*/
 		getCenter: function(coords) {
 
@@ -412,49 +422,34 @@
 				return false;
 			}
 
-			var max = function( array ){
-				return Math.max.apply( Math, array );
-			};
+      var X = 0.0;
+      var Y = 0.0;
+      var Z = 0.0;
+      var lat, lon, hyp;
 
-			var min = function( array ){
-				return Math.min.apply( Math, array );
-			};
+      coords.forEach(function(coord) {
+          lat = coord.latitude * Math.PI / 180;
+          lon = coord.longitude * Math.PI / 180;
 
-			var	latitude;
-			var longitude;
-			var splitCoords = {latitude: [], longitude: []};
+          X += Math.cos(lat) * Math.cos(lon);
+          Y += Math.cos(lat) * Math.sin(lon);
+          Z += Math.sin(lat);
+        });
 
-			for(var coord in coords) {
+      var nb_coords = coords.length;
+      X = X / nb_coords;
+      Y = Y / nb_coords;
+      Z = Z / nb_coords;
 
-				splitCoords.latitude.push(
-					this.latitude(coords[coord])
-				);
+      lon = Math.atan2(Y, X);
+      hyp = Math.sqrt(X * X + Y * Y);
+      lat = Math.atan2(Z, hyp);
 
-				splitCoords.longitude.push(
-					this.longitude(coords[coord])
-				);
-
-			}
-
-			var minLat = min(splitCoords.latitude);
-			var minLon = min(splitCoords.longitude);
-			var maxLat = max(splitCoords.latitude);
-			var maxLon = max(splitCoords.longitude);
-
-			latitude = ((minLat + maxLat)/2).toFixed(6);
-			longitude = ((minLon + maxLon)/2).toFixed(6);
-
-			// distance from the deepest left to the highest right point (diagonal distance)
-			var distance = this.convertUnit('km', this.getDistance({latitude: minLat, longitude: minLon}, {latitude: maxLat, longitude: maxLon}));
-
-			return {
-				latitude: latitude, 
-				longitude: longitude, 
-				distance: distance
-			};
-
-		},
-
+      return {
+        latitude: (lat * 180 / Math.PI).toFixed(6),
+        longitude: (lon * 180 / Math.PI).toFixed(6)
+      };
+    },
 
 
 		/**
@@ -624,8 +619,21 @@
 
 				} else {
 
-					coords[i].constant = this.latitude(coords[i])-(this.longitude(coords[i])*this.latitude(coords[j]))/(this.longitude(coords[j])-this.longitude(coords[i]))+(this.longitude(coords[i])*this.latitude(coords[i]))/(this.longitude(coords[j])-this.longitude(coords[i]));
-					coords[i].multiple = (this.latitude(coords[j])-this.latitude(coords[i]))/(this.longitude(coords[j])-this.longitude(coords[i]));
+					coords[i].constant = this.latitude(coords[i]) - (
+						this.longitude(coords[i]) * this.latitude(coords[j])
+					) / (
+						this.longitude(coords[j]) - this.longitude(coords[i])
+					) + (
+						this.longitude(coords[i])*this.latitude(coords[i])
+					) / (
+						this.longitude(coords[j])-this.longitude(coords[i])
+					);
+
+					coords[i].multiple = (
+						this.latitude(coords[j])-this.latitude(coords[i])
+					) / (
+						this.longitude(coords[j])-this.longitude(coords[i])
+					);
 
 				}
 
