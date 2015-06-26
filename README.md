@@ -49,7 +49,7 @@ Calculates the geographical center of all points in a collection of geo coordina
 
 Takes an object or array of coordinates and calculates the center of it.
 
-Returns an object: `{"latitude": centerLat, "longitude": centerLng, "distance": diagonalDistance}`
+Returns an object: `{"latitude": centerLat, "longitude": centerLng}`
 
 <h4>Examples</h4>
 
