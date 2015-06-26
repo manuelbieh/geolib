@@ -413,6 +413,9 @@
                 return false;
             }
 
+            var TO_RAD = Math.PI / 180;
+            var TO_DEG = 180 / Math.PI;
+
             var X = 0.0;
             var Y = 0.0;
             var Z = 0.0;
@@ -420,8 +423,8 @@
 
             coords.forEach(function(coord) {
 
-                lat = coord.latitude * Math.PI / 180;
-                lon = coord.longitude * Math.PI / 180;
+                lat = coord.latitude * TO_RAD;
+                lon = coord.longitude * TO_RAD;
 
                 X += Math.cos(lat) * Math.cos(lon);
                 Y += Math.cos(lat) * Math.sin(lon);
@@ -439,8 +442,8 @@
             lat = Math.atan2(Z, hyp);
 
             return {
-                latitude: (lat * 180 / Math.PI).toFixed(6),
-                longitude: (lon * 180 / Math.PI).toFixed(6)
+                latitude: (lat * TO_DEG).toFixed(6),
+                longitude: (lon * TO_DEG).toFixed(6)
             };
 
         },
