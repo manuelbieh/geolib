@@ -4,6 +4,12 @@
 
     function Geolib() {}
 
+    // Constants
+    Geolib.TO_RAD = Math.PI / 180;
+    Geolib.TO_DEG = 180 / Math.PI;
+    Geolib.PI_X2 = Math.PI * 2;
+    Geolib.PI_DIV4 = Math.PI / 4;
+
     // Setting readonly defaults
     var geolib = Object.create(Geolib.prototype, {
         version: {
@@ -60,13 +66,13 @@
 
     if (typeof(Number.prototype.toRad) === 'undefined') {
         Number.prototype.toRad = function() {
-            return this * Math.PI / 180;
+            return this * Geolib.TO_RAD;
         };
     }
 
     if (typeof(Number.prototype.toDeg) === 'undefined') {
         Number.prototype.toDeg = function() {
-            return this * 180 / Math.PI;
+            return this * Geolib.TO_DEG;
         };
     }
 
@@ -413,9 +419,6 @@
                 return false;
             }
 
-            var TO_RAD = Math.PI / 180;
-            var TO_DEG = 180 / Math.PI;
-
             var X = 0.0;
             var Y = 0.0;
             var Z = 0.0;
@@ -423,8 +426,8 @@
 
             coords.forEach(function(coord) {
 
-                lat = coord.latitude * TO_RAD;
-                lon = coord.longitude * TO_RAD;
+                lat = coord.latitude * Geolib.TO_RAD;
+                lon = coord.longitude * Geolib.TO_RAD;
 
                 X += Math.cos(lat) * Math.cos(lon);
                 Y += Math.cos(lat) * Math.sin(lon);
@@ -442,8 +445,8 @@
             lat = Math.atan2(Z, hyp);
 
             return {
-                latitude: (lat * TO_DEG).toFixed(6),
-                longitude: (lon * TO_DEG).toFixed(6)
+                latitude: (lat * Geolib.TO_DEG).toFixed(6),
+                longitude: (lon * Geolib.TO_DEG).toFixed(6)
             };
 
         },
@@ -533,13 +536,13 @@
                 minLon = radLon - deltaLon;
 
                 if (minLon < MIN_LON_RAD) {
-                    minLon += 2 * Math.PI;
+                    minLon += Geolib.PI_X2;
                 }
 
                 maxLon = radLon + deltaLon;
 
                 if (maxLon > MAX_LON_RAD) {
-                    maxLon -= 2 * Math.PI;
+                    maxLon -= Geolib.PI_X2;
                 }
 
             } else {
@@ -726,20 +729,20 @@
             // difference latitude coords phi
             var diffPhi = Math.log(
                 Math.tan(
-                    this.latitude(destLL).toRad() / 2 + Math.PI / 4
+                    this.latitude(destLL).toRad() / 2 + Geolib.PI_DIV4
                 ) /
                 Math.tan(
-                    this.latitude(originLL).toRad() / 2 + Math.PI / 4
+                    this.latitude(originLL).toRad() / 2 + Geolib.PI_DIV4
                 )
             );
 
             // recalculate diffLon if it is greater than pi
             if(Math.abs(diffLon) > Math.PI) {
                 if(diffLon > 0) {
-                    diffLon = (2 * Math.PI - diffLon) * -1;
+                    diffLon = (Geolib.PI_X2 - diffLon) * -1;
                 }
                 else {
-                    diffLon = 2 * Math.PI + diffLon;
+                    diffLon = Geolib.PI_X2 + diffLon;
                 }
             }
 
