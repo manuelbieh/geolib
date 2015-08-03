@@ -1118,11 +1118,11 @@
             var tmp = dec.toString().split('.');
 
             var deg = Math.abs(tmp[0]);
-            var min = ('0.' + tmp[1])*60;
+            var min = ('0.' + (tmp[1] || 0))*60;
             var sec = min.toString().split('.');
 
             min = Math.floor(min);
-            sec = (('0.' + sec[1]) * 60).toFixed(2);
+            sec = (('0.' + (sec[1] || 0)) * 60).toFixed(2);
 
             this.sexagesimal[dec] = (deg + '° ' + min + "' " + sec + '"');
 
