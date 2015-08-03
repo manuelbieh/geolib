@@ -263,13 +263,14 @@
 
 	test("Testing conversion: decimal2sexagesimal()", function() {
 
-		expect(2);
+		expect(3);
 		var sexa1 = geolib.decimal2sexagesimal(51.519475);
 		var sexa2 = geolib.decimal2sexagesimal(-19.37555556);
+		var sexa3 = geolib.decimal2sexagesimal(50);
 
 		equal(sexa1, '51° 31\' 10.11"', "Decimal value should be 51° 31' 10.11\"" );
 		equal(sexa2, '19° 22\' 32.00"', "Decimal value should be 19° 22' 32\" S" );
-
+		equal(sexa3, '50° 0\' 0.00"', "Decimal value should be 50° 0' 0.00\"" )
 	});
 
 	test("Testing: getCompassDirection()", function() {
