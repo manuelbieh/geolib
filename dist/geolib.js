@@ -1,11 +1,11 @@
-/*! geolib 2.0.17 by Manuel Bieh
+/*! geolib 2.0.18 by Manuel Bieh
 * Library to provide geo functions like distance calculation,
 * conversion of decimal coordinates to sexagesimal and vice versa, etc.
 * WGS 84 (World Geodetic System 1984)
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 2.0.17
+* @version 2.0.18
 * @license MIT 
 **/;(function(global, undefined) {
 
@@ -13,10 +13,16 @@
 
     function Geolib() {}
 
+    // Constants
+    Geolib.TO_RAD = Math.PI / 180;
+    Geolib.TO_DEG = 180 / Math.PI;
+    Geolib.PI_X2 = Math.PI * 2;
+    Geolib.PI_DIV4 = Math.PI / 4;
+
     // Setting readonly defaults
     var geolib = Object.create(Geolib.prototype, {
         version: {
-            value: "2.0.17"
+            value: "2.0.18"
         },
         radius: {
             value: 6378137
@@ -69,13 +75,13 @@
 
     if (typeof(Number.prototype.toRad) === 'undefined') {
         Number.prototype.toRad = function() {
-            return this * Math.PI / 180;
+            return this * Geolib.TO_RAD;
         };
     }
 
     if (typeof(Number.prototype.toDeg) === 'undefined') {
         Number.prototype.toDeg = function() {
-            return this * 180 / Math.PI;
+            return this * Geolib.TO_DEG;
         };
     }
 
@@ -429,8 +435,8 @@
 
             coords.forEach(function(coord) {
 
-                lat = coord.latitude * Math.PI / 180;
-                lon = coord.longitude * Math.PI / 180;
+                lat = coord.latitude * Geolib.TO_RAD;
+                lon = coord.longitude * Geolib.TO_RAD;
 
                 X += Math.cos(lat) * Math.cos(lon);
                 Y += Math.cos(lat) * Math.sin(lon);
@@ -448,8 +454,8 @@
             lat = Math.atan2(Z, hyp);
 
             return {
-                latitude: (lat * 180 / Math.PI).toFixed(6),
-                longitude: (lon * 180 / Math.PI).toFixed(6)
+                latitude: (lat * Geolib.TO_DEG).toFixed(6),
+                longitude: (lon * Geolib.TO_DEG).toFixed(6)
             };
 
         },
@@ -539,13 +545,13 @@
                 minLon = radLon - deltaLon;
 
                 if (minLon < MIN_LON_RAD) {
-                    minLon += 2 * Math.PI;
+                    minLon += Geolib.PI_X2;
                 }
 
                 maxLon = radLon + deltaLon;
 
                 if (maxLon > MAX_LON_RAD) {
-                    maxLon -= 2 * Math.PI;
+                    maxLon -= Geolib.PI_X2;
                 }
 
             } else {
@@ -732,20 +738,20 @@
             // difference latitude coords phi
             var diffPhi = Math.log(
                 Math.tan(
-                    this.latitude(destLL).toRad() / 2 + Math.PI / 4
+                    this.latitude(destLL).toRad() / 2 + Geolib.PI_DIV4
                 ) /
                 Math.tan(
-                    this.latitude(originLL).toRad() / 2 + Math.PI / 4
+                    this.latitude(originLL).toRad() / 2 + Geolib.PI_DIV4
                 )
             );
 
             // recalculate diffLon if it is greater than pi
             if(Math.abs(diffLon) > Math.PI) {
                 if(diffLon > 0) {
-                    diffLon = (2 * Math.PI - diffLon) * -1;
+                    diffLon = (Geolib.PI_X2 - diffLon) * -1;
                 }
                 else {
-                    diffLon = 2 * Math.PI + diffLon;
+                    diffLon = Geolib.PI_X2 + diffLon;
                 }
             }
 
@@ -1121,11 +1127,11 @@
             var tmp = dec.toString().split('.');
 
             var deg = Math.abs(tmp[0]);
-            var min = ('0.' + tmp[1])*60;
+            var min = ('0.' + (tmp[1] || 0))*60;
             var sec = min.toString().split('.');
 
             min = Math.floor(min);
-            sec = (('0.' + sec[1]) * 60).toFixed(2);
+            sec = (('0.' + (sec[1] || 0)) * 60).toFixed(2);
 
             this.sexagesimal[dec] = (deg + '° ' + min + "' " + sec + '"');
 
