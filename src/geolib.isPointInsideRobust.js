@@ -45,19 +45,21 @@
             return [ y, x ];
         };
 
-        //Easy case: Add two scalars
-        var scalarScalar = function(a, b) {
+        var fastTwoSum = function(a, b, result) {
             var x = a + b;
             var bv = x - a;
             var av = x - bv;
             var br = b - bv;
             var ar = a - av;
-            var y = ar + br;
-            if(y) {
-                return [y, x];
+            if(result) {
+                result[0] = ar + br;
+                result[1] = x;
+                return result;
             }
-            return [x];
+            return [ar+br, x];
         };
+
+        var twoSum = fastTwoSum;
 
         var linearExpansionSum = function(e, f) {
             var ne = e.length|0;
@@ -203,7 +205,7 @@
         var scaleLinearExpansion = function(e, scale) {
             var n = e.length;
             if(n === 1) {
-                var ts = twoProduct(e[0], scale)
+                var ts = twoProduct(e[0], scale);
                 if(ts[0]) {
                     return ts;
                 }
@@ -213,7 +215,7 @@
             var q = [0.1, 0.1];
             var t = [0.1, 0.1];
             var count = 0;
-            twoProduct(e[0], scale, q)
+            twoProduct(e[0], scale, q);
             if(q[0]) {
                 g[count++] = q[0];
             }
@@ -257,7 +259,7 @@
                 return [y, x];
             }
             return [x];
-        }
+        };
 
         var robustSubtract = function(e, f) {
             var ne = e.length|0;
@@ -410,7 +412,7 @@
                 }
             }
             return result;
-        }
+        };
 
         var matrix = function(n) {
             var result = new Array(n);
@@ -421,14 +423,14 @@
                 }
             }
             return result;
-        }
+        };
 
         var sign = function(n) {
             if(n & 1) {
                 return "-";
             }
             return "";
-        }
+        };
 
         var generateSum = function(expr) {
             if(expr.length === 1) {
@@ -439,7 +441,7 @@
                 var m = expr.length>>1;
                 return ["sum(", generateSum(expr.slice(0, m)), ",", generateSum(expr.slice(m)), ")"].join("");
             }
-        }
+        };
 
         var determinant = function(m) {
             if(m.length === 2) {
@@ -451,7 +453,7 @@
                 }
                 return expr;
             }
-        }
+        };
 
         var orientation = function(n) {
             var pos = [];
@@ -469,18 +471,27 @@
             var posExpr = generateSum(pos);
             var negExpr = generateSum(neg);
             var funcName = "orientation" + n + "Exact";
-            var code = ["function ", funcName, "(", args.join(), "){var p=", posExpr, ",n=", negExpr, ",d=sub(p,n);\
-            return d[d.length-1];};return ", funcName].join("");
+            var code = [
+                "function ",
+                funcName,
+                "(", args.join(), "){var p=",
+                posExpr,
+                ",n=",
+                negExpr,
+                ",d=sub(p,n);return d[d.length-1];};return ",
+                funcName
+            ].join("");
             var proc = new Function("sum", "prod", "scale", "sub", code);
             return proc(robustSum, twoProduct, robustScale, robustSubtract);
-        }
+        };
+
         var orient;
         var orientation3Exact = orientation(3);
         var orientation4Exact = orientation(4);
 
         var CACHED = [
-            function orientation0() { return 0 },
-            function orientation1() { return 0 },
+            function orientation0() { return 0; },
+            function orientation1() { return 0; },
             function orientation2(a, b) {
                 return b[0] - a[0];
             },
@@ -499,7 +510,7 @@
                     if(r >= 0) {
                         return det;
                     } else {
-                        s = -(l + r)
+                        s = -(l + r);
                     }
                 } else {
                     return det;
@@ -526,12 +537,12 @@
                 var adxcdy = adx * cdy;
                 var adxbdy = adx * bdy;
                 var bdxady = bdx * ady;
-                var det = adz * (bdxcdy - cdxbdy)
-                + bdz * (cdxady - adxcdy)
-                + cdz * (adxbdy - bdxady);
-                var permanent = (Math.abs(bdxcdy) + Math.abs(cdxbdy)) * Math.abs(adz)
-                + (Math.abs(cdxady) + Math.abs(adxcdy)) * Math.abs(bdz)
-                + (Math.abs(adxbdy) + Math.abs(bdxady)) * Math.abs(cdz);
+                var det = adz * (bdxcdy - cdxbdy) +
+                    bdz * (cdxady - adxcdy) +
+                    cdz * (adxbdy - bdxady);
+                var permanent = (Math.abs(bdxcdy) + Math.abs(cdxbdy)) * Math.abs(adz) +
+                    (Math.abs(cdxady) + Math.abs(adxcdy)) * Math.abs(bdz) +
+                    (Math.abs(adxbdy) + Math.abs(bdxady)) * Math.abs(cdz);
                 var tol = ERRBOUND4 * permanent;
                 if ((det > tol) || (-det > tol)) {
                     return det;
@@ -546,7 +557,7 @@
                 proc = CACHED[args.length] = orientation(args.length);
             }
             return proc.apply(undefined, args);
-        }
+        };
 
         var generateOrientationProc = function() {
             while(CACHED.length <= NUM_EXPAND) {
@@ -559,20 +570,22 @@
                 procArgs.push("o" + i);
             }
             var code = [
-            "function getOrientation(", args.join(), "){switch(arguments.length){case 0:case 1:return 0;"
-            ]
-            for(var i=2; i<=NUM_EXPAND; ++i) {
+                "function getOrientation(",
+                args.join(),
+                "){switch(arguments.length){case 0:case 1:return 0;"
+            ];
+            for(i=2; i<=NUM_EXPAND; ++i) {
                 code.push("case ", i, ":return o", i, "(", args.slice(0, i).join(), ");");
             }
             code.push("}var s=new Array(arguments.length);for(var i=0;i<arguments.length;++i){s[i]=arguments[i]};return slow(s);}return getOrientation");
             procArgs.push(code.join(""));
 
             var proc = Function.apply(undefined, procArgs);
-            orient = proc.apply(undefined, [slowOrient].concat(CACHED))
-            for(var i=0; i<=NUM_EXPAND; ++i) {
+            orient = proc.apply(undefined, [slowOrient].concat(CACHED));
+            for(i=0; i<=NUM_EXPAND; ++i) {
                 orient[i] = CACHED[i];
             }
-        }
+        };
 
         generateOrientationProc();
 
@@ -583,11 +596,16 @@
             var coords = vs.map(function(coords) {
                 return [geolib.longitude(coords), geolib.latitude(coords)];
             });
-            var vs = coords;
-            var point = [x,y];
+
+            vs = coords;
+            point = [x,y];
+
             var n = vs.length;
             var inside = 1;
             var lim = n;
+
+            var s, c, yk, px, p;
+
             for(var i = 0, j = n-1; i<lim; j=i++) {
                 var a = vs[i];
                 var b = vs[j];
@@ -595,17 +613,17 @@
                 var yj = b[1];
                 if(yj < yi) {
                     if(yj < y && y < yi) {
-                        var s = orient(a, b, point);
+                        s = orient(a, b, point);
                         if(s === 0) {
                             return 0;
                         } else {
                             inside ^= (0 < s)|0;
                         }
                     } else if(y === yi) {
-                        var c = vs[(i+1)%n];
-                        var yk = c[1];
+                        c = vs[(i+1)%n];
+                        yk = c[1];
                         if(yi < yk) {
-                            var s = orient(a, b, point);
+                            s = orient(a, b, point);
                             if(s === 0) {
                                 return 0;
                             } else {
@@ -615,17 +633,17 @@
                     }
                 } else if(yi < yj) {
                     if(yi < y && y < yj) {
-                        var s = orient(a, b, point);
+                        s = orient(a, b, point);
                         if(s === 0) {
                             return 0;
                         } else {
                             inside ^= (s < 0)|0;
                         }
                     } else if(y === yi) {
-                        var c = vs[(i+1)%n];
-                        var yk = c[1];
+                        c = vs[(i+1)%n];
+                        yk = c[1];
                         if(yk < yi) {
-                            var s = orient(a, b, point);
+                            s = orient(a, b, point);
                             if(s === 0) {
                                 return 0;
                             } else {
@@ -639,11 +657,11 @@
                     if(i === 0) {
                         while(j>0) {
                             var k = (j+n-1)%n;
-                            var p = vs[k];
+                            p = vs[k];
                             if(p[1] !== y) {
                                 break;
                             }
-                            var px = p[0];
+                            px = p[0];
                             x0 = Math.min(x0, px);
                             x1 = Math.max(x1, px);
                             j = k;
@@ -658,11 +676,11 @@
                     }
                     var y0 = vs[(j+n-1)%n][1];
                     while(i+1<lim) {
-                        var p = vs[i+1];
+                        p = vs[i+1];
                         if(p[1] !== y) {
                             break;
                         }
-                        var px = p[0];
+                        px = p[0];
                         x0 = Math.min(x0, px);
                         x1 = Math.max(x1, px);
                         i += 1;
@@ -693,8 +711,8 @@
             isInside: function() {
                 return this.isPointInsideRobust.apply(this, arguments);
             }
-            
-        }
+
+        };
 
 	};
 
@@ -706,7 +724,7 @@
         module.exports = function(geolib) {
             geolib.extend(addOn(geolib), true);
             return geolib;
-        }
+        };
 
 	// AMD module
 	} else if (typeof define === "function" && define.amd) {
