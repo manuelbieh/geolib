@@ -168,6 +168,7 @@ module.exports = function(grunt) {
 				noarg: true,
 				sub: true,
 				undef: true,
+				evil: true,
 				boss: true,
 				eqnull: true,
 				globals: {
