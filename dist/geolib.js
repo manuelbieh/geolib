@@ -611,6 +611,7 @@
 
         },
 
+
        /**
         * Pre calculate the polygon coords, to speed up the point inside check.
         * Use this function before calling isPointInsideWithPreparedPolygon()
