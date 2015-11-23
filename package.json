@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/manuelbieh/geolib.git"
+    "url": "http://github.com/chadwilson/geolib.git"
   },
   "devDependencies": {
     "grunt": "~0.4",
@@ -47,6 +47,6 @@
   "scripts": {
     "test": "grunt travis --verbose"
   },
-  "version": "2.0.18",
+  "version": "2.0.18-chad",
   "main": "dist/geolib.js"
 }
