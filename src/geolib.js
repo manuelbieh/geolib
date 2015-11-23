@@ -107,7 +107,7 @@
                     if(typeof point != 'object') {
                         return true;
                     }
-                    return point.hasOwnProperty(val) ? (function() { key = val; return false; }()) : true;
+                    return val in point ? (function() { key = val; return false; }()) : true;
                 });
 
                 return key;
