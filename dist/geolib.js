@@ -2,11 +2,11 @@
 * Library to provide geo functions like distance calculation,
 * conversion of decimal coordinates to sexagesimal and vice versa, etc.
 * WGS 84 (World Geodetic System 1984)
-* 
+*
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
 * @version 2.0.18
-* @license MIT 
+* @license MIT
 **/;(function(global, undefined) {
 
     "use strict";
@@ -116,7 +116,7 @@
                     if(typeof point != 'object') {
                         return true;
                     }
-                    return point.hasOwnProperty(val) ? (function() { key = val; return false; }()) : true;
+                    return val in point ? (function() { key = val; return false; }()) : true;
                 });
 
                 return key;
