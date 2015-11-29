@@ -1201,6 +1201,37 @@
         round: function(value, n) {
             var decPlace = Math.pow(10, n);
             return Math.round(value * decPlace)/decPlace;
+        },
+
+        /**
+         * Computes the destination point given an initial point, a distance
+         * and a bearing
+         *
+         * see http://www.movable-type.co.uk/scripts/latlong.html for the original code
+         *
+         * @param        float      latitude of the inital point
+         * @param        float      longitude of the inital point
+         * @param        float      distance to go from the inital point in meter
+         * @param        float      bearing of the direction to go, e.g. 0 = north, 180 = south
+         * @param        float      optional, defaults to mean radius of the earth
+         * @return       object      {latitude: destLat, longitude: destLng}
+         */
+        computeDestinationPoint: function(lat, lon, distance, bearing, radius) {
+            radius = (radius === undefined) ? 6371e3 : Number(radius);
+
+            var δ = Number(distance) / radius; // angular distance in radians
+            var θ = Number(bearing).toRad();
+
+            var φ1 = Number(lat).toRad();
+            var λ1 = Number(lon).toRad();
+
+            var φ2 = Math.asin( Math.sin(φ1)*Math.cos(δ) +
+                Math.cos(φ1)*Math.sin(δ)*Math.cos(θ) );
+            var λ2 = λ1 + Math.atan2(Math.sin(θ)*Math.sin(δ)*Math.cos(φ1),
+                    Math.cos(δ)-Math.sin(φ1)*Math.sin(φ2));
+            λ2 = (λ2+3*Math.PI) % (2*Math.PI) - Math.PI; // normalise to -180..+180°
+
+            return {latitude: φ2.toDeg(), longitude: λ2.toDeg()};
         }
 
     });
