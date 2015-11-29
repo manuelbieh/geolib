@@ -1,7 +1,7 @@
 {
   "name": "Geolib",
   "main": "dist/geolib.js",
-  "version": "2.0.19",
+  "version": "2.0.18",
   "homepage": "https://github.com/manuelbieh/Geolib",
   "authors": [
 	"Manuel Bieh <github@manuelbieh.de>"

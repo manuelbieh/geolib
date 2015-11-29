@@ -1209,12 +1209,12 @@
          *
          * see http://www.movable-type.co.uk/scripts/latlong.html for the original code
          *
-         * @param        float      latitude of the inital point in degree
-         * @param        float      longitude of the inital point in degree
+         * @param        float      latitude of the inital point
+         * @param        float      longitude of the inital point
          * @param        float      distance to go from the inital point in meter
-         * @param        float      bearing in degree of the direction to go, e.g. 0 = north, 180 = south
-         * @param        float      optional (in meter), defaults to mean radius of the earth
-         * @return       object      {latitude: destLat (in degree), longitude: destLng (in degree)}
+         * @param        float      bearing of the direction to go, e.g. 0 = north, 180 = south
+         * @param        float      optional, defaults to mean radius of the earth
+         * @return       object      {latitude: destLat, longitude: destLng}
          */
         computeDestinationPoint: function(lat, lon, distance, bearing, radius) {
             radius = (radius === undefined) ? 6371e3 : Number(radius);
