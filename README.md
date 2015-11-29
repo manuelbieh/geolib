@@ -1,4 +1,4 @@
-# Geolib v2.0.18
+# Geolib v2.0.19
 [![Build Status](https://secure.travis-ci.org/manuelbieh/Geolib.png?branch=master)](http://travis-ci.org/manuelbieh/Geolib)
 
 Library to provide basic geospatial operations like distance calculation, conversion of decimal coordinates to sexagesimal and vice versa, etc.
@@ -248,6 +248,24 @@ Checks if a coordinate is already in decimal format and, if not, converts it to
 
 <pre>geolib.useDecimal("51° 29' 46\" N"); // -> 51.59611111
 geolib.useDecimal(51.59611111) // -> 51.59611111</pre>
+
+<h3>geolib.computeDestinationPoint(lat, lon, distance, bearing, radius(optional))</h3>
+
+Computes the destination point given an initial point, a distance and a bearing
+
+If no radius is given it defaults to the mean earth radius of 6371000 meter.
+
+Returns an object: `{"latitude": destLat, "longitude": destLng}`
+
+<h4>Example</h4>
+
+<pre>var initialPoint = {lat: 51.516272, lon: 0.45425}
+var dist = 1234;
+var bearing = 45;
+
+geolib.computeDestinationPoint(initialPoint.lat, initialPoint.lon, dist, bearing);
+// -> {"latitude":51.52411853234181,"longitude":0.4668623365950795}
+</pre>
 
 <h2>Changelog</h2>
 <h3>v2.0.0+beta1</h3>

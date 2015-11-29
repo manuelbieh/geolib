@@ -1,11 +1,11 @@
-/*! geolib 2.0.18 by Manuel Bieh
+/*! geolib 2.0.19 by Manuel Bieh
 * Library to provide geo functions like distance calculation,
 * conversion of decimal coordinates to sexagesimal and vice versa, etc.
 * WGS 84 (World Geodetic System 1984)
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 2.0.18
+* @version 2.0.19
 * @license MIT 
 **/;(function(global, undefined) {
 
@@ -22,7 +22,7 @@
     // Setting readonly defaults
     var geolib = Object.create(Geolib.prototype, {
         version: {
-            value: "2.0.18"
+            value: "2.0.19"
         },
         radius: {
             value: 6378137
@@ -1218,12 +1218,12 @@
          *
          * see http://www.movable-type.co.uk/scripts/latlong.html for the original code
          *
-         * @param        float      latitude of the inital point
-         * @param        float      longitude of the inital point
+         * @param        float      latitude of the inital point in degree
+         * @param        float      longitude of the inital point in degree
          * @param        float      distance to go from the inital point in meter
-         * @param        float      bearing of the direction to go, e.g. 0 = north, 180 = south
-         * @param        float      optional, defaults to mean radius of the earth
-         * @return       object      {latitude: destLat, longitude: destLng}
+         * @param        float      bearing in degree of the direction to go, e.g. 0 = north, 180 = south
+         * @param        float      optional (in meter), defaults to mean radius of the earth
+         * @return       object      {latitude: destLat (in degree), longitude: destLng (in degree)}
          */
         computeDestinationPoint: function(lat, lon, distance, bearing, radius) {
             radius = (radius === undefined) ? 6371e3 : Number(radius);
