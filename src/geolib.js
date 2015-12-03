@@ -914,6 +914,17 @@
 
         },
 
+        /**
+        * Check if a point lies in line created by two other points
+        *
+        * @param    object    Point to check: {latitude: 123, longitude: 123}
+        * @param    object    Start of line {latitude: 123, longitude: 123}
+        * @param    object    End of line {latitude: 123, longitude: 123}
+        * @return   boolean   
+        */
+        isPointInLine: function(point, start, end) {
+            return this.getDistance(start, point)+this.getDistance(point,end)==this.getDistance(start,end);
+        },
 
         /**
         * Finds the nearest coordinate to a reference coordinate
