@@ -227,11 +227,13 @@
         * @param    object    Start position {latitude: 123, longitude: 123}
         * @param    object    End position {latitude: 123, longitude: 123}
         * @param    integer   Accuracy (in meters)
+        * @param    integer   Precision (in decimal cases)
         * @return   integer   Distance (in meters)
         */
-        getDistance: function(start, end, accuracy) {
+        getDistance: function(start, end, accuracy, precision) {
 
             accuracy = Math.floor(accuracy) || 1;
+            precision = Math.floor(precision) || 0;
 
             var s = this.coords(start);
             var e = this.coords(end);
@@ -345,7 +347,7 @@
 
             var distance = b * A * (sigma - deltaSigma);
 
-            distance = distance.toFixed(3); // round to 1mm precision
+            distance = distance.toFixed(precision); // round to 1mm precision
 
             //if (start.hasOwnProperty(elevation) && end.hasOwnProperty(elevation)) {
             if (typeof this.elevation(start) !== 'undefined' && typeof this.elevation(end) !== 'undefined') {
@@ -353,9 +355,7 @@
                 distance = Math.sqrt(distance * distance + climb * climb);
             }
 
-            return this.distance = Math.floor(
-                Math.round(distance / accuracy) * accuracy
-            );
+            return this.distance = parseFloat((Math.round(distance / accuracy) * accuracy).toFixed(precision));
 
             /*
             // note: to return initial/final bearings in addition to distance, use something like:
@@ -923,7 +923,7 @@
         * @return   boolean   
         */
         isPointInLine: function(point, start, end) {
-            return this.getDistance(start, point)+this.getDistance(point,end)==this.getDistance(start,end);
+            return this.getDistance(start, point, 1, 3)+this.getDistance(point, end, 1, 3)==this.getDistance(start, end, 1, 3);
         },
 
         /**

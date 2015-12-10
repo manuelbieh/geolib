@@ -8,7 +8,7 @@
         "Manchester": {latitude: "53° 29' N", longitude: "2° 14' W"},
         "New York City": {latitude: 40.715517, longitude: -73.9991},
         "San Francisco": {latitude: 37.774514, longitude: -122.418079},
-    "Sydney": {latitude: -33.869085, longitude: 151.210046},
+        "Sydney": {latitude: -33.869085, longitude: 151.210046},
         "Moscow": {latitude: 55.751667, longitude: 37.617778}
     };
 
@@ -54,18 +54,20 @@
 
     test("Testing distance calculation: getDistance()", function() {
 
-        expect(5);
+        expect(6);
 
         var distance1 = geolib.getDistance({latitude: 52.518611, longitude: 13.408056}, {latitude: 51.519475, longitude: 7.46694444});
         var distance2 = geolib.getDistance({latitude: 52.518611, longitude: 13.408056}, {latitude: 51.519475, longitude: 7.46694444}, 100);
         var distance3 = geolib.getDistance({latitude: 37.774514, longitude: -122.418079}, {latitude: 51.519475, longitude: 7.46694444});
         var distance4 = geolib.getDistance({"lat": 41.72977, "lng":-111.77621999999997}, {"lat":41.73198,"lng":-111.77636999999999});
+        var distance5 = geolib.getDistance({"lat": 41.72977, "lng":-111.77621999999997}, {"lat":41.73198,"lng":-111.77636999999999}, 1, 3);
         var geoJSON = geolib.getDistance([-111.77621999999997, 41.72977], [-111.77636999999999, 41.73198]);
 
         equal(distance1, 422592, "Distance 1 should be 422592" );
         equal(distance2, 422600, "Distance 2 should be 422600" );
         equal(distance3, 8980260, "Distance 3 should be 8980260" );
         equal(distance4, 246, "Distance 4 should be 246" );
+        equal(distance5, 246, "Distance 4 should be 246" );
         equal(geoJSON, 246, "Testing getDistance() with geoJSON data");
 
     });
@@ -97,6 +99,26 @@
         equal(pacific.longitude, -166.927225, "Center of Sydney and San-Francisco should be in the Pacific (longitude should be -166.927225)" );
 
     });
+
+    test("Testing in line calculation: isPoinInLine()", function(){
+        expect(3);
+
+        var point1 = {latitude: 0.5, longitude: 0};
+        var point2 = {latitude: 0, longitude: 10};
+        var point3 = {latitude: 0, longitude: 15.5};
+        var start  = {latitude: 0, longitude: 0};
+        var end    = {latitude: 0, longitude: 15};
+
+        var isInLine1 = geolib.isPoinInLine(point1, start, end);
+        var isInLine2 = geolib.isPoinInLine(point2, start, end);
+        var isInLine3 = geolib.isPoinInLine(point3, start, end);
+
+        equal(isInLine1, false, "[0, 0.5] is not between [[0,0],[15,0]]");
+        equal(isInLine2, true,  "[10, 0] is between [[0,0],[15,0]]");
+        equal(isInLine3, false, "[15.5, 0] is not between [[0,0],[15,0]]");
+        
+    });
+
 
     test("Testing bounding box: getBounds()", function() {
 
