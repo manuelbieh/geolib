@@ -100,7 +100,7 @@
 
     });
 
-    test("Testing in line calculation: isPoinInLine()", function(){
+    test("Testing in line calculation: isPointInLine()", function(){
         expect(3);
 
         var point1 = {latitude: 0.5, longitude: 0};
@@ -109,9 +109,9 @@
         var start  = {latitude: 0, longitude: 0};
         var end    = {latitude: 0, longitude: 15};
 
-        var isInLine1 = geolib.isPoinInLine(point1, start, end);
-        var isInLine2 = geolib.isPoinInLine(point2, start, end);
-        var isInLine3 = geolib.isPoinInLine(point3, start, end);
+        var isInLine1 = geolib.isPointInLine(point1, start, end);
+        var isInLine2 = geolib.isPointInLine(point2, start, end);
+        var isInLine3 = geolib.isPointInLine(point3, start, end);
 
         equal(isInLine1, false, "[0, 0.5] is not between [[0,0],[15,0]]");
         equal(isInLine2, true,  "[10, 0] is between [[0,0],[15,0]]");
