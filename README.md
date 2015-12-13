@@ -182,6 +182,25 @@ geolib.getSpeed(
 	{unit: 'mph'}
 ); // -> 66.9408 (mph)</pre>
 
+<h3>geolib.isPointInLine(object point, object start, object end</h3>
+
+Calculates if given point lies in a line formed by start and end.
+
+Returns true or false
+
+<h4>Examples</h4>
+
+<pre>var point1 = {latitude: 0.5, longitude: 0};
+var point2 = {latitude: 0, longitude: 10};
+var point3 = {latitude: 0, longitude: 15.5};
+var start  = {latitude: 0, longitude: 0};
+var end    = {latitude: 0, longitude: 15};
+
+var isInLine1 = geolib.isPointInLine(point1, start, end) //-> false;
+var isInLine2 = geolib.isPointInLine(point2, start, end) //-> true;
+var isInLine3 = geolib.isPointInLine(point3, start, end) //-> false;
+</pre>
+
 <h3>geolib.convertUnit(string unit, float distance[, int round])</h3>
 
 Converts a given distance (in meters) to another unit.
