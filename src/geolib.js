@@ -1217,7 +1217,7 @@
          * @return       object      {latitude: destLat (in degree), longitude: destLng (in degree)}
          */
         computeDestinationPoint: function(lat, lon, distance, bearing, radius) {
-            radius = (radius === undefined) ? 6371e3 : Number(radius);
+            radius = (radius === undefined) ? this.radius : Number(radius);
 
             var δ = Number(distance) / radius; // angular distance in radians
             var θ = Number(bearing).toRad();

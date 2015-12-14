@@ -2,11 +2,11 @@
 * Library to provide geo functions like distance calculation,
 * conversion of decimal coordinates to sexagesimal and vice versa, etc.
 * WGS 84 (World Geodetic System 1984)
-*
+* 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
 * @version 2.0.18
-* @license MIT
+* @license MIT 
 **/;(function(global, undefined) {
 
     "use strict";
@@ -1226,7 +1226,7 @@
          * @return       object      {latitude: destLat (in degree), longitude: destLng (in degree)}
          */
         computeDestinationPoint: function(lat, lon, distance, bearing, radius) {
-            radius = (radius === undefined) ? 6371e3 : Number(radius);
+            radius = (radius === undefined) ? this.radius : Number(radius);
 
             var δ = Number(distance) / radius; // angular distance in radians
             var θ = Number(bearing).toRad();
