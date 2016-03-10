@@ -946,8 +946,7 @@
         * @param    object    Point away from line
         * @param    object    Start of line {latitude: 123, longitude: 123}
         * @param    object    End of line {latitude: 123, longitude: 123}
-        * @pararm   float     maximum distance from line
-        * @return   boolean   
+        * @return   float     distance from point to line   
         */
         getDistanceFromLine: function(point, start, end) {
             var d1 = this.getDistance(start, point, 1, 3);
