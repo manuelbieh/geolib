@@ -923,7 +923,47 @@
         * @return   boolean   
         */
         isPointInLine: function(point, start, end) {
+
             return this.getDistance(start, point, 1, 3)+this.getDistance(point, end, 1, 3)==this.getDistance(start, end, 1, 3);
+        },
+        
+                /**
+        * Check if a point lies within a given distance from a line created by two other points
+        *
+        * @param    object    Point to check: {latitude: 123, longitude: 123}
+        * @param    object    Start of line {latitude: 123, longitude: 123}
+        * @param    object    End of line {latitude: 123, longitude: 123}
+        * @pararm   float     maximum distance from line
+        * @return   boolean   
+        */
+        isPointNearLine: function(point, start, end, distance) {
+            return this.getDistanceFromLine(point, start, end) < distance;
+        },
+        
+                     /**
+        * return the minimum distance from a point to a line
+        *
+        * @param    object    Point away from line
+        * @param    object    Start of line {latitude: 123, longitude: 123}
+        * @param    object    End of line {latitude: 123, longitude: 123}
+        * @pararm   float     maximum distance from line
+        * @return   boolean   
+        */
+        getDistanceFromLine: function(point, start, end) {
+            var d1 = this.getDistance(start, point, 1, 3);
+            var d2 = this.getDistance(point, end, 1, 3);
+            var d3 = this.getDistance(start,end,1,3);
+            var distance = 0;
+            
+            var alpha = Math.acos((d1*d1 + d3*d3 - d2*d2)/(2*d1*d3));
+            if(alpha<90) {
+                distance = Math.sin(alpha)/d1;    
+            }
+            else {
+                distance = Math.sin(180-alpha)/d1;
+            }
+
+            return distance;
         },
 
         /**
