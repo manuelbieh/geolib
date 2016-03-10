@@ -952,15 +952,27 @@
         getDistanceFromLine: function(point, start, end) {
             var d1 = this.getDistance(start, point, 1, 3);
             var d2 = this.getDistance(point, end, 1, 3);
-            var d3 = this.getDistance(start,end,1,3);
+            var d3 = this.getDistance(start, end, 1, 3);
             var distance = 0;
             
+            // alpha is the angle between the line from start to point, and from start to end //
             var alpha = Math.acos((d1*d1 + d3*d3 - d2*d2)/(2*d1*d3));
-            if(alpha<90) {
-                distance = Math.sin(alpha)/d1;    
+            // beta is the angle between the line from end to point and from end to start //
+            var beta = Math.acos((d2*d2 + d3*d3 - d1*d1)/(2*d2*d3));
+            
+            // if the angle is greater than 90 degrees, then the minimum distance is the 
+            // line from the start to the point //
+            if(alpha>Math.PI/2) {
+                distance = d1;
             }
+            // same for the beta //
+            else if(beta > Math.PI/2) {
+                distance = d2;
+            }
+            // otherwise the minimum distance is achieved through a line perpendular to the start-end line,
+            // which goes from the start-end line to the point //
             else {
-                distance = Math.sin(180-alpha)/d1;
+                distance = Math.sin(alpha)/d1;
             }
 
             return distance;
