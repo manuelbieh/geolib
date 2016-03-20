@@ -1,4 +1,4 @@
-/*! geolib.isPointInsideRobust 2.0.19
+/*! geolib.isPointInsideRobust 2.0.20
 * !!EXPERIMENTAL!!
 *
 * Robust version of isPointInside for Geolib.js
@@ -8,7 +8,7 @@
 *
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 2.0.19
+* @version 2.0.20
 * @license MIT
 *
 */
