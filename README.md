@@ -72,7 +72,7 @@ geolib.getCenter([
 ]);
 </pre>
 
-<h3>geolib.isPointInside(object latlng, array coords)</h3>
+<h3>geolib.isPointInside(object latlng, array polygon)</h3>
 
 Checks whether a point is inside of a polygon or not.
 Note: the polygon coords must be in correct order!
@@ -268,13 +268,15 @@ Checks if a coordinate is already in decimal format and, if not, converts it to
 <pre>geolib.useDecimal("51° 29' 46\" N"); // -> 51.59611111
 geolib.useDecimal(51.59611111) // -> 51.59611111</pre>
 
-<h3>geolib.computeDestinationPoint(lat, lon, distance, bearing, radius(optional))</h3>
+<h3>geolib.computeDestinationPoint(start, distance, bearing, radius(optional))</h3>
 
 Computes the destination point given an initial point, a distance and a bearing
 
 If no radius is given it defaults to the mean earth radius of 6371000 meter.
 
 Returns an object: `{"latitude": destLat, "longitude": destLng}`
+
+(Attention: this formula is not *100%* accurate (but very close though))
 
 <h4>Example</h4>
 

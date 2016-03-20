@@ -116,7 +116,7 @@
         equal(isInLine1, false, "[0, 0.5] is not between [[0,0],[15,0]]");
         equal(isInLine2, true,  "[10, 0] is between [[0,0],[15,0]]");
         equal(isInLine3, false, "[15.5, 0] is not between [[0,0],[15,0]]");
-        
+
     });
 
 
@@ -378,6 +378,39 @@
 
         ok(isInside1, "Point 1 is inside polygon");
         ok(!isInside2, "Point 2 is not inside polygon");
+
+    });
+
+
+    test("Testing: computeDestinationPoint()", function() {
+
+        var point1 = geolib.computeDestinationPoint(cities['Berlin'], 15000, 180);
+        var point2 = geolib.computeDestinationPoint(cities['Berlin'], 15000, 135);
+
+        deepEqual(point1, {"latitude": 52.383863707382076, "longitude": 13.408055999999977});
+        deepEqual(point2, {"latitude": 52.42322722672352, "longitude": 13.564299057246114});
+
+    });
+
+    test("Testing: orderByDistance()", function() {
+
+        var result = geolib.orderByDistance({"latitude": 51.516241842, "longitude": 7.456494328}, polygon2);
+
+        deepEqual(result, [
+            {"latitude": 51.516241842, "longitude": 7.456494328, "elevation": 523.12, "distance": 0, "key": "2"},
+            {"latitude": 51.515400598, "longitude": 7.45518541, "elevation": 524.54, "distance": 130, "key": "1"},
+            {"latitude": 51.516722545, "longitude": 7.459863183, "elevation": 522.77, "distance": 240, "key": "3"},
+            {"latitude": 51.513357512, "longitude": 7.45574331, "elevation": 523.92, "distance": 325, "key": "0"},
+            {"latitude": 51.517443592, "longitude": 7.463232037, "elevation": 521.12, "distance": 486, "key": "4"}
+        ]);
+
+        var result2 = geolib.orderByDistance({lat: 1, lng: 1}, [{lat: 3, lng: 4}, {lat: 1, lng: 6}, {lat: 4, lng: 1}]);
+
+        deepEqual(result2, [
+            {"lat":4,"lng":1,"distance":331730,"key":"2"},
+            {"lat":3,"lng":4,"distance":400362,"key":"0"},
+            {"lat":1,"lng":6,"distance":556513,"key":"1"}
+        ]);
 
     });
 

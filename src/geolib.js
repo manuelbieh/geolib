@@ -899,18 +899,18 @@
 
             for(var coord in coords) {
 
-                var d = this.getDistance(latlng, coords[coord]);
+                var distance = this.getDistance(latlng, coords[coord]);
+                var augmentedCoord = Object(coords[coord]);
+                augmentedCoord.distance = distance;
+                augmentedCoord.key = coord;
 
-                coordsArray.push({
-                    key: coord,
-                    latitude: this.latitude(coords[coord]),
-                    longitude: this.longitude(coords[coord]),
-                    distance: d
-                });
+                coordsArray.push(augmentedCoord);
 
             }
 
-            return coordsArray.sort(function(a, b) { return a.distance - b.distance; });
+            return coordsArray.sort(function(a, b) {
+                return a.distance - b.distance;
+            });
 
         },
 
@@ -920,13 +920,13 @@
         * @param    object    Point to check: {latitude: 123, longitude: 123}
         * @param    object    Start of line {latitude: 123, longitude: 123}
         * @param    object    End of line {latitude: 123, longitude: 123}
-        * @return   boolean   
+        * @return   boolean
         */
         isPointInLine: function(point, start, end) {
 
             return this.getDistance(start, point, 1, 3)+this.getDistance(point, end, 1, 3)==this.getDistance(start, end, 1, 3);
         },
-        
+
                 /**
         * Check if a point lies within a given distance from a line created by two other points
         *
@@ -934,32 +934,32 @@
         * @param    object    Start of line {latitude: 123, longitude: 123}
         * @param    object    End of line {latitude: 123, longitude: 123}
         * @pararm   float     maximum distance from line
-        * @return   boolean   
+        * @return   boolean
         */
         isPointNearLine: function(point, start, end, distance) {
             return this.getDistanceFromLine(point, start, end) < distance;
         },
-        
+
                      /**
         * return the minimum distance from a point to a line
         *
         * @param    object    Point away from line
         * @param    object    Start of line {latitude: 123, longitude: 123}
         * @param    object    End of line {latitude: 123, longitude: 123}
-        * @return   float     distance from point to line   
+        * @return   float     distance from point to line
         */
         getDistanceFromLine: function(point, start, end) {
             var d1 = this.getDistance(start, point, 1, 3);
             var d2 = this.getDistance(point, end, 1, 3);
             var d3 = this.getDistance(start, end, 1, 3);
             var distance = 0;
-            
+
             // alpha is the angle between the line from start to point, and from start to end //
             var alpha = Math.acos((d1*d1 + d3*d3 - d2*d2)/(2*d1*d3));
             // beta is the angle between the line from end to point and from end to start //
             var beta = Math.acos((d2*d2 + d3*d3 - d1*d1)/(2*d2*d3));
-            
-            // if the angle is greater than 90 degrees, then the minimum distance is the 
+
+            // if the angle is greater than 90 degrees, then the minimum distance is the
             // line from the start to the point //
             if(alpha>Math.PI/2) {
                 distance = d1;
@@ -1046,6 +1046,46 @@
             var mPerHr = (distance/time)*3600;
             var speed = Math.round(mPerHr * this.measures[unit] * 10000)/10000;
             return speed;
+
+        },
+
+
+        /**
+         * Computes the destination point given an initial point, a distance
+         * and a bearing
+         *
+         * see http://www.movable-type.co.uk/scripts/latlong.html for the original code
+         *
+         * @param        float      latitude of the inital point in degree
+         * @param        float      longitude of the inital point in degree
+         * @param        float      distance to go from the inital point in meter
+         * @param        float      bearing in degree of the direction to go, e.g. 0 = north, 180 = south
+         * @param        float      optional (in meter), defaults to mean radius of the earth
+         * @return       object      {latitude: destLat (in degree), longitude: destLng (in degree)}
+         */
+        computeDestinationPoint: function(start, distance, bearing, radius) {
+
+            var lat = this.latitude(start);
+            var lng = this.longitude(start);
+
+            radius = (typeof radius === 'undefined') ? this.radius : Number(radius);
+
+            var δ = Number(distance) / radius; // angular distance in radians
+            var θ = Number(bearing).toRad();
+
+            var φ1 = Number(lat).toRad();
+            var λ1 = Number(lng).toRad();
+
+            var φ2 = Math.asin( Math.sin(φ1)*Math.cos(δ) +
+                Math.cos(φ1)*Math.sin(δ)*Math.cos(θ) );
+            var λ2 = λ1 + Math.atan2(Math.sin(θ)*Math.sin(δ)*Math.cos(φ1),
+                    Math.cos(δ)-Math.sin(φ1)*Math.sin(φ2));
+            λ2 = (λ2+3*Math.PI) % (2*Math.PI) - Math.PI; // normalise to -180..+180°
+
+            return {
+                latitude: φ2.toDeg(),
+                longitude: λ2.toDeg()
+            };
 
         },
 
@@ -1263,37 +1303,6 @@
         round: function(value, n) {
             var decPlace = Math.pow(10, n);
             return Math.round(value * decPlace)/decPlace;
-        },
-
-        /**
-         * Computes the destination point given an initial point, a distance
-         * and a bearing
-         *
-         * see http://www.movable-type.co.uk/scripts/latlong.html for the original code
-         *
-         * @param        float      latitude of the inital point in degree
-         * @param        float      longitude of the inital point in degree
-         * @param        float      distance to go from the inital point in meter
-         * @param        float      bearing in degree of the direction to go, e.g. 0 = north, 180 = south
-         * @param        float      optional (in meter), defaults to mean radius of the earth
-         * @return       object      {latitude: destLat (in degree), longitude: destLng (in degree)}
-         */
-        computeDestinationPoint: function(lat, lon, distance, bearing, radius) {
-            radius = (radius === undefined) ? this.radius : Number(radius);
-
-            var δ = Number(distance) / radius; // angular distance in radians
-            var θ = Number(bearing).toRad();
-
-            var φ1 = Number(lat).toRad();
-            var λ1 = Number(lon).toRad();
-
-            var φ2 = Math.asin( Math.sin(φ1)*Math.cos(δ) +
-                Math.cos(φ1)*Math.sin(δ)*Math.cos(θ) );
-            var λ2 = λ1 + Math.atan2(Math.sin(θ)*Math.sin(δ)*Math.cos(φ1),
-                    Math.cos(δ)-Math.sin(φ1)*Math.sin(φ2));
-            λ2 = (λ2+3*Math.PI) % (2*Math.PI) - Math.PI; // normalise to -180..+180°
-
-            return {latitude: φ2.toDeg(), longitude: λ2.toDeg()};
         }
 
     });
