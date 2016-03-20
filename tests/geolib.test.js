@@ -93,10 +93,13 @@
         var europe = geolib.getCenter([cities["Berlin"], cities["Moscow"]]);
         var pacific = geolib.getCenter([cities["Sydney"], cities["San Francisco"]]);
 
+        var example = geolib.getCenter(cities)
+
         equal(europe.latitude, 54.743683, "Center of Berlin and Moscow should be near Minsk (latitude should be 54.743683)" );
         equal(europe.longitude, 25.033239, "Center of Berlin and Moscow should be near Minsk (longitude should be 25.033239)" );
         equal(pacific.latitude, 2.676493, "Center of Sydney and San-Francisco should be in the Pacific (latitude should be 2.676493)" );
         equal(pacific.longitude, -166.927225, "Center of Sydney and San-Francisco should be in the Pacific (longitude should be -166.927225)" );
+        deepEqual(example, {latitude: "65.419162", longitude: "-28.013133"}, "Center of a sample set of cities is 65.419162, -28.013133");
 
     });
 
