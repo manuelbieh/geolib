@@ -415,7 +415,20 @@
         */
         getCenter: function(coords) {
 
-            if (!coords.length) {
+            var coordsArray = coords;
+            if(typeof coords === 'object' && !(coords instanceof Array)) {
+
+                var coordsArray = [];
+
+                for(var key in coords) {
+                    coordsArray.push(
+                        this.coords(coords[key])
+                    );
+                }
+
+            }
+
+            if(!coordsArray.length) {
                 return false;
             }
 
@@ -424,18 +437,18 @@
             var Z = 0.0;
             var lat, lon, hyp;
 
-            coords.forEach(function(coord) {
+            coordsArray.forEach(function(coord) {
 
-                lat = coord.latitude * Geolib.TO_RAD;
-                lon = coord.longitude * Geolib.TO_RAD;
+                lat = this.latitude(coord).toRad();
+                lon = this.longitude(coord).toRad();
 
                 X += Math.cos(lat) * Math.cos(lon);
                 Y += Math.cos(lat) * Math.sin(lon);
                 Z += Math.sin(lat);
 
-            });
+            }.bind(this));
 
-            var nb_coords = coords.length;
+            var nb_coords = coordsArray.length;
             X = X / nb_coords;
             Y = Y / nb_coords;
             Z = Z / nb_coords;
