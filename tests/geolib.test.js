@@ -88,7 +88,7 @@
 
     test("Testing center calculation: getCenter()", function() {
 
-        expect(4);
+        expect(5);
 
         var europe = geolib.getCenter([cities["Berlin"], cities["Moscow"]]);
         var pacific = geolib.getCenter([cities["Sydney"], cities["San Francisco"]]);
