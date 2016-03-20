@@ -418,7 +418,7 @@
             var coordsArray = coords;
             if(typeof coords === 'object' && !(coords instanceof Array)) {
 
-                var coordsArray = [];
+                coordsArray = [];
 
                 for(var key in coords) {
                     coordsArray.push(
@@ -439,14 +439,14 @@
 
             coordsArray.forEach(function(coord) {
 
-                lat = this.latitude(coord).toRad();
-                lon = this.longitude(coord).toRad();
+                lat = geolib.latitude(coord).toRad();
+                lon = geolib.longitude(coord).toRad();
 
                 X += Math.cos(lat) * Math.cos(lon);
                 Y += Math.cos(lat) * Math.sin(lon);
                 Z += Math.sin(lat);
 
-            }.bind(this));
+            });
 
             var nb_coords = coordsArray.length;
             X = X / nb_coords;
