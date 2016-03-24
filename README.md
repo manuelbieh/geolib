@@ -18,28 +18,28 @@ Return value is always an float and represents the distance in meters.
 <h4>Examples</h4>
 
 <pre>geolib.getDistance(
-	{latitude: 51.5103, longitude: 7.49347},
-	{latitude: "51° 31' N", longitude: "7° 28' E"}
+    {latitude: 51.5103, longitude: 7.49347},
+    {latitude: "51° 31' N", longitude: "7° 28' E"}
 );
 geolib.getDistance(
-	{latitude: 51.5103, longitude: 7.49347},
-	{latitude: "51° 31' N", longitude: "7° 28' E"}
+    {latitude: 51.5103, longitude: 7.49347},
+    {latitude: "51° 31' N", longitude: "7° 28' E"}
 );
 
 // Working with W3C Geolocation API
 navigator.geolocation.getCurrentPosition(
-	function(position) {
-		alert('You are ' + geolib.getDistance(position.coords, {
-			latitude: 51.525,
-			longitude: 7.4575
-		}) + ' meters away from 51.525, 7.4575');
-	},
-	function() {
-		alert('Position could not be determined.')
-	},
-	{
-		enableHighAccuracy: true
-	}
+    function(position) {
+        alert('You are ' + geolib.getDistance(position.coords, {
+            latitude: 51.525,
+            longitude: 7.4575
+        }) + ' meters away from 51.525, 7.4575');
+    },
+    function() {
+        alert('Position could not be determined.')
+    },
+    {
+        enableHighAccuracy: true
+    }
 );
 </pre>
 
@@ -54,21 +54,21 @@ Returns an object: `{"latitude": centerLat, "longitude": centerLng}`
 <h4>Examples</h4>
 
 <pre>var spots = {
-	"Brandenburg Gate, Berlin": {latitude: 52.516272, longitude: 13.377722},
-	"Dortmund U-Tower": {latitude: 51.515, longitude: 7.453619},
-	"London Eye": {latitude: 51.503333, longitude: -0.119722},
-	"Kremlin, Moscow": {latitude: 55.751667, longitude: 37.617778},
-	"Eiffel Tower, Paris": {latitude: 48.8583, longitude: 2.2945},
-	"Riksdag building, Stockholm": {latitude: 59.3275, longitude: 18.0675},
-	"Royal Palace, Oslo": {latitude: 59.916911, longitude: 10.727567}
+    "Brandenburg Gate, Berlin": {latitude: 52.516272, longitude: 13.377722},
+    "Dortmund U-Tower": {latitude: 51.515, longitude: 7.453619},
+    "London Eye": {latitude: 51.503333, longitude: -0.119722},
+    "Kremlin, Moscow": {latitude: 55.751667, longitude: 37.617778},
+    "Eiffel Tower, Paris": {latitude: 48.8583, longitude: 2.2945},
+    "Riksdag building, Stockholm": {latitude: 59.3275, longitude: 18.0675},
+    "Royal Palace, Oslo": {latitude: 59.916911, longitude: 10.727567}
 }
 
 geolib.getCenter(spots);
 
 geolib.getCenter([
-	{latitude: 52.516272, longitude: 13.377722},
-	{latitude: 51.515, longitude: 7.453619},
-	{latitude: 51.503333, longitude: -0.119722}
+    {latitude: 52.516272, longitude: 13.377722},
+    {latitude: 51.515, longitude: 7.453619},
+    {latitude: 51.503333, longitude: -0.119722}
 ]);
 </pre>
 
@@ -83,13 +83,13 @@ Returns true or false
 
 <pre>
 geolib.isPointInside(
-	{latitude: 51.5125, longitude: 7.485},
-	[
-		{latitude: 51.50, longitude: 7.40},
-		{latitude: 51.555, longitude: 7.40},
-		{latitude: 51.555, longitude: 7.625},
-		{latitude: 51.5125, longitude: 7.625}
-	]
+    {latitude: 51.5125, longitude: 7.485},
+    [
+        {latitude: 51.50, longitude: 7.40},
+        {latitude: 51.555, longitude: 7.40},
+        {latitude: 51.555, longitude: 7.625},
+        {latitude: 51.5125, longitude: 7.625}
+    ]
 ); // -> true</pre>
 
 <h3>geolib.isPointInCircle(object latlng, object center, integer radius)</h3>
@@ -102,9 +102,9 @@ Returns true or false
 
 <pre>// checks if 51.525, 7.4575 is within a radius of 5km from 51.5175, 7.4678
 geolib.isPointInCircle(
-	{latitude: 51.525, longitude: 7.4575},
-	{latitude: 51.5175, longitude: 7.4678},
-	5000
+    {latitude: 51.525, longitude: 7.4575},
+    {latitude: 51.5175, longitude: 7.4678},
+    5000
 );</pre>
 
 <h3>geolib.orderByDistance(object latlng, mixed coords)</h3>
@@ -118,16 +118,16 @@ Returns a sorted array [{latitude: x, longitude: y, distance: z, key: property}]
 <pre>
 // coords array
 geolib.orderByDistance({latitude: 51.515, longitude: 7.453619}, [
-	{latitude: 52.516272, longitude: 13.377722},
-	{latitude: 51.518, longitude: 7.45425},
-	{latitude: 51.503333, longitude: -0.119722}
+    {latitude: 52.516272, longitude: 13.377722},
+    {latitude: 51.518, longitude: 7.45425},
+    {latitude: 51.503333, longitude: -0.119722}
 ]);
 
 // coords object
 geolib.orderByDistance({latitude: 51.515, longitude: 7.453619}, {
-	a: {latitude: 52.516272, longitude: 13.377722},
-	b: {latitude: 51.518, longitude: 7.45425},
-	c: {latitude: 51.503333, longitude: -0.119722}
+    a: {latitude: 52.516272, longitude: 13.377722},
+    b: {latitude: 51.518, longitude: 7.45425},
+    c: {latitude: 51.503333, longitude: -0.119722}
 });
 </pre>
 
@@ -138,13 +138,13 @@ Finds the nearest coordinate to a reference coordinate.
 <h4>Examples</h4>
 
 <pre>var spots = {
-	"Brandenburg Gate, Berlin": {latitude: 52.516272, longitude: 13.377722},
-	"Dortmund U-Tower": {latitude: 51.515, longitude: 7.453619},
-	"London Eye": {latitude: 51.503333, longitude: -0.119722},
-	"Kremlin, Moscow": {latitude: 55.751667, longitude: 37.617778},
-	"Eiffel Tower, Paris": {latitude: 48.8583, longitude: 2.2945},
-	"Riksdag building, Stockholm": {latitude: 59.3275, longitude: 18.0675},
-	"Royal Palace, Oslo": {latitude: 59.916911, longitude: 10.727567}
+    "Brandenburg Gate, Berlin": {latitude: 52.516272, longitude: 13.377722},
+    "Dortmund U-Tower": {latitude: 51.515, longitude: 7.453619},
+    "London Eye": {latitude: 51.503333, longitude: -0.119722},
+    "Kremlin, Moscow": {latitude: 55.751667, longitude: 37.617778},
+    "Eiffel Tower, Paris": {latitude: 48.8583, longitude: 2.2945},
+    "Riksdag building, Stockholm": {latitude: 59.3275, longitude: 18.0675},
+    "Royal Palace, Oslo": {latitude: 59.916911, longitude: 10.727567}
 }
 
 // in this case set offset to 1 otherwise the nearest point will always be your reference point
@@ -162,9 +162,9 @@ Returns the length of the path in meters
 <pre>
 // Calculate distance from Berlin via Dortmund to London
 geolib.getPathLength([
-	{latitude: 52.516272, longitude: 13.377722}, // Berlin
-	{latitude: 51.515, longitude: 7.453619}, // Dortmund
-	{latitude: 51.503333, longitude: -0.119722} // London
+    {latitude: 52.516272, longitude: 13.377722}, // Berlin
+    {latitude: 51.515, longitude: 7.453619}, // Dortmund
+    {latitude: 51.503333, longitude: -0.119722} // London
 ]); // -> 945235</pre>
 
 <h3>geolib.getSpeed(coords, coords[, options])</h3>
@@ -177,9 +177,9 @@ Returns the speed in <em>options.unit</em> (default is km/h).
 
 <pre>
 geolib.getSpeed(
-	{lat: 51.567294, lng: 7.38896, time: 1360231200880},
-	{lat: 52.54944, lng: 13.468509, time: 1360245600880},
-	{unit: 'mph'}
+    {lat: 51.567294, lng: 7.38896, time: 1360231200880},
+    {lat: 52.54944, lng: 13.468509, time: 1360245600880},
+    {unit: 'mph'}
 ); // -> 66.9408 (mph)</pre>
 
 <h3>geolib.isPointInLine(object point, object start, object end</h3>
