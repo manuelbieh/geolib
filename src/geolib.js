@@ -1069,12 +1069,12 @@
          *
          * see http://www.movable-type.co.uk/scripts/latlong.html for the original code
          *
-         * @param        float      latitude of the inital point in degree
+         * @param        object     start coordinate (e.g. {latitude: 51.5023, longitude: 7.3815})
          * @param        float      longitude of the inital point in degree
          * @param        float      distance to go from the inital point in meter
          * @param        float      bearing in degree of the direction to go, e.g. 0 = north, 180 = south
          * @param        float      optional (in meter), defaults to mean radius of the earth
-         * @return       object      {latitude: destLat (in degree), longitude: destLng (in degree)}
+         * @return       object     {latitude: destLat (in degree), longitude: destLng (in degree)}
          */
         computeDestinationPoint: function(start, distance, bearing, radius) {
 
