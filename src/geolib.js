@@ -513,6 +513,20 @@
 
         },
 
+        /**
+        * Calculates the center of the bounds of geo coordinates
+        *
+        * @param        array       Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
+        * @return       object      {latitude: centerLat, longitude: centerLng}
+        */
+        getCenterOfBounds: function(coords) {
+            var b = this.getBounds(coords);
+            return {
+                latitude: (b.minLat + ((b.maxLat - b.minLat) / 2)).toFixed(6),
+                longitude: (b.minLng + ((b.maxLng - b.minLng) / 2)).toFixed(6)
+            };
+        },
+
 
         /**
         * Computes the bounding coordinates of all points on the surface
