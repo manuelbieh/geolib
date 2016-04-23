@@ -514,7 +514,15 @@
         },
 
         /**
-        * Calculates the center of the bounds of geo coordinates
+        * Calculates the center of the bounds of geo coordinates.
+        *
+        * On polygons like political borders (eg. states)
+        * this may gives a closer result to human expectation, than `getCenter`,
+        * because that function can be disturbed by uneven distribution of
+        * point in different sides.
+        * Imagine the US state Oklahoma: `getCenter` on that gives a southern
+        * point, because the southern border contains a lot more nodes,
+        * than the others.
         *
         * @param        array       Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
         * @return       object      {latitude: centerLat, longitude: centerLng}
