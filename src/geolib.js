@@ -529,9 +529,11 @@
         */
         getCenterOfBounds: function(coords) {
             var b = this.getBounds(coords);
+            var latitude = b.minLat + ((b.maxLat - b.minLat) / 2);
+            var longitude = b.minLng + ((b.maxLng - b.minLng) / 2);
             return {
-                latitude: (b.minLat + ((b.maxLat - b.minLat) / 2)).toFixed(6),
-                longitude: (b.minLng + ((b.maxLng - b.minLng) / 2)).toFixed(6)
+                latitude: parseFloat(latitude.toFixed(6)),
+                longitude: parseFloat(longitude.toFixed(6))
             };
         },
 
