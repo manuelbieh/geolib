@@ -72,6 +72,22 @@ geolib.getCenter([
 ]);
 </pre>
 
+<h3>geolib.getCenterOfBounds(array coords)</h3>
+
+Calculates the center of the bounds of geo coordinates.
+
+Takes an array of coordinates, calculate the border of those, and gives back
+the center of that rectangle.
+
+On polygons like political borders (eg. states), this may gives a closer
+result to human expectation, than `getCenter`, because that function can be
+disturbed by uneven distribution of point in different sides.
+
+Imagine the US state Oklahoma: `getCenter` on that gives a southern
+point, because the southern border contains a lot more nodes, than the others.
+
+Returns an object: `{"latitude": centerLat, "longitude": centerLng}`
+
 <h3>geolib.isPointInside(object latlng, array polygon)</h3>
 
 Checks whether a point is inside of a polygon or not.
