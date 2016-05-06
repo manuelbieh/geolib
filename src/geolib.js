@@ -1323,7 +1323,12 @@
     // Node module
     if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
 
-        global.geolib = module.exports = geolib;
+        module.exports = geolib;
+
+        // react native
+        if (typeof global === 'object') {
+          global.geolib = geolib;
+        }
 
     // AMD module
     } else if (typeof define === "function" && define.amd) {
