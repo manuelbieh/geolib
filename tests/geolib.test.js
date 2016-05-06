@@ -146,6 +146,22 @@
         equal(box.minElev, 521.12, "minElev should be 521.12");
   });
 
+    test("Testing bounding box center: getCenterOfBounds()", function() {
+
+        expect(4);
+
+        var box = geolib.getCenterOfBounds(polygon);
+
+        equal(box.latitude, 51.513791, "latitude should be 51.513791");
+        equal(box.longitude, 7.464047, "longitude should be 7.464047");
+
+        box = geolib.getCenterOfBounds(polygon2);
+
+        equal(box.latitude, 51.515401, "latitude should be 51.515401");
+        equal(box.longitude, 7.459209, "longitude should be 7.459209");
+
+    });
+
     test("Testing bounding box: getBoundsDistance()", function() {
 
         expect(6);
