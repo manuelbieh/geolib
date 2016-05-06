@@ -40,7 +40,7 @@
             value: 180
         },
         sexagesimalPattern: {
-            value: /^([0-9]{1,3})°\s*([0-9]{1,3}(?:\.(?:[0-9]{1,2}))?)'\s*(([0-9]{1,3}(\.([0-9]{1,2}))?)"\s*)?([NEOSW]?)$/
+            value: /^([0-9]{1,3})°\s*([0-9]{1,3}(?:\.(?:[0-9]{1,2}))?)'\s*(([0-9]{1,3}(\.([0-9]{1,4}))?)"\s*)?([NEOSW]?)$/
         },
         measures: {
             value: Object.create(Object.prototype, {
@@ -520,6 +520,30 @@
 
             return stats;
 
+        },
+
+        /**
+        * Calculates the center of the bounds of geo coordinates.
+        *
+        * On polygons like political borders (eg. states)
+        * this may gives a closer result to human expectation, than `getCenter`,
+        * because that function can be disturbed by uneven distribution of
+        * point in different sides.
+        * Imagine the US state Oklahoma: `getCenter` on that gives a southern
+        * point, because the southern border contains a lot more nodes,
+        * than the others.
+        *
+        * @param        array       Collection of coords [{latitude: 51.510, longitude: 7.1321}, {latitude: 49.1238, longitude: "8° 30' W"}, ...]
+        * @return       object      {latitude: centerLat, longitude: centerLng}
+        */
+        getCenterOfBounds: function(coords) {
+            var b = this.getBounds(coords);
+            var latitude = b.minLat + ((b.maxLat - b.minLat) / 2);
+            var longitude = b.minLng + ((b.maxLng - b.minLng) / 2);
+            return {
+                latitude: parseFloat(latitude.toFixed(6)),
+                longitude: parseFloat(longitude.toFixed(6))
+            };
         },
 
 
