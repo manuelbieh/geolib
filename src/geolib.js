@@ -1008,7 +1008,7 @@
             // otherwise the minimum distance is achieved through a line perpendular to the start-end line,
             // which goes from the start-end line to the point //
             else {
-                distance = Math.sin(alpha)/d1;
+                distance = Math.sin(alpha) * d1;
             }
 
             return distance;
