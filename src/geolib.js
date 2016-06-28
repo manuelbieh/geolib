@@ -355,7 +355,7 @@
                 distance = Math.sqrt(distance * distance + climb * climb);
             }
 
-            return this.distance = Math.round(distance * Math.pow(10, precision) / accuracy) * accuracy;
+            return this.distance = Math.round(distance * Math.pow(10, precision) / accuracy) * accuracy / Math.pow(10, precision);
 
             /*
             // note: to return initial/final bearings in addition to distance, use something like:
