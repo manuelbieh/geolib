@@ -961,7 +961,7 @@
         */
         isPointInLine: function(point, start, end) {
 
-            return this.getDistance(start, point, 1, 3)+this.getDistance(point, end, 1, 3)==this.getDistance(start, end, 1, 3);
+            return (this.getDistance(start, point, 1, 3)+this.getDistance(point, end, 1, 3)).toFixed(3)==this.getDistance(start, end, 1, 3);
         },
 
                 /**
