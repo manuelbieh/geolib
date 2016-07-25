@@ -67,7 +67,7 @@
         equal(distance2, 422600, "Distance 2 should be 422600" );
         equal(distance3, 8980260, "Distance 3 should be 8980260" );
         equal(distance4, 246, "Distance 4 should be 246" );
-        equal(distance5, 246, "Distance 4 should be 246" );
+        equal(distance5, 245.777, "Distance 5 should be 245.777" );
         equal(geoJSON, 246, "Testing getDistance() with geoJSON data");
 
     });
