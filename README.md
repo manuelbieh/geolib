@@ -123,6 +123,55 @@ geolib.isPointInCircle(
     5000
 );</pre>
 
+<h3>geolib.getRhumbLineBearing(object originLL, object destLL)</h3>
+
+Gets rhumb line bearing of two points. Find out about the difference between rhumb line and
+great circle bearing on Wikipedia. Rhumb line should be fine in most cases:
+
+http://en.wikipedia.org/wiki/Rhumb_line#General_and_mathematical_description
+
+Function is heavily based on Doug Vanderweide's great PHP version (licensed under GPL 3.0)
+http://www.dougv.com/2009/07/13/calculating-the-bearing-and-compass-rose-direction-between-two-latitude-longitude-coordinates-in-php/
+
+Returns calculated bearing as integer.
+
+<h4>Example</h4>
+
+<pre>geolib.getRhumbLineBearing(
+    {latitude: 52.518611, longitude: 13.408056}, 
+    {latitude: 51.519475, longitude: 7.46694444}
+);</pre>
+
+<h3>geolib.getBearing(object originLL, object destLL)</h3>
+
+Gets great circle bearing of two points. See description of getRhumbLineBearing for more information.
+Returns calculated bearing as integer.
+
+<h4>Example</h4>
+
+<pre>geolib.getBearing(
+    {latitude: 52.518611, longitude: 13.408056}, 
+    {latitude: 51.519475, longitude: 7.46694444}
+);</pre>
+
+<h3>geolib.getCompassDirection(object originLL, object destLL, string bearingMode (optional))</h3>
+
+Gets the compass direction from an origin coordinate (originLL) to a destination coordinate (destLL).
+Bearing mode. Can be either circle or rhumbline (default).
+Returns an object with a rough (NESW) and an exact direction (NNE, NE, ENE, E, ESE, etc).
+
+<h4>Example</h4>
+
+<pre>geolib.getCompassDirection(
+    {latitude: 52.518611, longitude: 13.408056}, 
+    {latitude: 51.519475, longitude: 7.46694444}
+);
+//Output
+{
+    rough: 'W',
+    exact: 'WSW'
+}</pre>
+
 <h3>geolib.orderByDistance(object latlng, mixed coords)</h3>
 
 Sorts an object or array of coords by distance from a reference coordinate
