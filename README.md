@@ -142,6 +142,18 @@ Returns calculated bearing as integer.
     {latitude: 51.519475, longitude: 7.46694444}
 );</pre>
 
+<h3>geolib.getBearing(object originLL, object destLL)</h3>
+
+Gets great circle bearing of two points. See description of getRhumbLineBearing for more information.
+Returns calculated bearing as integer.
+
+<h4>Example</h4>
+
+<pre>geolib.getBearing(
+    {latitude: 52.518611, longitude: 13.408056}, 
+    {latitude: 51.519475, longitude: 7.46694444}
+);</pre>
+
 <h3>geolib.getCompassDirection(object originLL, object destLL, string bearingMode (optional))</h3>
 
 Gets the compass direction from an origin coordinate (originLL) to a destination coordinate (destLL).
