@@ -123,6 +123,24 @@ geolib.isPointInCircle(
     5000
 );</pre>
 
+<h3>geolib.getCompassDirection(object originLL, object destLL, string bearingMode (optional))</h3>
+
+Gets the compass direction from an origin coordinate (originLL) to a destination coordinate (destLL).
+Bearing mode. Can be either circle or rhumbline (default).
+Returns an object with a rough (NESW) and an exact direction (NNE, NE, ENE, E, ESE, etc).
+
+<h4>Example</h4>
+
+<pre>geolib.getCompassDirection(
+    {latitude: 52.518611, longitude: 13.408056}, 
+    {latitude: 51.519475, longitude: 7.46694444}
+);
+//Output
+{
+    rough: 'W',
+    exact: 'WSW'
+}</pre>
+
 <h3>geolib.orderByDistance(object latlng, mixed coords)</h3>
 
 Sorts an object or array of coords by distance from a reference coordinate
