@@ -349,7 +349,7 @@ Returns an object: `{"latitude": destLat, "longitude": destLng}`
 var dist = 1234;
 var bearing = 45;
 
-geolib.computeDestinationPoint(initialPoint.lat, initialPoint.lon, dist, bearing);
+geolib.computeDestinationPoint(initialPoint, dist, bearing);
 // -> {"latitude":51.52411853234181,"longitude":0.4668623365950795}
 </pre>
 
