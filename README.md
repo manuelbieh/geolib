@@ -103,6 +103,28 @@ point, because the southern border contains a lot more nodes, than the others.
 
 Returns an object: `{"latitude": centerLat, "longitude": centerLng}`
 
+<h3>geolib.getBounds(array coords)</h3>
+
+Calculates the bounds of geo coordinates.
+
+It returns maximum and minimum, latitude, longitude, and elevation (if provided) in form of an object of form:
+<pre>{
+    "minLat": minimumLatitude,
+    "maxLat": maximumLatitude,
+    "minLng": minimumLongitude,
+    "maxLng": maximumLongitude,
+    "minElev": minimumElevation,
+    "maxElev": maximumElevation
+}</pre>
+
+<h4>Example</h4>
+
+<pre>geolib.getCenter([
+         {latitude: 52.516272, longitude: 13.377722},
+         {latitude: 51.515, longitude: 7.453619},
+         {latitude: 51.503333, longitude: -0.119722}
+]);</pre>
+
 <h3>geolib.isPointInside(object latlng, array polygon)</h3>
 
 Checks whether a point is inside of a polygon or not.
