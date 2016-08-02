@@ -43,6 +43,21 @@ navigator.geolocation.getCurrentPosition(
 );
 </pre>
 
+<h3>geolib.getDistanceSimple(object start, object end[, int accuracy])</h3>
+
+Calculates the distance between two geo coordinates but this method is far more inaccurate as compared to getDistance.
+
+It can take up 2 to 3 arguments. start, end and accuracy can be defined in the same as in getDistance.
+
+Return value is always float that represents the distance in meters.
+
+<h4>Examples</h4>
+
+<pre>geolib.getDistanceSimple(
+    {latitude: 51.5103, longitude: 7.49347},
+    {latitude: "51° 31' N", longitude: "7° 28' E"}
+);</pre>
+
 <h3>geolib.getCenter(array coords)</h3>
 
 Calculates the geographical center of all points in a collection of geo coordinates
