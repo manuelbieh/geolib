@@ -467,8 +467,8 @@
             lat = Math.atan2(Z, hyp);
 
             return {
-                latitude: (lat * Geolib.TO_DEG).toFixed(6),
-                longitude: (lon * Geolib.TO_DEG).toFixed(6)
+                latitude: parseFloat((lat * Geolib.TO_DEG).toFixed(6)),
+                longitude: parseFloat((lon * Geolib.TO_DEG).toFixed(6))
             };
 
         },
