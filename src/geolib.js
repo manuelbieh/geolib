@@ -928,6 +928,7 @@
         *
         * @param        object      reference coordinate e.g. {latitude: 51.5023, longitude: 7.3815}
         * @param        mixed       array or object with coords [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...]
+        * @param        boolean     optional flag to include reference coordinate in returned array
         * @return       array       ordered array
         */
         orderByDistance: function(latlng, coords, includeSource) {
