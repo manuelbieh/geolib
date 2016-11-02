@@ -5,62 +5,6 @@ module.exports = function(grunt) {
 
 	require('load-grunt-tasks')(grunt);
 
-	grunt.registerTask('version', function(target, op) {
-
-		var fs = require('fs');
-		var data = JSON.parse(fs.readFileSync('package.json', {encoding: 'utf-8'}));
-		var version = data.version.split('.');
-
-		var major = parseInt(version[0], 10);
-		var minor = parseInt(version[1], 10);
-		var patch = parseInt(version[2].split('+')[0], 10);
-		var info = version[2].split('+')[1];
-		var log = '';
-
-		if(typeof op == 'undefined' || op === '+') {
-			op = '+';
-			log += 'Incrementing ';
-		} else if(op === '-') {
-			op = op;
-			log += 'Decrementing ';
-		} else if(!isNaN(parseInt(op, 10))) {
-			op = parseInt(op, 10);
-			log += 'Using ' + op + ' as new ';
-		} else {
-			grunt.log.fail('Illegal operation.');
-			return false;
-		}
-
-		if(['major', 'minor', 'patch'].indexOf(target) > -1) {
-			log += target + ' version. ';
-		}
-
-		switch(target) {
-			case 'major':
-				major = op == '-' ? major-1 : (op == '+' ? major+1 : op);
-				if(major < 0) major = 0;
-				break;
-			case 'minor':
-				minor = op == '-' ? minor-1 : (op == '+' ? minor+1 : op);
-				if(minor < 0) minor = 0;
-				break;
-			case 'patch':
-				patch = op == '-' ? patch-1 : (op == '+' ? patch+1 : op);
-				if(patch < 0) patch = 0;
-				break;
-		}
-
-		data.version = [major, minor, patch].join('.') + (info ? '+' + info : '');
-
-		grunt.log.writeln(log + 'New version is ' + data.version);
-
-		fs.writeFileSync('package.json', JSON.stringify(data, null, 2), {encoding: 'utf-8'})
-		grunt.config.data.pkg.version = data.version;
-
-		grunt.task.run('default');
-
-	});
-
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
