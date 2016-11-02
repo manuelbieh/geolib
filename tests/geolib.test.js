@@ -423,9 +423,29 @@
             {"latitude": 51.517443592, "longitude": 7.463232037, "elevation": 521.12, "distance": 486, "key": "4"}
         ]);
 
+        var result_WithSource = geolib.orderByDistance({"latitude": 51.515, "longitude": 7.453619, "elevation": 525.32}, polygon2, true);
+
+        deepEqual(result_WithSource, [
+            {"latitude": 51.515, "longitude": 7.453619, "elevation": 525.32, "distance": 0, "key": "source"},
+            {"latitude": 51.515400598, "longitude": 7.45518541, "elevation": 524.54, "distance": 118, "key": "1"},
+            {"latitude": 51.513357512, "longitude": 7.45574331, "elevation": 523.92, "distance": 235, "key": "0"},
+            {"latitude": 51.516241842, "longitude": 7.456494328, "elevation": 523.12, "distance": 243, "key": "2"},
+            {"latitude": 51.516722545, "longitude": 7.459863183, "elevation": 522.77, "distance": 474, "key": "3"},
+            {"latitude": 51.517443592, "longitude": 7.463232037, "elevation": 521.12, "distance": 721, "key": "4"}
+        ]);
+
         var result2 = geolib.orderByDistance({lat: 1, lng: 1}, [{lat: 3, lng: 4}, {lat: 1, lng: 6}, {lat: 4, lng: 1}]);
 
         deepEqual(result2, [
+            {"lat":4,"lng":1,"distance":331730,"key":"2"},
+            {"lat":3,"lng":4,"distance":400362,"key":"0"},
+            {"lat":1,"lng":6,"distance":556513,"key":"1"}
+        ]);
+
+        var result2_WithSource = geolib.orderByDistance({lat: 1, lng: 1}, [{lat: 3, lng: 4}, {lat: 1, lng: 6}, {lat: 4, lng: 1}], true);
+
+        deepEqual(result2_WithSource, [
+            {"lat": 1,"lng": 1,"distance":0,"key":"source"},
             {"lat":4,"lng":1,"distance":331730,"key":"2"},
             {"lat":3,"lng":4,"distance":400362,"key":"0"},
             {"lat":1,"lng":6,"distance":556513,"key":"1"}

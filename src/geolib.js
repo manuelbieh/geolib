@@ -930,9 +930,16 @@
         * @param        mixed       array or object with coords [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...]
         * @return       array       ordered array
         */
-        orderByDistance: function(latlng, coords) {
+        orderByDistance: function(latlng, coords, includeSource) {
 
             var coordsArray = [];
+            
+            if (includeSource) {
+                var sourceObj = latlng;
+                sourceObj.distance = 0;
+                sourceObj.key = 'source';
+                coordsArray.push(sourceObj);
+            }
 
             for(var coord in coords) {
 
