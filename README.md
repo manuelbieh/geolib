@@ -5,6 +5,10 @@ Library to provide basic geospatial operations like distance calculation, conver
 
 [View demo](http://www.manuel-bieh.de/publikationen/scripts/geolib/demo.html)
 
+Install with:
+
+    npm install geolib
+
 <h2>Methods</h2>
 
 <h3>geolib.getDistance(object start, object end[, int accuracy, int precision])</h3>
