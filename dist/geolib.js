@@ -949,7 +949,7 @@
                 sourceObj.key = 'source';
                 coordsArray.push(sourceObj);
             }
-            
+
             for(var coord in coords) {
 
                 var distance = this.getDistance(latlng, coords[coord]);
