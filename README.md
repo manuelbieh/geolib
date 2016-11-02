@@ -213,11 +213,13 @@ Returns an object with a rough (NESW) and an exact direction (NNE, NE, ENE, E, E
     exact: 'WSW'
 }</pre>
 
-<h3>geolib.orderByDistance(object latlng, mixed coords)</h3>
+<h3>geolib.orderByDistance(object latlng, mixed coords [, includeSource flag])</h3>
 
 Sorts an object or array of coords by distance from a reference coordinate
 
 Returns a sorted array [{latitude: x, longitude: y, distance: z, key: property}]
+
+If the includeSource flag is set to true, the source coordinates object will be included in the returned array
 
 <h4>Examples</h4>
 
