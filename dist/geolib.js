@@ -943,7 +943,7 @@
         orderByDistance: function(latlng, coords, includeSource) {
 
             var coordsArray = [];
-
+            
             if (includeSource) {
                 var sourceObj = latlng;
                 sourceObj.distance = 0;
@@ -954,7 +954,7 @@
             for(var coord in coords) {
 
                 var distance = this.getDistance(latlng, coords[coord]);
-                var augmentedCoord = Object(coords[coord]);
+                var augmentedCoord = Object.create(coords[coord]);
                 augmentedCoord.distance = distance;
                 augmentedCoord.key = coord;
 
