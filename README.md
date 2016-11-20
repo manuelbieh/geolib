@@ -376,7 +376,7 @@ geolib.useDecimal(51.59611111) // -> 51.59611111</pre>
 
 <h3>geolib.computeDestinationPoint(start, distance, bearing, radius(optional))</h3>
 
-Computes the destination point given an initial point, a distance and a bearing
+Computes the destination point given an initial point, a distance (in meters) and a bearing (in degrees).
 
 If no radius is given it defaults to the mean earth radius of 6371000 meter.
 
