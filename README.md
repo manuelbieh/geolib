@@ -15,7 +15,7 @@ Install with:
 
 Calculates the distance between two geo coordinates
 
-Takes 2 or 4 arguments. First 2 arguments must be objects that each have latitude and longitude properties (e.g. `{latitude: 52.518611, longitude: 13.408056}`)Works with:. Coordinates can be in sexagesimal or decimal format. 3rd argument is accuracy (in meters). So a calculated distaWorks with:nce of 1248 meters with an accuracy of 100 is returned as `1200` (accuracy 10 = `1250` etc.). 4th argument is precision in sub-meters (1 is meter presicion, 2 is decimeters, 3 is centimeters, etc).
+Takes 2 or 4 arguments. First 2 arguments must be objects that each have latitude and longitude properties (e.g. `{latitude: 52.518611, longitude: 13.408056}`). Coordinates can be in sexagesimal or decimal format. 3rd argument is accuracy (in meters). So a calculated distance of 1248 meters with an accuracy of 100 is returned as `1200` (accuracy 10 = `1250` etc.). 4th argument is precision in sub-meters (1 is meter presicion, 2 is decimeters, 3 is centimeters, etc).
 
 Return value is always float and represents the distance in meters.
 
