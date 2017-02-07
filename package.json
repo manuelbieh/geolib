@@ -31,6 +31,7 @@
     }
   ],
   "files": [
+    "dist/geolib.d.ts",
     "dist/geolib.js",
     "dist/geolib.elevation.js"
   ],
@@ -47,6 +48,7 @@
   "scripts": {
     "test": "grunt travis --verbose"
   },
+  "typings": "dist/geolib.d.ts",
   "version": "2.0.21",
   "main": "dist/geolib.js"
 }
