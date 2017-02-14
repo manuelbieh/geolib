@@ -5,9 +5,13 @@ Library to provide basic geospatial operations like distance calculation, conver
 
 [View demo](http://www.manuel-bieh.de/publikationen/scripts/geolib/demo.html)
 
-Install with:
+Install with **npm**:
 
     npm install geolib
+
+Install with **Bower**
+
+    bower install geolib
 
 <h2>Methods</h2>
 
