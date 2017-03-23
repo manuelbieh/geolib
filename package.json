@@ -37,6 +37,11 @@
   ],
   "description": "Library to perform geo specific tasks",
   "keywords": [
+    "geodesy",
+    "distance",
+    "latitude",
+    "logitude",
+    "elevation",
     "geolocation",
     "geo",
     "distance",
