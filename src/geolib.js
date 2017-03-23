@@ -935,13 +935,12 @@
             var coordsArray = [];
 
             for(var coord in coords) {
+                var spot = coords[coord];
+                var distance = this.getDistance(latlng, spot);
+                spot.distance = distance;
+                spot.key = coord;
 
-                var distance = this.getDistance(latlng, coords[coord]);
-                var augmentedCoord = Object.create(coords[coord]);
-                augmentedCoord.distance = distance;
-                augmentedCoord.key = coord;
-
-                coordsArray.push(augmentedCoord);
+                coordsArray.push(spot);
 
             }
 
