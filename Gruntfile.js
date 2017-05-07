@@ -126,7 +126,8 @@ module.exports = function(grunt) {
 	});
 
 	// Default task.
-	grunt.registerTask('default', ['concat:main', 'copy', 'replace', 'uglify']);
+	grunt.registerTask('build', ['concat:main', 'copy', 'replace', 'uglify']);
+	grunt.registerTask('default', ['build']);
 	grunt.registerTask('travis', ['jshint','qunit']);
 	grunt.registerTask('test', ['qunit']);
 
