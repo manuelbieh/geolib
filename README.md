@@ -1,9 +1,13 @@
-# Geolib v2.0.21
+# Geolib
 [![Build Status](https://secure.travis-ci.org/manuelbieh/Geolib.png?branch=master)](http://travis-ci.org/manuelbieh/Geolib)
 
 Library to provide basic geospatial operations like distance calculation, conversion of decimal coordinates to sexagesimal and vice versa, etc.
 
 [View demo](http://www.manuel-bieh.de/publikationen/scripts/geolib/demo.html)
+
+## Install
+
+    npm install geolib
 
 <h2>Methods</h2>
 
@@ -11,7 +15,7 @@ Library to provide basic geospatial operations like distance calculation, conver
 
 Calculates the distance between two geo coordinates
 
-Takes 2 or 4 arguments. First 2 arguments must be objects that each have latitude and longitude properties (e.g. `{latitude: 52.518611, longitude: 13.408056}`)Works with:. Coordinates can be in sexagesimal or decimal format. 3rd argument is accuracy (in meters). So a calculated distaWorks with:nce of 1248 meters with an accuracy of 100 is returned as `1200` (accuracy 10 = `1250` etc.). 4th argument is precision in sub-meters (1 is meter presicion, 2 is decimeters, 3 is centimeters, etc).
+Takes 2 or 4 arguments. First 2 arguments must be objects that each have latitude and longitude properties (e.g. `{latitude: 52.518611, longitude: 13.408056}`). Coordinates can be in sexagesimal or decimal format. 3rd argument is accuracy (in meters). So a calculated distance of 1248 meters with an accuracy of 100 is returned as `1200` (accuracy 10 = `1250` etc.). 4th argument is precision in sub-meters (1 is meter presicion, 2 is decimeters, 3 is centimeters, etc).
 
 Return value is always float and represents the distance in meters.
 
@@ -372,7 +376,7 @@ geolib.useDecimal(51.59611111) // -> 51.59611111</pre>
 
 <h3>geolib.computeDestinationPoint(start, distance, bearing, radius(optional))</h3>
 
-Computes the destination point given an initial point, a distance and a bearing
+Computes the destination point given an initial point, a distance (in meters) and a bearing (in degrees).
 
 If no radius is given it defaults to the mean earth radius of 6371000 meter.
 

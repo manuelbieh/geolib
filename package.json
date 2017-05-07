@@ -31,11 +31,17 @@
     }
   ],
   "files": [
+    "dist/geolib.d.ts",
     "dist/geolib.js",
     "dist/geolib.elevation.js"
   ],
   "description": "Library to perform geo specific tasks",
   "keywords": [
+    "geodesy",
+    "distance",
+    "latitude",
+    "longitude",
+    "elevation",
     "geolocation",
     "geo",
     "distance",
@@ -48,5 +54,6 @@
     "test": "grunt travis --verbose"
   },
   "version": "2.0.22",
+  "typings": "dist/geolib.d.ts",
   "main": "dist/geolib.js"
 }
