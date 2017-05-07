@@ -932,18 +932,13 @@
         */
         orderByDistance: function(latlng, coords) {
 
-            var coordsArray = [];
-
-            for(var coord in coords) {
-
-                var distance = this.getDistance(latlng, coords[coord]);
-                var augmentedCoord = Object.create(coords[coord]);
+            var coordsArray = Object.keys(coords).map(function(idx) {
+                var distance = this.getDistance(latlng, coords[idx]);
+                var augmentedCoord = Object.create(coords[idx]);
                 augmentedCoord.distance = distance;
-                augmentedCoord.key = coord;
-
-                coordsArray.push(augmentedCoord);
-
-            }
+                augmentedCoord.key = idx;
+                return augmentedCoord;
+            }, this);
 
             return coordsArray.sort(function(a, b) {
                 return a.distance - b.distance;
