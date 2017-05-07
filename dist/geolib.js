@@ -946,7 +946,7 @@
             for(var coord in coords) {
 
                 var distance = this.getDistance(latlng, coords[coord]);
-                var augmentedCoord = Object(coords[coord]);
+                var augmentedCoord = Object.create(coords[coord]);
                 augmentedCoord.distance = distance;
                 augmentedCoord.key = coord;
 
