@@ -21,7 +21,8 @@ Return value is always float and represents the distance in meters.
 
 <h4>Examples</h4>
 
-<pre>geolib.getDistance(
+```js
+geolib.getDistance(
     {latitude: 51.5103, longitude: 7.49347},
     {latitude: "51° 31' N", longitude: "7° 28' E"}
 );
@@ -45,7 +46,7 @@ navigator.geolocation.getCurrentPosition(
         enableHighAccuracy: true
     }
 );
-</pre>
+```
 
 <h3>geolib.getDistanceSimple(object start, object end[, int accuracy])</h3>
 
@@ -57,10 +58,12 @@ Return value is always float that represents the distance in meters.
 
 <h4>Examples</h4>
 
-<pre>geolib.getDistanceSimple(
+```js
+geolib.getDistanceSimple(
     {latitude: 51.5103, longitude: 7.49347},
     {latitude: "51° 31' N", longitude: "7° 28' E"}
-);</pre>
+);
+```
 
 <h3>geolib.getCenter(array coords)</h3>
 
@@ -72,7 +75,8 @@ Returns an object: `{"latitude": centerLat, "longitude": centerLng}`
 
 <h4>Examples</h4>
 
-<pre>var spots = {
+```js
+var spots = {
     "Brandenburg Gate, Berlin": {latitude: 52.516272, longitude: 13.377722},
     "Dortmund U-Tower": {latitude: 51.515, longitude: 7.453619},
     "London Eye": {latitude: 51.503333, longitude: -0.119722},
@@ -89,7 +93,7 @@ geolib.getCenter([
     {latitude: 51.515, longitude: 7.453619},
     {latitude: 51.503333, longitude: -0.119722}
 ]);
-</pre>
+```
 
 <h3>geolib.getCenterOfBounds(array coords)</h3>
 
@@ -112,22 +116,26 @@ Returns an object: `{"latitude": centerLat, "longitude": centerLng}`
 Calculates the bounds of geo coordinates.
 
 It returns maximum and minimum, latitude, longitude, and elevation (if provided) in form of an object of form:
-<pre>{
+```
+{
     "minLat": minimumLatitude,
     "maxLat": maximumLatitude,
     "minLng": minimumLongitude,
     "maxLng": maximumLongitude,
     "minElev": minimumElevation,
     "maxElev": maximumElevation
-}</pre>
+}
+```
 
 <h4>Example</h4>
 
-<pre>geolib.getCenter([
+```js
+geolib.getCenter([
          {latitude: 52.516272, longitude: 13.377722},
          {latitude: 51.515, longitude: 7.453619},
          {latitude: 51.503333, longitude: -0.119722}
-]);</pre>
+]);
+```
 
 <h3>geolib.isPointInside(object latlng, array polygon)</h3>
 
@@ -138,7 +146,7 @@ Returns true or false
 
 <h4>Example</h4>
 
-<pre>
+```js
 geolib.isPointInside(
     {latitude: 51.5125, longitude: 7.485},
     [
@@ -147,7 +155,8 @@ geolib.isPointInside(
         {latitude: 51.555, longitude: 7.625},
         {latitude: 51.5125, longitude: 7.625}
     ]
-); // -> true</pre>
+); // -> true
+```
 
 <h3>geolib.isPointInCircle(object latlng, object center, integer radius)</h3>
 
@@ -157,12 +166,14 @@ Returns true or false
 
 <h4>Example</h4>
 
-<pre>// checks if 51.525, 7.4575 is within a radius of 5km from 51.5175, 7.4678
+```js
+// checks if 51.525, 7.4575 is within a radius of 5km from 51.5175, 7.4678
 geolib.isPointInCircle(
     {latitude: 51.525, longitude: 7.4575},
     {latitude: 51.5175, longitude: 7.4678},
     5000
-);</pre>
+);
+```
 
 <h3>geolib.getRhumbLineBearing(object originLL, object destLL)</h3>
 
@@ -178,10 +189,12 @@ Returns calculated bearing as integer.
 
 <h4>Example</h4>
 
-<pre>geolib.getRhumbLineBearing(
+```js
+geolib.getRhumbLineBearing(
     {latitude: 52.518611, longitude: 13.408056}, 
     {latitude: 51.519475, longitude: 7.46694444}
-);</pre>
+);
+```
 
 <h3>geolib.getBearing(object originLL, object destLL)</h3>
 
@@ -190,10 +203,12 @@ Returns calculated bearing as integer.
 
 <h4>Example</h4>
 
-<pre>geolib.getBearing(
+```js
+geolib.getBearing(
     {latitude: 52.518611, longitude: 13.408056}, 
     {latitude: 51.519475, longitude: 7.46694444}
-);</pre>
+);
+```
 
 <h3>geolib.getCompassDirection(object originLL, object destLL, string bearingMode (optional))</h3>
 
@@ -203,7 +218,8 @@ Returns an object with a rough (NESW) and an exact direction (NNE, NE, ENE, E, E
 
 <h4>Example</h4>
 
-<pre>geolib.getCompassDirection(
+```js
+geolib.getCompassDirection(
     {latitude: 52.518611, longitude: 13.408056}, 
     {latitude: 51.519475, longitude: 7.46694444}
 );
@@ -211,7 +227,8 @@ Returns an object with a rough (NESW) and an exact direction (NNE, NE, ENE, E, E
 {
     rough: 'W',
     exact: 'WSW'
-}</pre>
+}
+```
 
 <h3>geolib.orderByDistance(object latlng, mixed coords)</h3>
 
@@ -221,7 +238,7 @@ Returns a sorted array [{latitude: x, longitude: y, distance: z, key: property}]
 
 <h4>Examples</h4>
 
-<pre>
+```js
 // coords array
 geolib.orderByDistance({latitude: 51.515, longitude: 7.453619}, [
     {latitude: 52.516272, longitude: 13.377722},
@@ -235,7 +252,7 @@ geolib.orderByDistance({latitude: 51.515, longitude: 7.453619}, {
     b: {latitude: 51.518, longitude: 7.45425},
     c: {latitude: 51.503333, longitude: -0.119722}
 });
-</pre>
+```
 
 <h3>geolib.findNearest(object latlng, mixed coords[[, int offset], int limit])</h3>
 
@@ -243,7 +260,8 @@ Finds the nearest coordinate to a reference coordinate.
 
 <h4>Examples</h4>
 
-<pre>var spots = {
+```js
+var spots = {
     "Brandenburg Gate, Berlin": {latitude: 52.516272, longitude: 13.377722},
     "Dortmund U-Tower": {latitude: 51.515, longitude: 7.453619},
     "London Eye": {latitude: 51.503333, longitude: -0.119722},
@@ -255,7 +273,7 @@ Finds the nearest coordinate to a reference coordinate.
 
 // in this case set offset to 1 otherwise the nearest point will always be your reference point
 geolib.findNearest(spots['Dortmund U-Tower'], spots, 1)
-</pre>
+```
 
 <h3>geolib.getPathLength(mixed coords)</h3>
 
@@ -265,13 +283,14 @@ Returns the length of the path in meters
 
 <h4>Example</h4>
 
-<pre>
+```js
 // Calculate distance from Berlin via Dortmund to London
 geolib.getPathLength([
     {latitude: 52.516272, longitude: 13.377722}, // Berlin
     {latitude: 51.515, longitude: 7.453619}, // Dortmund
     {latitude: 51.503333, longitude: -0.119722} // London
-]); // -> 945235</pre>
+]); // -> 945235
+```
 
 <h3>geolib.getSpeed(coords, coords[, options])</h3>
 
@@ -281,12 +300,13 @@ Returns the speed in <em>options.unit</em> (default is km/h).
 
 <h4>Example</h4>
 
-<pre>
+```js
 geolib.getSpeed(
     {lat: 51.567294, lng: 7.38896, time: 1360231200880},
     {lat: 52.54944, lng: 13.468509, time: 1360245600880},
     {unit: 'mph'}
-); // -> 66.9408 (mph)</pre>
+); // -> 66.9408 (mph)
+```
 
 <h3>geolib.isPointInLine(object point, object start, object end</h3>
 
@@ -296,7 +316,8 @@ Returns true or false
 
 <h4>Examples</h4>
 
-<pre>var point1 = {latitude: 0.5, longitude: 0};
+```js
+var point1 = {latitude: 0.5, longitude: 0};
 var point2 = {latitude: 0, longitude: 10};
 var point3 = {latitude: 0, longitude: 15.5};
 var start  = {latitude: 0, longitude: 0};
@@ -305,7 +326,7 @@ var end    = {latitude: 0, longitude: 15};
 var isInLine1 = geolib.isPointInLine(point1, start, end) //-> false;
 var isInLine2 = geolib.isPointInLine(point2, start, end) //-> true;
 var isInLine3 = geolib.isPointInLine(point3, start, end) //-> false;
-</pre>
+```
 
 <h3>geolib.convertUnit(string unit, float distance[, int round])</h3>
 
@@ -371,8 +392,10 @@ Checks if a coordinate is already in decimal format and, if not, converts it to
 
 <h4>Example</h4>
 
-<pre>geolib.useDecimal("51° 29' 46\" N"); // -> 51.59611111
-geolib.useDecimal(51.59611111) // -> 51.59611111</pre>
+```js
+geolib.useDecimal("51° 29' 46\" N"); // -> 51.59611111
+geolib.useDecimal(51.59611111) // -> 51.59611111
+```
 
 <h3>geolib.computeDestinationPoint(start, distance, bearing, radius(optional))</h3>
 
@@ -386,16 +409,18 @@ Returns an object: `{"latitude": destLat, "longitude": destLng}`
 
 <h4>Example</h4>
 
-<pre>var initialPoint = {lat: 51.516272, lon: 0.45425}
+```js
+var initialPoint = {lat: 51.516272, lon: 0.45425}
 var dist = 1234;
 var bearing = 45;
 
 geolib.computeDestinationPoint(initialPoint, dist, bearing);
 // -> {"latitude":51.52411853234181,"longitude":0.4668623365950795}
-</pre>
+```
 
 <h2>Changelog</h2>
 <h3>v2.0.0+beta1</h3>
+
 - Dropped support for IE6, IE7, IE8
 - Added new methods `geolib.latitude()`, `geolib.longitude()`, `geolib.elevation()` to get latitude, longitude or elevation of points. Will be converted to decimal format automatically
 - Added new method `geolib.extend()` to extend geolib object
