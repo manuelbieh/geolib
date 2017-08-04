@@ -55,7 +55,7 @@
     "test": "grunt travis --verbose",
     "build": "grunt build"
   },
-  "version": "2.0.22",
+  "version": "2.0.23",
   "typings": "dist/geolib.d.ts",
   "main": "dist/geolib.js"
 }
