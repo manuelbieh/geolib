@@ -1014,19 +1014,14 @@
         *
         * @param        object      reference coordinate e.g. {latitude: 51.5023, longitude: 7.3815}
         * @param        mixed       array or object with coords [{latitude: 51.5143, longitude: 7.4138}, {latitude: 123, longitude: 123}, ...]
-        * @return       array       ordered array
+        * @return       object      object of nearest coordinate { latitude: 51.5143, longitude: 7.3815, distance: 123, key: '1' }
         */
-        findNearest: function(latlng, coords, offset, limit) {
+        findNearest: function(latlng, coords, offset) {
 
             offset = offset || 0;
-            limit = limit || 1;
             var ordered = this.orderByDistance(latlng, coords);
 
-            if(limit === 1) {
-                return ordered[offset];
-            } else {
-                return ordered.splice(offset, limit);
-            }
+            return ordered[offset];
 
         },
 

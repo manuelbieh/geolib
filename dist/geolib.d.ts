@@ -153,7 +153,7 @@ declare namespace geolib {
     
     
     /** Finds the nearest coordinate to a reference coordinate. */
-    function findNearest(latlng: PositionAsDecimal, coords: PositionAsDecimal[]): Distance[];
+    function findNearest(latlng: PositionAsDecimal, coords: PositionAsDecimal[], offset?: number): Distance;
     
 
     /** Calculates the length of a collection of coordinates.
