@@ -192,7 +192,7 @@ declare namespace geolib {
      * - in (inch)
      * - yd (yards)
     */
-    function convertUnit(unit: string, distance: number)
+    function convertUnit(unit: string, distance: number): number;
 
 
     /** Converts a given distance (in meters) to another unit. 
@@ -207,7 +207,7 @@ declare namespace geolib {
      * - in (inch)
      * - yd (yards)
     */
-    function convertUnit(unit: string, distance: number, round: number);
+    function convertUnit(unit: string, distance: number, round: number): number;
 
 
     /** Converts a sexagesimal coordinate to decimal format */
