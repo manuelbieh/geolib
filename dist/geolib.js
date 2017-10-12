@@ -1,11 +1,11 @@
-/*! geolib 2.0.21 by Manuel Bieh
+/*! geolib 2.0.22 by Manuel Bieh
 * Library to provide geo functions like distance calculation,
 * conversion of decimal coordinates to sexagesimal and vice versa, etc.
 * WGS 84 (World Geodetic System 1984)
 * 
 * @author Manuel Bieh
 * @url http://www.manuelbieh.com/
-* @version 2.0.21
+* @version 2.0.22
 * @license MIT 
 **/;(function(global, undefined) {
 
@@ -22,7 +22,7 @@
     // Setting readonly defaults
     var geolib = Object.create(Geolib.prototype, {
         version: {
-            value: "2.0.21"
+            value: "2.0.22"
         },
         radius: {
             value: 6378137
@@ -808,35 +808,33 @@
         */
         getBearing: function(originLL, destLL) {
 
-            destLL['latitude'] = this.latitude(destLL);
-            destLL['longitude'] = this.longitude(destLL);
-            originLL['latitude'] = this.latitude(originLL);
-            originLL['longitude'] = this.longitude(originLL);
+            var start = this.coords(originLL);
+            var end = this.coords(destLL);
 
             var bearing = (
                 (
                     Math.atan2(
                         Math.sin(
-                            destLL['longitude'].toRad() -
-                            originLL['longitude'].toRad()
+                            end.longitude.toRad() -
+                            start.longitude.toRad()
                         ) *
                         Math.cos(
-                            destLL['latitude'].toRad()
+                            end.latitude.toRad()
                         ),
                         Math.cos(
-                            originLL['latitude'].toRad()
+                            start.latitude.toRad()
                         ) *
                         Math.sin(
-                            destLL['latitude'].toRad()
+                            end.latitude.toRad()
                         ) -
                         Math.sin(
-                            originLL['latitude'].toRad()
+                            start.latitude.toRad()
                         ) *
                         Math.cos(
-                            destLL['latitude'].toRad()
+                            end.latitude.toRad()
                         ) *
                         Math.cos(
-                            destLL['longitude'].toRad() - originLL['longitude'].toRad()
+                            end.longitude.toRad() - start.longitude.toRad()
                         )
                     )
                 ).toDeg() + 360
@@ -941,18 +939,13 @@
         */
         orderByDistance: function(latlng, coords) {
 
-            var coordsArray = [];
-
-            for(var coord in coords) {
-
-                var distance = this.getDistance(latlng, coords[coord]);
-                var augmentedCoord = Object.create(coords[coord]);
+            var coordsArray = Object.keys(coords).map(function(idx) {
+                var distance = this.getDistance(latlng, coords[idx]);
+                var augmentedCoord = Object.create(coords[idx]);
                 augmentedCoord.distance = distance;
-                augmentedCoord.key = coord;
-
-                coordsArray.push(augmentedCoord);
-
-            }
+                augmentedCoord.key = idx;
+                return augmentedCoord;
+            }, this);
 
             return coordsArray.sort(function(a, b) {
                 return a.distance - b.distance;
