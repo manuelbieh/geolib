@@ -395,7 +395,7 @@ geolib.computeDestinationPoint(initialPoint, dist, bearing);
 </pre>
 
 <h2>Changelog</h2>
-<h3>v2.0.0+beta1</h3>
+<h3>v2.0.22+beta1</h3>
 - Dropped support for IE6, IE7, IE8
 - Added new methods `geolib.latitude()`, `geolib.longitude()`, `geolib.elevation()` to get latitude, longitude or elevation of points. Will be converted to decimal format automatically
 - Added new method `geolib.extend()` to extend geolib object

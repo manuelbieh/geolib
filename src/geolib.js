@@ -799,35 +799,33 @@
         */
         getBearing: function(originLL, destLL) {
 
-            destLL['latitude'] = this.latitude(destLL);
-            destLL['longitude'] = this.longitude(destLL);
-            originLL['latitude'] = this.latitude(originLL);
-            originLL['longitude'] = this.longitude(originLL);
+            var start = this.coords(originLL);
+            var end = this.coords(destLL);
 
             var bearing = (
                 (
                     Math.atan2(
                         Math.sin(
-                            destLL['longitude'].toRad() -
-                            originLL['longitude'].toRad()
+                            end.longitude.toRad() -
+                            start.longitude.toRad()
                         ) *
                         Math.cos(
-                            destLL['latitude'].toRad()
+                            end.latitude.toRad()
                         ),
                         Math.cos(
-                            originLL['latitude'].toRad()
+                            start.latitude.toRad()
                         ) *
                         Math.sin(
-                            destLL['latitude'].toRad()
+                            end.latitude.toRad()
                         ) -
                         Math.sin(
-                            originLL['latitude'].toRad()
+                            start.latitude.toRad()
                         ) *
                         Math.cos(
-                            destLL['latitude'].toRad()
+                            end.latitude.toRad()
                         ) *
                         Math.cos(
-                            destLL['longitude'].toRad() - originLL['longitude'].toRad()
+                            end.longitude.toRad() - start.longitude.toRad()
                         )
                     )
                 ).toDeg() + 360
