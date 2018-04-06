@@ -1,5 +1,5 @@
 {
-  "name": "geolib",
+  "name": "@intelight/geolib",
   "homepage": "http://github.com/manuelbieh/Geolib",
   "author": {
     "name": "Manuel Bieh",
@@ -36,7 +36,7 @@
     "dist/geolib.js",
     "dist/geolib.elevation.js"
   ],
-  "description": "Library to perform geo specific tasks",
+  "description": "Fork of original Geolib library to perform geo specific tasks",
   "keywords": [
     "geodesy",
     "distance",
