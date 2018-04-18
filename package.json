@@ -10,7 +10,7 @@
     "url": "http://github.com/manuelbieh/geolib.git"
   },
   "devDependencies": {
-    "eslint-config-wiremore": "^1.0.3",
+    "eslint-config-wiremore": "^1.2.0",
     "grunt": "~0.4",
     "grunt-cli": "*",
     "grunt-contrib-clean": "~0.5.0",
@@ -54,9 +54,14 @@
   "scripts": {
     "test": "grunt travis --verbose",
     "build": "grunt build",
-    "preversion": "npm run build"
+    "preversion": "npm run build",
+    "postversion": "grunt replace",
+    "prepublish": "npm t"
   },
   "version": "2.0.24",
   "typings": "dist/geolib.d.ts",
-  "main": "dist/geolib.js"
+  "main": "dist/geolib.js",
+  "dependencies": {
+    "prettier": "^1.10.2"
+  }
 }
