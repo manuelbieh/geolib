@@ -166,14 +166,14 @@ declare namespace geolib {
      * 
      * Returns the speed in options.unit (default is km/h). 
      */
-    function getSpeed(coords: PositionInTime[]): number;
+    function getSpeed(firstCoords: PositionInTime, secondCoords: PositionInTime): number;
 
 
     /** Calculates the speed between two points within a given time span. 
      * 
      * Returns the speed in options.unit (default is km/h). 
      */
-    function getSpeed(coords: PositionInTime[], option: SpeedOption): number;
+    function getSpeed(firstCoords: PositionInTime, secondCoords: PositionInTime, option: SpeedOption): number;
 
 
     /** Calculates if given point lies in a line formed by start and end */
