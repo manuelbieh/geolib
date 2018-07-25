@@ -166,14 +166,14 @@ declare namespace geolib {
      * 
      * Returns the speed in options.unit (default is km/h). 
      */
-    function getSpeed(coords: PositionInTime[]): number;
+    function getSpeed(start: { lat: number, lng: number, time: number }, end: { lat: number, lng: number, time: number }): number;
 
 
     /** Calculates the speed between two points within a given time span. 
      * 
      * Returns the speed in options.unit (default is km/h). 
      */
-    function getSpeed(coords: PositionInTime[], option: SpeedOption): number;
+    function getSpeed(start: { lat: number, lng: number, time: number }, end: { lat: number, lng: number, time: number }, option: SpeedOption): number;
 
 
     /** Calculates if given point lies in a line formed by start and end */
@@ -192,7 +192,7 @@ declare namespace geolib {
      * - in (inch)
      * - yd (yards)
     */
-    function convertUnit(unit: string, distance: number)
+    function convertUnit(unit: string, distance: number): number;
 
 
     /** Converts a given distance (in meters) to another unit. 
@@ -207,7 +207,7 @@ declare namespace geolib {
      * - in (inch)
      * - yd (yards)
     */
-    function convertUnit(unit: string, distance: number, round: number);
+    function convertUnit(unit: string, distance: number, round: number): number;
 
 
     /** Converts a sexagesimal coordinate to decimal format */
