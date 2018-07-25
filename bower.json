@@ -12,7 +12,7 @@
     "geo",
     "distance"
   ],
-  "license": "LGPL",
+  "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
