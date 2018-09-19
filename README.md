@@ -386,7 +386,7 @@ Returns an object: `{"latitude": destLat, "longitude": destLng}`
 
 <h4>Example</h4>
 
-<pre>var initialPoint = {lat: 51.516272, lon: 0.45425}
+<pre>var initialPoint = {latitude: 51.516272, longitude: 0.45425}
 var dist = 1234;
 var bearing = 45;
 
