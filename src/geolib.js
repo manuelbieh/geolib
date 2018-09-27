@@ -916,7 +916,7 @@
         },
 
         /**
-         * Calculates the speed between to points within a given time span.
+         * Calculates the speed between two points within a given time span.
          *
          * @param        object      coords with javascript timestamp {latitude: 51.5143, longitude: 7.4138, time: 1360231200880}
          * @param        object      coords with javascript timestamp {latitude: 51.5502, longitude: 7.4323, time: 1360245600460}
