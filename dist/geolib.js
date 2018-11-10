@@ -943,7 +943,7 @@
 
             var coordsArray = Object.keys(coords).map(function(idx) {
                 var distance = this.getDistance(latlng, coords[idx]);
-                var augmentedCoord = Object.create(coords[idx]);
+                var augmentedCoord = Object.assign({}, coords[idx]);
                 augmentedCoord.distance = distance;
                 augmentedCoord.key = idx;
                 return augmentedCoord;
