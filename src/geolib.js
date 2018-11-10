@@ -802,7 +802,7 @@
         orderByDistance: function(latlng, coords) {
             const coordsArray = Object.keys(coords).map(function(idx) {
                 const distance = this.getDistance(latlng, coords[idx]);
-                const augmentedCoord = Object.create(coords[idx]);
+                const augmentedCoord = Object.assign({}, coords[idx]);
                 augmentedCoord.distance = distance;
                 augmentedCoord.key = idx;
                 return augmentedCoord;
