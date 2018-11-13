@@ -3,7 +3,7 @@
 
 Library to provide basic geospatial operations like distance calculation, conversion of decimal coordinates to sexagesimal and vice versa, etc.
 
-[View demo](http://www.manuel-bieh.de/publikationen/scripts/geolib/demo.html)
+[View demo](https://manuelbieh.github.io/Geolib/)
 
 ## Install
 
