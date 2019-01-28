@@ -1137,6 +1137,33 @@
 
             return this.sexagesimalPattern.test(value);
         },
+        
+        /**
+         * Convert WKT Polygon to array of coordinates
+         *
+         * @param        string      WKT Polygon to be converted e.g. 'POLYGON()'
+         * @return       array       Array of coordinates objects e.g. [{latitude: 51.5103, longitude: 7.49347}]
+         */
+        convertWktPolygonToArray: function(wkt) {
+            wkt = wkt.toString().replace(/\s*/, '');
+            
+            if (wkt.split('(')[0] !== 'POLYGON') {
+                return [];
+            }
+
+            wkt = wkt.replace('POLYGON((', '').slice(0, -2); // REMOVE USELESS CHARACTERS
+            const arrayCoordsString = wkt.split(',');
+
+            const arrayCoordsObj = [];
+            for (let i = 0; i < arrayCoordsString.length; i++) {
+                const element = arrayCoordsString[i];
+                const coords = element.split(' ');
+
+                arrayCoordsObj.push({ latitude: parseFloat(coords[1]), longitude: parseFloat(coords[0]) });
+            }
+
+            return arrayCoordsObj;
+        },
 
         round: function(value, n) {
             const decPlace = Math.pow(10, n);
