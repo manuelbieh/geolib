@@ -69,7 +69,7 @@ module.exports = function(grunt) {
                         to: '<%= pkg.version %>',
                     },
                     {
-                        from: /"version": "([0-9a-zA-Z\-\.\+]*)",/,
+                        from: /"version": "([0-9a-zA-Z\-.+]*)",/,
                         to: '"version": "<%= pkg.version %>",',
                     },
                     {
