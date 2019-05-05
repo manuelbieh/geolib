@@ -3,7 +3,9 @@
 
 Library to provide basic geospatial operations like distance calculation, conversion of decimal coordinates to sexagesimal and vice versa, etc.
 
-[View demo](http://www.manuel-bieh.de/publikationen/scripts/geolib/demo.html)
+Currently in maintenance mode. Active development continues in 2019. Questions? You can reach out to me on [Twitter](https://twitter.com/manuelbieh).
+
+<!-- [View demo](http://www.manuel-bieh.de/publikationen/scripts/geolib/demo.html) -->
 
 ## Install
 
@@ -394,8 +396,10 @@ geolib.computeDestinationPoint(initialPoint, dist, bearing);
 // -> {"latitude":51.52411853234181,"longitude":0.4668623365950795}
 </pre>
 
-<h2>Changelog</h2>
-<h3>v2.0.23+beta1</h3>
+## Changelog
+
+### v2.0.23+beta1
+
 - Dropped support for IE6, IE7, IE8
 - Added new methods `geolib.latitude()`, `geolib.longitude()`, `geolib.elevation()` to get latitude, longitude or elevation of points. Will be converted to decimal format automatically
 - Added new method `geolib.extend()` to extend geolib object

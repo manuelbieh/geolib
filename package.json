@@ -22,7 +22,7 @@
     "grunt-jslint": "~1.0.0",
     "grunt-text-replace": "~0.3.6",
     "load-grunt-tasks": "~0.4.0",
-    "phantomjs": ">=1.8.0",
+    "phantomjs": "^1.9.8",
     "time-grunt": "~0.3.1"
   },
   "licenses": [
