@@ -8,33 +8,16 @@ export type GeolibGeoJSONPoint = [
     GeolibAltInputValue?
 ];
 
-export interface InputCoordinates =
+export type InputCoordinates =
     | { [key in 'lon' | 'lat']: GeolibLatLonInputValue }
     | { [key in 'lng' | 'lat']: GeolibLatLonInputValue }
     | { [key in 'longitude' | 'latitude']: GeolibLatLonInputValue };
 
-export interface GeolibInputAltitude = {
+export type GeolibInputAltitude = {
     [key in 'altitude' | 'alt' | 'elevation' | 'elev' | 2]?: GeolibAltInputValue
 };
 
-export interface GeolibInputCoordinates =
+export type GeolibInputCoordinates =
     | (InputCoordinates & GeolibInputAltitude)
     | GeolibGeoJSONPoint
     | { [key: number]: any };
-
-
-// export type InputCoordinates =
-//     | { [key in 'lon' | 'lat']: GeolibLatLonInputValue }
-//     | { [key in 'lng' | 'lat']: GeolibLatLonInputValue }
-//     | { [key in 'longitude' | 'latitude']: GeolibLatLonInputValue };
-
-// export type GeolibInputAltitude = {
-//     [key in 'altitude' | 'alt' | 'elevation' | 'elev' | 2]?: GeolibAltInputValue
-// };
-
-// export type GeolibInputCoordinates =
-//     | (InputCoordinates & GeolibInputAltitude)
-//     | GeolibGeoJSONPoint
-//     | { [key: number]: any };
-
-
