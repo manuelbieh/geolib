@@ -31,7 +31,9 @@
     "webpack-cli": "^3.3.2"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint src/**/*.{js,ts}",
+    "tsc": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
