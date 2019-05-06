@@ -1,0 +1,14 @@
+printWidth: 80
+singleQuote: true
+tabWidth: 4
+trailingComma: es5
+semi: true
+arrowParens: always
+
+overrides:
+  - files: "*.json"
+    options:
+      tabWidth: 2
+  - files: "*.yml"
+    options:
+      tabWidth: 2

@@ -1,52 +1,46 @@
 {
   "name": "geolib",
-  "homepage": "http://github.com/manuelbieh/Geolib",
-  "author": {
-    "name": "Manuel Bieh",
-    "url": "http://www.manuelbieh.com/"
+  "version": "3.0.0-alpha.0",
+  "description": "",
+  "main": "dist/index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/jest": "^24.0.12",
+    "@typescript-eslint/eslint-plugin": "^1.7.0",
+    "@typescript-eslint/parser": "^1.7.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.8.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-config-wiremore": "^3.0.0-beta.11",
+    "eslint-import-resolver-typescript": "^1.1.1",
+    "eslint-plugin-babel": "^5.2.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-react-hooks": "^1.6.0",
+    "eslint-plugin-security": "^1.4.0",
+    "eslint-plugin-unicorn": "^8.0.2",
+    "jest": "^24.8.0",
+    "prettier": "^1.17.0",
+    "typescript": "^3.4.5",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.2"
+  },
+  "scripts": {
+    "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/manuelbieh/geolib.git"
+    "url": "git+https://github.com/manuelbieh/geolib.git"
   },
-  "devDependencies": {
-    "grunt": "~0.4",
-    "grunt-cli": "*",
-    "grunt-contrib-uglify": "~0.2",
-    "grunt-contrib-concat": "~0.3",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-copy": "~0.4",
-    "grunt-contrib-qunit": "~0.2.0",
-    "grunt-text-replace": "~0.3.6",
-    "grunt-contrib-jshint": "~0.6.2",
-    "phantomjs": ">=1.8.0",
-    "grunt-jslint": "~1.0.0",
-    "time-grunt": "~0.3.1",
-    "load-grunt-tasks": "~0.4.0"
+  "author": "Manuel Bieh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/manuelbieh/geolib/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://opensource.org/licenses/MIT"
-    }
-  ],
-  "files": [
-    "dist/geolib.js",
-    "dist/geolib.elevation.js"
-  ],
-  "description": "Library to perform geo specific tasks",
-  "keywords": [
-    "geolocation",
-    "geo",
-    "distance",
-    "geojson",
-    "geospatial",
-    "lbs",
-    "location"
-  ],
-  "scripts": {
-    "test": "grunt travis --verbose"
-  },
-  "version": "2.0.21",
-  "main": "dist/geolib.js"
+  "homepage": "https://github.com/manuelbieh/geolib#readme"
 }

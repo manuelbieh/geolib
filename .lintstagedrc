@@ -1,0 +1,16 @@
+{
+  "linters": {
+    "*.{js,jsx,ts,tsx,css}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{js,jsx,ts,tsx}": [
+      "yarn lint:js --fix",
+      "git add"
+    ],
+    "*.css": [
+      "yarn lint:css --fix",
+      "git add"
+    ]
+  }
+}
