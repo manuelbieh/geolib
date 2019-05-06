@@ -8,6 +8,13 @@ end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
+max_line_length = 100
 
 [*.md]
 trim_trailing_whitespace = false
+
+[*.json]
+indent_size = 2
+
+[*.yml]
+indent_size = 2
