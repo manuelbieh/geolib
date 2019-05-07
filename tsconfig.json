@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["es2015"],
+    "lib": ["es2018", "dom"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -15,5 +15,6 @@
     "baseUrl": "./src",
     "strictNullChecks": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["node_modules", "**/*.test.ts"]
 }

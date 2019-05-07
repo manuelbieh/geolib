@@ -30,7 +30,9 @@ describe('getCoordinateKeys', () => {
             longitude: 'longitude',
             latitude: 'latitude',
         });
-        expect(getCoordinateKeys({ latitude: 1, longitude: 1, altitude: 1 })).toEqual({
+        expect(
+            getCoordinateKeys({ latitude: 1, longitude: 1, altitude: 1 })
+        ).toEqual({
             longitude: 'longitude',
             latitude: 'latitude',
             altitude: 'altitude',
