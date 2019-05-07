@@ -1,15 +1,12 @@
-/**
- * Checks if a value is in decimal format
- *
- * @param        string      Value to be checked
- * @return       bool        True if in sexagesimal format
- */
-const isDecimal = (value) => {
-    value = value.toString().replace(/\s*/, '');
+// Checks if a value is in decimal format
+const isDecimal = (value: any) => {
+    const checkedValue = value.toString().trim();
 
-    // looks silly but works as expected
-    // checks if value is in decimal format
-    return !isNaN(parseFloat(value)) && parseFloat(value) == value;
+    if (isNaN(parseFloat(checkedValue))) {
+        return false;
+    }
+
+    return parseFloat(checkedValue) === Number(checkedValue);
 };
 
 export default isDecimal;

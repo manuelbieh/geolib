@@ -865,6 +865,11 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
+"@types/node@^12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.0.tgz#d11813b9c0ff8aaca29f04cbc12817f4c7d656e5"
+  integrity sha512-Jrb/x3HT4PTJp6a4avhmJCDEVrPdqLfl3e8GGMbpkGGdwAV5UGlIs4vVEfsHHfylZVOKZWpOqmqFH8CbfOZ6kg==
+
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
@@ -2189,16 +2194,17 @@ eslint-config-prettier@^4.2.0:
   dependencies:
     get-stdin "^6.0.0"
 
-eslint-config-wiremore@^3.0.0-beta.11:
-  version "3.0.0-beta.11"
-  resolved "https://registry.yarnpkg.com/eslint-config-wiremore/-/eslint-config-wiremore-3.0.0-beta.11.tgz#a41da1180e5643e76ab786378fbbb0cab488d479"
-  integrity sha512-BVwnfrDrJcFdBwsH7VfRneRr/Jrp67GHMDSCz+OdpOUa9mIZAUTrlgjDEeeCH9kQAB9uOQ8qT5fGf4hYYEQ4yw==
+eslint-config-wiremore@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-wiremore/-/eslint-config-wiremore-3.0.1.tgz#9141b9d704f4c1ea3267f285e9d6ad37f5646ecf"
+  integrity sha512-BeF/YyKCYX1zgYdteEfrKmUMI5On3idtW5vM0XDr55zM43/1GaVeqO5RY6/5EazqXuW1znqRTdlxAbm8wBpasQ==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^1.7.0"
     "@typescript-eslint/parser" "^1.7.0"
     babel-eslint "^10.0.1"
     eslint "^5.16.0"
     eslint-config-prettier "^4.2.0"
+    eslint-import-resolver-typescript "^1.1.1"
     eslint-plugin-babel "^5.2.0"
     eslint-plugin-import "^2.17.2"
     eslint-plugin-prettier "^3.0.1"

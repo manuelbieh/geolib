@@ -1,23 +1,34 @@
-export type GeolibLatLonInputValue = number;
-
-export type GeolibAltInputValue = number;
+export type GeolibLongitudeInputValue = number | string;
+export type GeolibLatitudeInputValue = number | string;
+export type GeolibAltitudeInputValue = number;
 
 export type GeolibGeoJSONPoint = [
-    GeolibLatLonInputValue,
-    GeolibLatLonInputValue,
-    GeolibAltInputValue?
+    GeolibLongitudeInputValue,
+    GeolibLatitudeInputValue,
+    GeolibAltitudeInputValue?
 ];
 
-export type InputCoordinates =
-    | { [key in 'lon' | 'lat']: GeolibLatLonInputValue }
-    | { [key in 'lng' | 'lat']: GeolibLatLonInputValue }
-    | { [key in 'longitude' | 'latitude']: GeolibLatLonInputValue };
+export type LongitudeKeys = 'lng' | 'lon' | 'longitude' | 0;
+export type LatitudeKeys = 'lat' | 'latitude' | 1;
+export type AltitudeKeys = 'alt' | 'altitude' | 'elevation' | 'elev' | 2;
 
-export type GeolibInputAltitude = {
-    [key in 'altitude' | 'alt' | 'elevation' | 'elev' | 2]?: GeolibAltInputValue
-};
+export type GeolibInputLongitude =
+    | { lng: GeolibLongitudeInputValue }
+    | { lon: GeolibLongitudeInputValue }
+    | { longitude: GeolibLongitudeInputValue };
 
-export type GeolibInputCoordinates =
-    | (InputCoordinates & GeolibInputAltitude)
-    | GeolibGeoJSONPoint
-    | { [key: number]: any };
+export type GeolibInputLatitude =
+    | { lat: GeolibLatitudeInputValue }
+    | { latitude: GeolibLatitudeInputValue };
+
+export type GeolibInputAltitude =
+    | { alt?: GeolibAltitudeInputValue }
+    | { altitude?: GeolibAltitudeInputValue }
+    | { elevation?: GeolibAltitudeInputValue }
+    | { elev?: GeolibAltitudeInputValue };
+
+export type UserInputCoordinates = GeolibInputLongitude &
+    GeolibInputLatitude &
+    GeolibInputAltitude;
+
+export type GeolibInputCoordinates = UserInputCoordinates | GeolibGeoJSONPoint;
