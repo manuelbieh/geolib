@@ -1,7 +1,7 @@
-import toRad from './toRad';
-import toDeg from './toDeg';
 import getLatitude from './getLatitude';
 import getLongitude from './getLongitude';
+import toRad from './toRad';
+import toDeg from './toDeg';
 import { GeolibInputCoordinates } from './types';
 
 // Calculates the center of a collection of points
