@@ -3,7 +3,7 @@ import { latitudeKeys } from './constants';
 import getCoordinateKey from './getCoordinateKey';
 import toDecimal from './toDecimal';
 
-const getLatitude = (point: GeolibInputCoordinates, raw: boolean) => {
+const getLatitude = (point: GeolibInputCoordinates, raw?: boolean) => {
     const latKey = getCoordinateKey(point, latitudeKeys);
 
     if (typeof latKey === 'undefined' || latKey === null) {
