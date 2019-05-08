@@ -25,5 +25,11 @@ describe('sexagesimalToDecimal', () => {
         expect(sexagesimalToDecimal('51° 31.52\' 10.11" N')).toEqual(
             51.52814166666667
         );
+
+        expect(sexagesimalToDecimal('121°26′31″W')).toEqual(
+            -121.44194444444445
+        );
+
+        expect(sexagesimalToDecimal('51°15′13"N')).toEqual(51.25361111111111);
     });
 });
