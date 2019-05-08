@@ -1,11 +1,11 @@
 import isDecimal from './isDecimal';
 import isSexagesimal from './isSexagesimal';
 import sexagesimalToDecimal from './sexagesimalToDecimal';
-import { maxLon, minLon } from './constants';
+import { MAXLON, MINLON } from './constants';
 
 const isValidLongitude = (value: any): boolean => {
     if (isDecimal(value)) {
-        if (parseFloat(value) > maxLon || value < minLon) {
+        if (parseFloat(value) > MAXLON || value < MINLON) {
             return false;
         }
 

@@ -1,11 +1,11 @@
 import isDecimal from './isDecimal';
 import isSexagesimal from './isSexagesimal';
 import sexagesimalToDecimal from './sexagesimalToDecimal';
-import { maxLat, minLat } from './constants';
+import { MAXLAT, MINLAT } from './constants';
 
 const isValidLatitude = (value: any): boolean => {
     if (isDecimal(value)) {
-        if (parseFloat(value) > maxLat || value < minLat) {
+        if (parseFloat(value) > MAXLAT || value < MINLAT) {
             return false;
         }
 
