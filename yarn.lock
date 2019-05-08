@@ -2194,10 +2194,10 @@ eslint-config-prettier@^4.2.0:
   dependencies:
     get-stdin "^6.0.0"
 
-eslint-config-wiremore@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-config-wiremore/-/eslint-config-wiremore-3.0.1.tgz#9141b9d704f4c1ea3267f285e9d6ad37f5646ecf"
-  integrity sha512-BeF/YyKCYX1zgYdteEfrKmUMI5On3idtW5vM0XDr55zM43/1GaVeqO5RY6/5EazqXuW1znqRTdlxAbm8wBpasQ==
+eslint-config-wiremore@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/eslint-config-wiremore/-/eslint-config-wiremore-3.0.2.tgz#1cb1e487bf4b2e8ff9ccbd5807e2a517f5d6171a"
+  integrity sha512-uNRN6AjJEjlDxPGFR+xk1MjRIO+4Ku1rbDyGQUfTPyGELOEokyKO3a+c173f0lrO9773YcwqyvmBR7Az738yXA==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^1.7.0"
     "@typescript-eslint/parser" "^1.7.0"
