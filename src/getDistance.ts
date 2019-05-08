@@ -1,0 +1,34 @@
+import getLatitude from './getLatitude';
+import getLongitude from './getLongitude';
+import toRad from './toRad';
+import { earthRadius } from './constants';
+import { GeolibInputCoordinates } from './types';
+
+// Calculates the distance between two points.
+// This method is simple but also more inaccurate
+const getDistance = (
+    from: GeolibInputCoordinates,
+    to: GeolibInputCoordinates,
+    accuracy: number = 1
+) => {
+    accuracy =
+        typeof accuracy !== 'undefined' && !isNaN(accuracy)
+            ? Math.floor(accuracy)
+            : 1;
+
+    const distance = Math.round(
+        Math.acos(
+            Math.sin(toRad(getLatitude(to))) *
+                Math.sin(toRad(getLatitude(from))) +
+                Math.cos(toRad(getLatitude(to))) *
+                    Math.cos(toRad(getLatitude(from))) *
+                    Math.cos(
+                        toRad(getLongitude(from)) - toRad(getLongitude(to))
+                    )
+        ) * earthRadius
+    );
+
+    return Math.floor(Math.round(distance / accuracy) * accuracy);
+};
+
+export default getDistance;
