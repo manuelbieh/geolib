@@ -16,7 +16,7 @@
     "babel-jest": "^24.8.0",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.2.0",
-    "eslint-config-wiremore": "^3.0.1",
+    "eslint-config-wiremore": "^3.0.2",
     "eslint-import-resolver-typescript": "^1.1.1",
     "eslint-plugin-babel": "^5.2.0",
     "eslint-plugin-import": "^2.17.2",
