@@ -16,17 +16,21 @@ const getDistance = (
             ? Math.floor(accuracy)
             : 1;
 
+    const fromLat = getLatitude(from);
+    const fromLon = getLongitude(from);
+    const toLat = getLatitude(to);
+    const toLon = getLongitude(to);
+
     const distance = Math.round(
         Math.acos(
-            Math.sin(toRad(getLatitude(to))) *
-                Math.sin(toRad(getLatitude(from))) +
-                Math.cos(toRad(getLatitude(to))) *
-                    Math.cos(toRad(getLatitude(from))) *
-                    Math.cos(
-                        toRad(getLongitude(from)) - toRad(getLongitude(to))
-                    )
+            Math.sin(toRad(toLat)) * Math.sin(toRad(fromLat)) +
+                Math.cos(toRad(toLat)) *
+                    Math.cos(toRad(fromLat)) *
+                    Math.cos(toRad(fromLon) - toRad(toLon))
         ) * earthRadius
     );
+
+    // console.log({ fromLat, fromLon, toLat, toLon, distance });
 
     return Math.floor(Math.round(distance / accuracy) * accuracy);
 };
