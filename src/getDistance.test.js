@@ -1,12 +1,13 @@
 import getDistance from './getDistance';
 
-console.log(
-    'distance:',
-    getDistance(
-        { latitude: 51.516241842, longitude: 7.456494328 },
-        { latitude: 51.516241842, longitude: 7.456494328 }
-    )
-);
+// Icecream for the first person who can tell me why this is NaN:
+// console.log(
+//     'distance:',
+//     getDistance(
+//         { latitude: 51.516241842, longitude: 7.456494328 },
+//         { latitude: 51.516241842, longitude: 7.456494328 }
+//     )
+// );
 
 describe('getDistance', () => {
     it('should calculate the distance between any two points', () => {

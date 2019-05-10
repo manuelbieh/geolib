@@ -17,7 +17,7 @@ export const altitudeKeys: AltitudeKeys[] = [
     2,
 ];
 
-export const conversion = {
+export const distanceConversion = {
     m: 1,
     km: 0.001,
     cm: 100,
@@ -27,4 +27,10 @@ export const conversion = {
     ft: 100 / 30.48,
     in: 100 / 2.54,
     yd: 1 / 0.9144,
+};
+
+export const timeConversion = {
+    m: 60,
+    h: 3600,
+    d: 86400,
 };
