@@ -1,4 +1,5 @@
 import sexagesimalToDecimal from './sexagesimalToDecimal';
+import getDistance from './getDistance';
 
 describe('sexagesimalToDecimal', () => {
     test('returns a decimal for a sexagesimal value', () => {

@@ -12,25 +12,22 @@ const getDistance = (
     accuracy: number = 1
 ) => {
     accuracy =
-        typeof accuracy !== 'undefined' && !isNaN(accuracy)
-            ? Math.floor(accuracy)
-            : 1;
+        typeof accuracy !== 'undefined' && !isNaN(accuracy) ? accuracy : 1;
 
     const fromLat = getLatitude(from);
     const fromLon = getLongitude(from);
     const toLat = getLatitude(to);
     const toLon = getLongitude(to);
 
-    const distance = Math.round(
+    const distance =
         Math.acos(
             Math.sin(toRad(toLat)) * Math.sin(toRad(fromLat)) +
                 Math.cos(toRad(toLat)) *
                     Math.cos(toRad(fromLat)) *
                     Math.cos(toRad(fromLon) - toRad(toLon))
-        ) * earthRadius
-    );
+        ) * earthRadius;
 
-    return Math.floor(Math.round(distance / accuracy) * accuracy);
+    return Math.round(distance / accuracy) * accuracy;
 };
 
 export default getDistance;
