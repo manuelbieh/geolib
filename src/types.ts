@@ -37,3 +37,9 @@ export type GeolibDistanceFn = (
     point: GeolibInputCoordinates,
     dest: GeolibInputCoordinates
 ) => number;
+
+export type Timestamp = number;
+
+export type GeolibInputCoordinatesWithTime = GeolibInputCoordinates & {
+    time: Timestamp;
+};
