@@ -30,8 +30,6 @@ const getDistance = (
         ) * earthRadius
     );
 
-    // console.log({ fromLat, fromLon, toLat, toLon, distance });
-
     return Math.floor(Math.round(distance / accuracy) * accuracy);
 };
 
