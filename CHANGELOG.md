@@ -9,3 +9,5 @@
 -   3rd parameter to `getCompassDirection()` is no longer a string ("circle", "line") but a function to determine the bearing (you can pass `getRhumbLineBearing` or `getGreatCircleBearing`). The function receives the origin and the destination as 1st and 2nd parameter. If no 3rd parameter was given, `getRhumbLineBearing(origin, dest)` is used by default.
 -   There is now a new helper function `roughCompassDirection(exact)` if you _really_ only need a very rough (and potentially inaccurate) direction.
 -   `orderByDistance()` does no longer modify its input so does not add a `distance` and `key` property to the returned coordinates
+-   The result of `getSpeed()` is now always returned as meters per second. It can be converted using the new convenience function `convertSpeed(mps, targetUnit)`
+-   The point (or distance) is no consistently the same parameter for each functions using either of them (it wasn't before, how confusing is that?)
