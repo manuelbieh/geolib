@@ -32,3 +32,8 @@ export type UserInputCoordinates = GeolibInputLongitude &
     GeolibInputAltitude;
 
 export type GeolibInputCoordinates = UserInputCoordinates | GeolibGeoJSONPoint;
+
+export type GeolibDistanceFn = (
+    point: GeolibInputCoordinates,
+    dest: GeolibInputCoordinates
+) => number;
