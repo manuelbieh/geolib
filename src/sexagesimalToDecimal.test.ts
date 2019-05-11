@@ -1,7 +1,5 @@
 import sexagesimalToDecimal from './sexagesimalToDecimal';
 
-console.log(sexagesimalToDecimal('51° 31\' 1.11" N'));
-
 describe('sexagesimalToDecimal', () => {
     test('returns a decimal for a sexagesimal value', () => {
         expect(sexagesimalToDecimal('51° 31\' 10.11" N')).toEqual(51.519475);
