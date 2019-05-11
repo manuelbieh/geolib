@@ -1,5 +1,6 @@
 import sexagesimalToDecimal from './sexagesimalToDecimal';
-import getDistance from './getDistance';
+
+console.log(sexagesimalToDecimal('51° 31\' 1.11" N'));
 
 describe('sexagesimalToDecimal', () => {
     test('returns a decimal for a sexagesimal value', () => {
