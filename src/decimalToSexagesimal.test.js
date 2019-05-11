@@ -1,7 +1,5 @@
 import decimalToSexagesimal from './decimalToSexagesimal';
 
-console.log();
-
 describe('decimalToSexagesimal', () => {
     it('should return minutes and seconds with a leading 0 if < 10', () => {
         expect(decimalToSexagesimal(121.135)).toEqual('121° 08\' 06"');
