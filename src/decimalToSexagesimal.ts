@@ -9,10 +9,9 @@ const decimal2sexagesimal = (decimal: number) => {
     const [pre, post] = decimal.toString().split('.');
 
     const deg = Math.abs(Number(pre));
-    const minFull = imprecise(Number('.' + (post || 0)) * 60);
+    const minFull = imprecise(Number('0.' + (post || 0)) * 60);
     const min = Math.floor(minFull);
-    const minRest = imprecise(minFull - min);
-    const sec = imprecise(minRest * 60);
+    const sec = imprecise((minFull % min || 0) * 60);
 
     // We're limiting minutes and seconds to a maximum of 6/4 decimal places
     // here purely for aesthetical reasons. That results in an inaccuracy of
@@ -22,9 +21,17 @@ const decimal2sexagesimal = (decimal: number) => {
     return (
         deg +
         '° ' +
-        Number(min.toFixed(6)) +
+        Number(min.toFixed(6))
+            .toString()
+            .split('.')
+            .map((v, i) => (i === 0 ? v.padStart(2, '0') : v))
+            .join('.') +
         "' " +
-        Number(sec.toFixed(4)) +
+        Number(sec.toFixed(4))
+            .toString()
+            .split('.')
+            .map((v, i) => (i === 0 ? v.padStart(2, '0') : v))
+            .join('.') +
         '"'
     );
 };
