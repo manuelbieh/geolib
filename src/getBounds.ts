@@ -10,11 +10,12 @@ const getBounds = (points: any[]) => {
     // TODO: Re-add support for elevation
     return points.reduce(
         (stats, point) => {
-            stats.maxLat = Math.max(getLatitude(point), stats.maxLat);
-            stats.minLat = Math.min(getLatitude(point), stats.minLat);
-            stats.maxLng = Math.max(getLongitude(point), stats.maxLng);
-            stats.minLng = Math.min(getLongitude(point), stats.minLng);
-            return stats;
+            return {
+                maxLat: Math.max(getLatitude(point), stats.maxLat),
+                minLat: Math.min(getLatitude(point), stats.minLat),
+                maxLng: Math.max(getLongitude(point), stats.maxLng),
+                minLng: Math.min(getLongitude(point), stats.minLng),
+            };
         },
         {
             maxLat: -Infinity,
