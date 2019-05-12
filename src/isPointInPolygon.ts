@@ -1,10 +1,9 @@
 import getLatitude from './getLatitude';
 import getLongitude from './getLongitude';
 import { GeolibInputCoordinates } from './types';
-/**
- * Checks whether a point is inside of a polygon or not.
- * Polygon must be in correct order!
- */
+
+// Checks whether a point is inside of a polygon or not.
+// Polygon must be in correct order!
 const isPointInPolygon = (
     point: GeolibInputCoordinates,
     polygon: GeolibInputCoordinates[]
