@@ -15,6 +15,7 @@
     "@typescript-eslint/parser": "^1.7.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.8.0",
+    "babel-loader": "^8.0.6",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.2.0",
     "eslint-config-wiremore": "^3.0.2",
@@ -37,7 +38,7 @@
     "lint": "eslint src/**/*.{js,ts}",
     "tsc": "tsc --noEmit",
     "build": "babel --minified --ignore **/*.test.js,**/*.test.ts --out-dir es --extensions .ts,.js --no-comments src",
-    "bab": "babel"
+    "babel": "babel"
   },
   "repository": {
     "type": "git",

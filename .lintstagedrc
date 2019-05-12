@@ -1,15 +1,14 @@
 {
   "linters": {
-    "*.{js,jsx,ts,tsx,css}": [
+    "*.{js,ts,md}": [
       "prettier --write",
       "git add"
     ],
-    "*.{js,jsx,ts,tsx}": [
-      "yarn lint:js --fix",
-      "git add"
+    "*.{js,ts}": [
+      "yarn tsc"
     ],
-    "*.css": [
-      "yarn lint:css --fix",
+    "*.{js,ts}": [
+      "yarn lint:js --fix",
       "git add"
     ]
   }
