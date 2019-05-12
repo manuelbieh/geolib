@@ -35,6 +35,7 @@ declare namespace geolib {
     export interface CompassDirection {
         rough: string,
         exact: string
+        bearing: number
     }
 
     export interface Distance {
