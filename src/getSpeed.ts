@@ -1,7 +1,7 @@
 import getDistance from './getDistance';
 import { GeolibInputCoordinatesWithTime, GeolibDistanceFn } from './types';
 
-// Calculates the speed between to points within a given time span.
+// Calculates the speed between two points within a given time span.
 const getSpeed = (
     start: GeolibInputCoordinatesWithTime,
     end: GeolibInputCoordinatesWithTime,
