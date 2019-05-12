@@ -4,15 +4,19 @@ const getCoordinateKey = <Keys>(
     point: GeolibInputCoordinates,
     keysToLookup: Keys[]
 ) => {
-    return keysToLookup.reduce((acc: Keys | undefined, key: any):
+    return keysToLookup.reduce((foundKey: Keys | undefined, key: any):
         | Keys
         | undefined => {
-        if (point.hasOwnProperty(key) && typeof key !== 'undefined') {
-            acc = key;
+        if (
+            point.hasOwnProperty(key) &&
+            typeof key !== 'undefined' &&
+            typeof foundKey === 'undefined'
+        ) {
+            foundKey = key;
             return key;
         }
 
-        return acc;
+        return foundKey;
     }, undefined);
 };
 

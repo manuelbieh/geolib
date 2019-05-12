@@ -1,3 +1,11 @@
 module.exports = {
-    presets: ['@babel/env', '@babel/typescript'],
+    presets: [
+        [
+            '@babel/env',
+            {
+                targets: '> 0.25%, not dead',
+            },
+        ],
+        '@babel/typescript',
+    ],
 };

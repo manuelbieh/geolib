@@ -1,6 +1,6 @@
 // Receives an exact compass direction (like WNW) and spits out a very rough
 // and overly simplified direction (N|E|S|W). Use with caution!
-const roughCompassDirection = (exact: string) => {
+const getRoughCompassDirection = (exact: string) => {
     if (/^NNE|NE|NNW|N$/.test(exact)) {
         return 'N';
     }
@@ -18,4 +18,4 @@ const roughCompassDirection = (exact: string) => {
     }
 };
 
-export default roughCompassDirection;
+export default getRoughCompassDirection;
