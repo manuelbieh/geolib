@@ -125,7 +125,7 @@ It returns maximum and minimum, latitude, longitude, and elevation (if provided)
 
 <h4>Example</h4>
 
-<pre>geolib.getCenter([
+<pre>geolib.getBounds([
          {latitude: 52.516272, longitude: 13.377722},
          {latitude: 51.515, longitude: 7.453619},
          {latitude: 51.503333, longitude: -0.119722}
