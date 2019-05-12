@@ -23,8 +23,8 @@ export {
 export { default as getSpeed } from './getSpeed';
 export { default as isDecimal } from './isDecimal';
 export { default as isPointInLine } from './isPointInLine';
+export { default as isPointInPolygon } from './isPointInPolygon';
 export { default as isPointNearLine } from './isPointNearLine';
-export { default as IsPointInPolygon } from './IsPointInPolygon';
 export { default as isSexagesimal } from './isSexagesimal';
 export { default as isValidCoordinate } from './isValidCoordinate';
 export { default as isValidLatitude } from './isValidLatitude';
