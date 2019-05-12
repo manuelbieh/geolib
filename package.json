@@ -2,7 +2,26 @@
   "name": "geolib",
   "version": "3.0.0-alpha.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manuelbieh/geolib.git"
+  },
+  "author": "Manuel Bieh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/manuelbieh/geolib/issues"
+  },
+  "homepage": "https://github.com/manuelbieh/geolib#readme",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint src/**/*.{js,ts}",
+    "typescript": "tsc --noEmit",
+    "build": "babel --minified --ignore **/*.test.js,**/*.test.ts --out-dir es --extensions .ts,.js --no-comments src",
+    "build:types": "tsc --outDir es --emitDeclarationOnly --noEmit false -d",
+    "babel": "babel"
+  },
   "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.4.4",
@@ -29,25 +48,9 @@
     "eslint-plugin-unicorn": "^8.0.2",
     "jest": "^24.8.0",
     "prettier": "^1.17.0",
+    "rimraf": "^2.6.3",
     "typescript": "^3.4.5",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.2"
-  },
-  "scripts": {
-    "test": "jest",
-    "lint": "eslint src/**/*.{js,ts}",
-    "tsc": "tsc --noEmit",
-    "build": "babel --minified --ignore **/*.test.js,**/*.test.ts --out-dir es --extensions .ts,.js --no-comments src",
-    "babel": "babel"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/manuelbieh/geolib.git"
-  },
-  "author": "Manuel Bieh",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/manuelbieh/geolib/issues"
-  },
-  "homepage": "https://github.com/manuelbieh/geolib#readme"
+  }
 }

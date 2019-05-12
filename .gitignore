@@ -1,2 +1,3 @@
 node_modules
-es/*
+yarn-error.log
+/es
