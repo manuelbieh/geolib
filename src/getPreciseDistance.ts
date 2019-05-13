@@ -4,12 +4,9 @@ import toRad from './toRad';
 import { earthRadius } from './constants';
 import { GeolibInputCoordinates } from './types';
 
-/**
- * Calculates geodetic distance between two points specified by latitude/longitude using
- * Vincenty inverse formula for ellipsoids
- * Vincenty Inverse Solution of Geodesics on the Ellipsoid (c) Chris Veness 2002-2010
- * (Licensed under CC BY 3.0)
- */
+// Calculates geodetic distance between two points specified by latitude/longitude using
+// Vincenty inverse formula for ellipsoids. Taken from:
+// https://www.movable-type.co.uk/scripts/latlong-vincenty.html
 const getDistance = (
     start: GeolibInputCoordinates,
     end: GeolibInputCoordinates,
@@ -58,7 +55,8 @@ const getDistance = (
         );
 
         if (sinSigma === 0) {
-            return 0; // co-incident points
+            // co-incident points
+            return 0;
         }
 
         cosSigma = sinU1 * sinU2 + cosU1 * cosU2 * cosLambda;
@@ -68,7 +66,8 @@ const getDistance = (
         cos2SigmaM = cosSigma - (2 * sinU1 * sinU2) / cosSqAlpha;
 
         if (isNaN(cos2SigmaM)) {
-            cos2SigmaM = 0; // equatorial line: cosSqAlpha=0 (§6)
+            // equatorial line: cosSqAlpha=0 (§6)
+            cos2SigmaM = 0;
         }
         const C =
             (ellipsoidParams / 16) *
@@ -88,7 +87,8 @@ const getDistance = (
     } while (Math.abs(lambda - lambdaP) > 1e-12 && --iterLimit > 0);
 
     if (iterLimit === 0) {
-        return NaN; // formula failed to converge
+        // formula failed to converge
+        return NaN;
     }
 
     const uSq = (cosSqAlpha * (earthRadius * earthRadius - b * b)) / (b * b);
