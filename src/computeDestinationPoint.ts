@@ -2,7 +2,7 @@ import getLatitude from './getLatitude';
 import getLongitude from './getLongitude';
 import toRad from './toRad';
 import toDeg from './toDeg';
-import { earthRadius } from './constants';
+import { earthRadius, MAXLON, MINLON } from './constants';
 import { GeolibInputCoordinates } from './types';
 
 // Computes the destination point given an initial point, a distance and a bearing
@@ -33,11 +33,17 @@ const computeDestinationPoint = (
             Math.sin(theta) * Math.sin(delta) * Math.cos(phi1),
             Math.cos(delta) - Math.sin(phi1) * Math.sin(phi2)
         );
-    lambda2 = ((lambda2 + 3 * Math.PI) % (2 * Math.PI)) - Math.PI; // normalise to -180..+180°
+
+    let longitude = toDeg(lambda2);
+    if (longitude < MINLON || longitude > MAXLON) {
+        // normalise to -180..+180° if value is > MAXLON or < MINLON
+        lambda2 = ((lambda2 + 3 * Math.PI) % (2 * Math.PI)) - Math.PI;
+        longitude = toDeg(lambda2);
+    }
 
     return {
         latitude: toDeg(phi2),
-        longitude: toDeg(lambda2),
+        longitude,
     };
 };
 
