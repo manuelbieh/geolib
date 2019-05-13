@@ -4,17 +4,18 @@ import getLongitude from './getLongitude';
 // Gets the max and min, latitude and longitude
 const getBounds = (points: any[]) => {
     if (Array.isArray(points) === false || points.length === 0) {
-        return false;
+        throw new Error('No points were given.');
     }
 
-    // TODO: Re-add support for elevation
     return points.reduce(
         (stats, point) => {
+            const latitude = getLatitude(point);
+            const longitude = getLongitude(point);
             return {
-                maxLat: Math.max(getLatitude(point), stats.maxLat),
-                minLat: Math.min(getLatitude(point), stats.minLat),
-                maxLng: Math.max(getLongitude(point), stats.maxLng),
-                minLng: Math.min(getLongitude(point), stats.minLng),
+                maxLat: Math.max(latitude, stats.maxLat),
+                minLat: Math.min(latitude, stats.minLat),
+                maxLng: Math.max(longitude, stats.maxLng),
+                minLng: Math.min(longitude, stats.minLng),
             };
         },
         {

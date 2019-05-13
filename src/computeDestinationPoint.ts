@@ -36,7 +36,7 @@ const computeDestinationPoint = (
 
     let longitude = toDeg(lambda2);
     if (longitude < MINLON || longitude > MAXLON) {
-        // normalise to -180..+180° if value is > MAXLON or < MINLON
+        // normalise to >=-180 and <=180° if value is >MAXLON or <MINLON
         lambda2 = ((lambda2 + 3 * Math.PI) % (2 * Math.PI)) - Math.PI;
         longitude = toDeg(lambda2);
     }
