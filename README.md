@@ -2,7 +2,7 @@
 
 <!-- [![Build Status](https://secure.travis-ci.org/manuelbieh/Geolib.png?branch=master)](http://travis-ci.org/manuelbieh/Geolib) -->
 
-Library to provide basic geospatial operations like distance calculation, conversion of decimal coordinates to sexagesimal and vice versa, etc.
+Library to provide basic geospatial operations like distance calculation, conversion of decimal coordinates to sexagesimal and vice versa, etc. This library is currently **2D**, meaning that altitude/elevation is not yet supported by any of its functions!
 
 ## Install
 
@@ -51,6 +51,8 @@ import getDistance from 'geolib/es/getDistance';
 ## General
 
 This library is written in TypeScript. You don't have to know TypeScript to use Geolib but the [type definitions](./src/types.ts) give you valuable information about the general usage, input parameters etc.
+
+### Supported values and formats
 
 All methods that are working with coordinates accept either an object with a `lat`/`latitude` **and** a `lon`/`lng`/`longitude` property, **or** a GeoJSON coordinates array, like: `[lon, lat]`. All values can be either in decimal (`53.471`) or sexagesimal (`53° 21' 16"`) format.
 
@@ -266,7 +268,7 @@ geolib.orderByDistance({ latitude: 51.515, longitude: 7.453619 }, [
 
 Returns an array of points ordered by their distance to the reference point.
 
-### `findNearest(point, arrayOfPoints)
+### `findNearest(point, arrayOfPoints)`
 
 Finds the single one nearest point to a reference coordinate. It's actually just a convenience method that uses `orderByDistance` under the hood and returns the first result.
 
@@ -333,11 +335,11 @@ geolib.isPointInLine(
 );
 ```
 
-### geolib.convertUnit(string unit, float distance[, int round])
+### `convertDistance(value, unit)`
 
-Converts a given distance (in meters) to another unit.
+Converts a given distance (in meters) into another unit.
 
-#### Parameters
+#### Units
 
 `unit` can be one of:
 
@@ -347,96 +349,120 @@ Converts a given distance (in meters) to another unit.
 -   mm (millimeters)
 -   mi (miles)
 -   sm (seamiles)
--   ft (foot)
--   in (inch)
+-   ft (feet)
+-   in (inches)
 -   yd (yards)
 
-`distance` distance to be converted (source must be in meter)
+```js
+geolib.convertUnit(14200, 'km'); // 14.2
+geolib.convertUnit(500, 'km'); // 0.5
+```
 
-`round` fractional digits
+Returns the converted distance as number.
 
-#### Example
+### `sexagesimalToDecimal(value)`
 
-`geolib.convertUnit('km', 14213, 2) // -> 14,21`
+Converts a sexagesimal coordinate into decimal format
 
-### geolib.sexagesimal2decimal(string coord)
+```js
+geolib.sexagesimalToDecimal(`51° 29' 46" N`);
+```
 
-Converts a sexagesimal coordinate to decimal format
+Returns the new value as decimal number.
 
-#### Example
-
-`geolib.sexagesimal2decimal("51° 29' 46\" N")`
-
-### geolib.decimal2sexagesimal(float coord)
+### `decimalToSexagesimal(value)`
 
 Converts a decimal coordinate to sexagesimal format
 
-#### Example
-
-`geolib.decimal2sexagesimal(51.49611111); // -> 51° 29' 46.00`
-
-### geolib.latitude(object latlng)
-
-### geolib.longitude(object latlng)
-
-### geolib.elevation(object latlng)
-
-Returns the latitude/longitude/elevation for a given point and converts it to decimal.
-
-Works with:
-
--   longitude: `longitude`, `lng`, `lon`, 0 (GeoJSON array)
--   latitude: `latitude`, `lat`, 1 (GeoJSON array)
--   elevation: `elevation`, `elev`, `alt`, `altitude`, 2 (GeoJSON array)
-
-#### Examples
-
-`geolib.latitude({lat: 51.49611, lng: 7.38896}); // -> 51.49611`
-`geolib.longitude({lat: 51.49611, lng: 7.38896}); // -> 7.38896`
-
-### geolib.useDecimal(mixed latlng)
-
-Checks if a coordinate is already in decimal format and, if not, converts it to
-
-#### Example
-
-<pre>geolib.useDecimal("51° 29' 46\" N"); // -> 51.59611111
-geolib.useDecimal(51.59611111) // -> 51.59611111</pre>
-
-### geolib.computeDestinationPoint(start, distance, bearing, radius(optional))
-
-Computes the destination point given an initial point, a distance (in meters) and a bearing (in degrees).
-
-If no radius is given it defaults to the mean earth radius of 6371000 meter.
-
-Returns an object: `{"latitude": destLat, "longitude": destLng}`
-
-(Attention: this formula is not _100%_ accurate (but very close though))
-
-#### Example
-
-<pre>var initialPoint = {latitude: 51.516272, longitude: 0.45425}
-var dist = 1234;
-var bearing = 45;
-
-geolib.computeDestinationPoint(initialPoint, dist, bearing);
-// -> {"latitude":51.52411853234181,"longitude":0.4668623365950795}
-</pre>
-
-## Changelog
-
-### v2.0.23+beta1
-
--   Dropped support for IE6, IE7, IE8
--   Added new methods `geolib.latitude()`, `geolib.longitude()`, `geolib.elevation()` to get latitude, longitude or elevation of points. Will be converted to decimal format automatically
--   Added new method `geolib.extend()` to extend geolib object
--   Added support for GeoJSON format (`[lon, lat, elev]`)
--   Added property `geolib.version` to query the currently used version
--   Moved `geolib.elevation` to an optional module (`geolib.elevation.js`)
--   Using `Object.create(Geolib.prototype)` instead of object literal `{}`
--   New folder structure: compiled `geolib.js` can now be found in `dist/` instead of root dir
--   Improved Grunt build task
-
+```js
+geolib.decimalToSexagesimal(51.49611111); // -> 51° 29' 46`
 ```
 
+Returns the new value as sexagesimal string.
+
+### `geolib.getLatitude(point, raw = false)`
+
+### `geolib.getLongitude(point, raw = false)`
+
+Returns the latitude/longitude for a given point **and** converts it to decimal. If the second argument is set to true it does **not** convert the value to decimal.
+
+```js
+geolib.getLatitude({ lat: 51.49611, lng: 7.38896 }); // -> 51.49611
+geolib.getLongitude({ lat: 51.49611, lng: 7.38896 }); // -> 7.38896
 ```
+
+Returns the value as decimal or in its original format if the second argument was set to true.
+
+### `toDecimal(point)`
+
+Checks if a coordinate is already in decimal format and, if not, converts it to. Works with single values (e.g. `51° 32' 17"`) and complete coordinates (e.g. `{lat: 1, lon: 1}`) as long as it in a [supported format](#supported-values-and-formats).
+
+```js
+geolib.useDecimal(`51° 29' 46" N`); // -> 51.59611111
+geolib.useDecimal(51.59611111); // -> 51.59611111
+```
+
+Returns a decimal value for the given input value.
+
+### `computeDestinationPoint(point, distance, bearing, radius = earthRadius)`
+
+Computes the destination point given an initial point, a distance (in meters) and a bearing (in degrees). If no radius is given it defaults to the mean earth radius of 6,371,000 meters.
+
+Attention: this formula is not _100%_ accurate (but very close though).
+
+```js
+geolib.computeDestinationPoint(
+    { latitude: 52.518611, longitude: 13.408056 },
+    15000,
+    180
+);
+```
+
+```js
+geolib.computeDestinationPoint(
+    [13.408056, 52.518611]
+    15000,
+    180
+);
+```
+
+Returns the destination in the same format as the input coordinates. So if you pass a GeoJSON point, you will get a GeoJSON point.
+
+### `getCoordinateKeys(point)`
+
+Gets the property names of that are used in the point in a normalized form:
+
+```js
+geolib.getCoordinateKeys({ lat: 1, lon: 1 });
+// -> { latitude: 'lat', longitude: 'lon' }
+```
+
+Returns an object with a `latitude` and a `longitude` property. Their values are the property names for latitude and longitude that are used in the passed point. Should probably only be used internally.
+
+### getCoordinateKey(point, keysToLookup)`
+
+Is used by `getCoordinateKeys` under the hood and returns the property name out of a list of possible names.
+
+```js
+geolib.getCoordinateKey({ latitude: 1, longitude: 2 }, ['lat', 'latitude']);
+// -> latitude
+```
+
+Returns the name of the property as string or `undefined` if no there was no match.
+
+### `isValidCoordinate(point)`
+
+Checks if a given point has at least a **latitude** and a **longitude** and is in a supported format.
+
+```js
+// true:
+geolib.isValidCoordinate({ latitude: 1, longitude: 2 });
+
+// false, longitude is missing:
+geolib.isValidCoordinate({ latitude: 1 });
+
+// true, GeoJSON format:
+geolib.isValidCoordinate([2, 1]);
+```
+
+Returns `true` or `false`.

@@ -11,7 +11,7 @@ const computeDestinationPoint = (
     start: GeolibInputCoordinates,
     distance: number,
     bearing: number,
-    radius: number = earthRadius
+    radius: number = 6371000
 ) => {
     const lat = getLatitude(start);
     const lng = getLongitude(start);
