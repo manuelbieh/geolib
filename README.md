@@ -62,7 +62,7 @@ Distance values are **always** floats and represent the distance in **meters**.
 
 Calculates the distance between two geo coordinates.
 
-This function takes up to 3 arguments. First 2 arguments must be valid `GeolibInputCoordinates` (e.g. `{latitude: 52.518611, longitude: 13.408056}`). Coordinates can be in sexagesimal or decimal format. The third argument is accuracy (in meters). By default the accuracy is 1 meter. If you need a more accurate result, you can set it lower, e.g. to `0.01` for centimeter accuracy. You can set it higher to have the result rounded to the next value that is divisible by your chosen accuracy (e.g. `25428` with an accuracy of `100` becomes `25400`).
+This function takes up to 3 arguments. First 2 arguments must be valid `GeolibInputCoordinates` (e.g. `{latitude: 52.518611, longitude: 13.408056}`). Coordinates can be in sexagesimal or decimal format. The third argument is accuracy (in meters). By default the accuracy is 1 meter. If you need a more accurate result, you can set it to a lower value, e.g. to `0.01` for centimeter accuracy. You can set it higher to have the result rounded to the next value that is divisible by your chosen accuracy (e.g. `25428` with an accuracy of `100` becomes `25400`).
 
 ```js
 getDistance(
@@ -81,17 +81,16 @@ navigator.geolocation.getCurrentPosition(
                 latitude: 51.525,
                 longitude: 7.4575,
             }),
-            ' meters away from 51.525, 7.4575'
+            'meters away from 51.525, 7.4575'
         );
     },
-    function() {
+    () => {
         alert('Position could not be determined.');
-    },
-    {
-        enableHighAccuracy: true,
     }
 );
 ```
+
+Returns the distance in meters as a numeric value.
 
 ### `getPreciseDistance(start, end[, int accuracy])`
 
@@ -110,6 +109,14 @@ getPreciseDistance(
 
 Calculates the geographical center of all points in a collection of geo coordinates. Takes an array of coordinates and calculates the center of it.
 
+```js
+geolib.getCenter([
+    { latitude: 52.516272, longitude: 13.377722 },
+    { latitude: 51.515, longitude: 7.453619 },
+    { latitude: 51.503333, longitude: -0.119722 },
+]);
+```
+
 Returns an object:
 
 ```js
@@ -119,35 +126,48 @@ Returns an object:
 }
 ```
 
+### `getCenterOfBounds(coords)`
+
+Calculates the center of the bounds of geo coordinates.
+
+Takes an array of coordinates, calculate the border of those, and gives back the center of that rectangle.
+
+On polygons like political borders (eg. states), this may gives a closer result to human expectation, than `getCenter`, because that function can be disturbed by uneven distribution of point in different sides.
+
+Imagine the US state Oklahoma: `getCenter` on that gives a southern point, because the southern border contains a lot more nodes, than the others.
+
 ```js
-geolib.getCenter([
+geolib.getCenterOfBounds([
+    { latitude: 51.513357512, longitude: 7.45574331 },
+    { latitude: 51.515400598, longitude: 7.45518541 },
+    { latitude: 51.516241842, longitude: 7.456494328 },
+    { latitude: 51.516722545, longitude: 7.459863183 },
+    { latitude: 51.517443592, longitude: 7.463232037 },
+]);
+```
+
+Returns an object:
+
+```js
+{
+    "latitude": centerLat,
+    "longitude": centerLng
+}
+```
+
+### `getBounds(points)`
+
+Calculates the bounds of geo coordinates.
+
+```js
+geolib.getBounds([
     { latitude: 52.516272, longitude: 13.377722 },
     { latitude: 51.515, longitude: 7.453619 },
     { latitude: 51.503333, longitude: -0.119722 },
 ]);
 ```
 
-### `getCenterOfBounds(coords)`
-
-Calculates the center of the bounds of geo coordinates.
-
-Takes an array of coordinates, calculate the border of those, and gives back
-the center of that rectangle.
-
-On polygons like political borders (eg. states), this may gives a closer
-result to human expectation, than `getCenter`, because that function can be
-disturbed by uneven distribution of point in different sides.
-
-Imagine the US state Oklahoma: `getCenter` on that gives a southern
-point, because the southern border contains a lot more nodes, than the others.
-
-Returns an object: `{"latitude": centerLat, "longitude": centerLng}`
-
-### geolib.getBounds(array coords)
-
-Calculates the bounds of geo coordinates.
-
-It returns maximum and minimum latitude and longitude in form of an object:
+It returns minimum and maximum latitude and minimum and maximum longitude as an object:
 
 ```js
 {
@@ -158,191 +178,160 @@ It returns maximum and minimum latitude and longitude in form of an object:
 }
 ```
 
+### `isPointInPolygon(point, polygon)`
+
+Checks whether a point is inside of a polygon or not.
+
 ```js
-geolib.getBounds([
-    { latitude: 52.516272, longitude: 13.377722 },
-    { latitude: 51.515, longitude: 7.453619 },
-    { latitude: 51.503333, longitude: -0.119722 },
+geolib.isPointInPolygon({ latitude: 51.5125, longitude: 7.485 }, [
+    { latitude: 51.5, longitude: 7.4 },
+    { latitude: 51.555, longitude: 7.4 },
+    { latitude: 51.555, longitude: 7.625 },
+    { latitude: 51.5125, longitude: 7.625 },
 ]);
 ```
 
-### geolib.isPointInside(object latlng, array polygon)
+Returns `true` or `false`
 
-Checks whether a point is inside of a polygon or not.
-Note: the polygon coords must be in correct order!
+### `isPointWithinRadius(point, centerPoint, radius)`
 
-Returns true or false
+Checks whether a point is inside of a circle or not.
 
-#### Example
-
-<pre>
-geolib.isPointInside(
-    {latitude: 51.5125, longitude: 7.485},
-    [
-        {latitude: 51.50, longitude: 7.40},
-        {latitude: 51.555, longitude: 7.40},
-        {latitude: 51.555, longitude: 7.625},
-        {latitude: 51.5125, longitude: 7.625}
-    ]
-); // -> true</pre>
-
-### geolib.isPointInCircle(object latlng, object center, integer radius)
-
-Similar to is point inside: checks whether a point is inside of a circle or not.
-
-Returns true or false
-
-#### Example
-
-<pre>// checks if 51.525, 7.4575 is within a radius of 5km from 51.5175, 7.4678
+```js
+// checks if 51.525/7.4575 is within a radius of 5 km from 51.5175/7.4678
 geolib.isPointInCircle(
-    {latitude: 51.525, longitude: 7.4575},
-    {latitude: 51.5175, longitude: 7.4678},
+    { latitude: 51.525, longitude: 7.4575 },
+    { latitude: 51.5175, longitude: 7.4678 },
     5000
-);</pre>
+);
+```
 
-### geolib.getRhumbLineBearing(object originLL, object destLL)
+Returns `true` or `false`
 
-Gets rhumb line bearing of two points. Find out about the difference between rhumb line and
-great circle bearing on Wikipedia. Rhumb line should be fine in most cases:
+### `getRhumbLineBearing(origin, destination)`
+
+Gets rhumb line bearing of two points. Find out about the difference between rhumb line and great circle bearing on Wikipedia. Rhumb line should be fine in most cases:
 
 http://en.wikipedia.org/wiki/Rhumb_line#General_and_mathematical_description
 
 Function is heavily based on Doug Vanderweide's great PHP version (licensed under GPL 3.0)
 http://www.dougv.com/2009/07/13/calculating-the-bearing-and-compass-rose-direction-between-two-latitude-longitude-coordinates-in-php/
 
-Returns calculated bearing as integer.
-
-#### Example
-
-<pre>geolib.getRhumbLineBearing(
-    {latitude: 52.518611, longitude: 13.408056}, 
-    {latitude: 51.519475, longitude: 7.46694444}
-);</pre>
-
-### geolib.getBearing(object originLL, object destLL)
-
-Gets great circle bearing of two points. See description of getRhumbLineBearing for more information.
-Returns calculated bearing as integer.
-
-#### Example
-
-<pre>geolib.getBearing(
-    {latitude: 52.518611, longitude: 13.408056}, 
-    {latitude: 51.519475, longitude: 7.46694444}
-);</pre>
-
-### geolib.getCompassDirection(object originLL, object destLL, string bearingMode (optional))
-
-Gets the compass direction from an origin coordinate (originLL) to a destination coordinate (destLL).
-Bearing mode. Can be either circle or rhumbline (default).
-Returns an object with a rough (NESW) and an exact direction (NNE, NE, ENE, E, ESE, etc).
-
-#### Example
-
-<pre>geolib.getCompassDirection(
-    {latitude: 52.518611, longitude: 13.408056}, 
-    {latitude: 51.519475, longitude: 7.46694444}
+```js
+geolib.getRhumbLineBearing(
+    { latitude: 52.518611, longitude: 13.408056 },
+    { latitude: 51.519475, longitude: 7.46694444 }
 );
-//Output
-{
-    rough: 'W',
-    exact: 'WSW'
-}</pre>
+```
 
-### geolib.orderByDistance(object latlng, mixed coords)
+Returns calculated bearing as number.
 
-Sorts an object or array of coords by distance from a reference coordinate
+### `getGreatCircleBearing(origin, destination)`
 
-Returns a sorted array [{latitude: x, longitude: y, distance: z, key: property}]
+Gets great circle bearing of two points. This is more accurate than rhumb line bearing but also slower.
 
-#### Examples
+```js
+geolib.getGreatCircleBearing(
+    { latitude: 52.518611, longitude: 13.408056 },
+    { latitude: 51.519475, longitude: 7.46694444 }
+);
+```
 
-<pre>
-// coords array
-geolib.orderByDistance({latitude: 51.515, longitude: 7.453619}, [
-    {latitude: 52.516272, longitude: 13.377722},
-    {latitude: 51.518, longitude: 7.45425},
-    {latitude: 51.503333, longitude: -0.119722}
+Returns calculated bearing as number.
+
+### `getCompassDirection(origin, destination, bearingFunction = getRhumbLineBearing)`
+
+Gets the compass direction from an origin coordinate to a destination coordinate. Optionally a function to determine the bearing can be passed as third parameter. Default is `getRhumbLineBearing`.
+
+```js
+geolib.getCompassDirection(
+    { latitude: 52.518611, longitude: 13.408056 },
+    { latitude: 51.519475, longitude: 7.46694444 }
+);
+```
+
+Returns the direction (e.g. `NNE`, `SW`, `E`, …) as string.
+
+### `orderByDistance(point, arrayOfPoints)`
+
+Sorts an array of coords by distance to a reference coordinate.
+
+```js
+geolib.orderByDistance({ latitude: 51.515, longitude: 7.453619 }, [
+    { latitude: 52.516272, longitude: 13.377722 },
+    { latitude: 51.518, longitude: 7.45425 },
+    { latitude: 51.503333, longitude: -0.119722 },
 ]);
+```
 
-// coords object
-geolib.orderByDistance({latitude: 51.515, longitude: 7.453619}, {
-    a: {latitude: 52.516272, longitude: 13.377722},
-    b: {latitude: 51.518, longitude: 7.45425},
-    c: {latitude: 51.503333, longitude: -0.119722}
-});
-</pre>
+Returns an array of points ordered by their distance to the reference point.
 
-### geolib.findNearest(object latlng, mixed coords[[, int offset], int limit])
+### `findNearest(point, arrayOfPoints)
 
-Finds the nearest coordinate to a reference coordinate.
+Finds the single one nearest point to a reference coordinate. It's actually just a convenience method that uses `orderByDistance` under the hood and returns the first result.
 
-#### Examples
+```js
+geolib.findNearest({ latitude: 52.456221, longitude: 12.63128 }, [
+    { latitude: 52.516272, longitude: 13.377722 },
+    { latitude: 51.515, longitude: 7.453619 },
+    { latitude: 51.503333, longitude: -0.119722 },
+    { latitude: 55.751667, longitude: 37.617778 },
+    { latitude: 48.8583, longitude: 2.2945 },
+    { latitude: 59.3275, longitude: 18.0675 },
+    { latitude: 59.916911, longitude: 10.727567 },
+]);
+```
 
-<pre>var spots = {
-    "Brandenburg Gate, Berlin": {latitude: 52.516272, longitude: 13.377722},
-    "Dortmund U-Tower": {latitude: 51.515, longitude: 7.453619},
-    "London Eye": {latitude: 51.503333, longitude: -0.119722},
-    "Kremlin, Moscow": {latitude: 55.751667, longitude: 37.617778},
-    "Eiffel Tower, Paris": {latitude: 48.8583, longitude: 2.2945},
-    "Riksdag building, Stockholm": {latitude: 59.3275, longitude: 18.0675},
-    "Royal Palace, Oslo": {latitude: 59.916911, longitude: 10.727567}
-}
+Returns the point nearest to the reference point.
 
-// in this case set offset to 1 otherwise the nearest point will always be your reference point
-geolib.findNearest(spots['Dortmund U-Tower'], spots, 1)
-</pre>
+### `getPathLength(points, distanceFunction = getDistance)`
 
-### geolib.getPathLength(mixed coords)
+Calculates the length of a collection of coordinates. Expects an array of points as first argument and optionally a function to determine the distance as second argument. Default is `getDistance`.
 
-Calculates the length of a collection of coordinates
-
-Returns the length of the path in meters
-
-#### Example
-
-<pre>
-// Calculate distance from Berlin via Dortmund to London
+```js
 geolib.getPathLength([
-    {latitude: 52.516272, longitude: 13.377722}, // Berlin
-    {latitude: 51.515, longitude: 7.453619}, // Dortmund
-    {latitude: 51.503333, longitude: -0.119722} // London
-]); // -> 945235</pre>
+    { latitude: 52.516272, longitude: 13.377722 },
+    { latitude: 51.515, longitude: 7.453619 },
+    { latitude: 51.503333, longitude: -0.119722 },
+]);
+```
 
-### geolib.getSpeed(coords, coords[, options])
+Returns the length of the path in meters as number.
+
+### `getSpeed(startPointWithTime, endPointWithTime)`
 
 Calculates the speed between two points within a given time span.
 
-Returns the speed in <em>options.unit</em> (default is km/h).
-
-#### Example
-
-<pre>
+```js
 geolib.getSpeed(
-    {lat: 51.567294, lng: 7.38896, time: 1360231200880},
-    {lat: 52.54944, lng: 13.468509, time: 1360245600880},
-    {unit: 'mph'}
-); // -> 66.9408 (mph)</pre>
+    { latitude: 51.567294, longitude: 7.38896, time: 1360231200880 },
+    { latitude: 52.54944, longitude: 13.468509, time: 1360245600880 }
+);
+```
 
-### geolib.isPointInLine(object point, object start, object end
+Return the speed in meters per second as number.
+
+### `convertSpeed(value, unit)`
+
+Converts the result from `getSpeed` into a more human friendly format. Currently available units are `mph` and `kmh`.
+
+```js
+convertSpeed(29.8678, 'kmh'));
+```
+
+Returns the converted value as number.
+
+### `isPointInLine(point, lineStart, lineEnd)`
 
 Calculates if given point lies in a line formed by start and end.
 
-Returns true or false
-
-#### Examples
-
-<pre>var point1 = {latitude: 0.5, longitude: 0};
-var point2 = {latitude: 0, longitude: 10};
-var point3 = {latitude: 0, longitude: 15.5};
-var start  = {latitude: 0, longitude: 0};
-var end    = {latitude: 0, longitude: 15};
-
-var isInLine1 = geolib.isPointInLine(point1, start, end) //-> false;
-var isInLine2 = geolib.isPointInLine(point2, start, end) //-> true;
-var isInLine3 = geolib.isPointInLine(point3, start, end) //-> false;
-</pre>
+```js
+geolib.isPointInLine(
+    { latitude: 0, longitude: 10 },
+    { latitude: 0, longitude: 0 },
+    { latitude: 0, longitude: 15 }
+);
+```
 
 ### geolib.convertUnit(string unit, float distance[, int round])
 
@@ -447,3 +436,7 @@ geolib.computeDestinationPoint(initialPoint, dist, bearing);
 -   Using `Object.create(Geolib.prototype)` instead of object literal `{}`
 -   New folder structure: compiled `geolib.js` can now be found in `dist/` instead of root dir
 -   Improved Grunt build task
+
+```
+
+```
