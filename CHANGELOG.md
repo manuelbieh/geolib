@@ -21,7 +21,7 @@ Elevation support was dropped, as well as a few functions that unnecessarily mad
 -   The method how sexagesimal is formatted differs a little bit. It may now potentially return ugly float point units like `52° 46' 21.0004"` in rare cases but it is also more accurate then it was before.
 -   Dropped support for Meteor (feel free to add it back if you like)
 
-## Method status in 3.0.0 compared to 2.x.x
+## Method status in 3.0.0-beta.0 compared to 2.x.x
 
 -   ❗ `getKeys` renamed to `getCoordinateKeys`
 -   ❗ `validate` renamed to `isValidCoordinate`
@@ -63,3 +63,15 @@ Elevation support was dropped, as well as a few functions that unnecessarily mad
 -   ✅ `isDecimal`
 -   ✅ `isSexagesimal`
 -   🆕 Added new method `getCoordinateKey` to get a property name (e.g. `lat` or `lng` of an object based on an array of possible names)
+
+### v2.0.23+beta1
+
+-   Dropped support for IE6, IE7, IE8
+-   Added new methods `geolib.latitude()`, `geolib.longitude()`, `geolib.elevation()` to get latitude, longitude or elevation of points. Will be converted to decimal format automatically
+-   Added new method `geolib.extend()` to extend geolib object
+-   Added support for GeoJSON format (`[lon, lat, elev]`)
+-   Added property `geolib.version` to query the currently used version
+-   Moved `geolib.elevation` to an optional module (`geolib.elevation.js`)
+-   Using `Object.create(Geolib.prototype)` instead of object literal `{}`
+-   New folder structure: compiled `geolib.js` can now be found in `dist/` instead of root dir
+-   Improved Grunt build task
