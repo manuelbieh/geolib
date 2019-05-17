@@ -4,12 +4,12 @@ import { GeolibInputCoordinates } from './types';
 // Returns the minimum distance from a point to a line
 const getDistanceFromLine = (
     point: GeolibInputCoordinates,
-    start: GeolibInputCoordinates,
-    end: GeolibInputCoordinates
+    lineStart: GeolibInputCoordinates,
+    lineEnd: GeolibInputCoordinates
 ) => {
-    const d1 = getDistance(start, point);
-    const d2 = getDistance(point, end);
-    const d3 = getDistance(start, end);
+    const d1 = getDistance(lineStart, point);
+    const d2 = getDistance(point, lineEnd);
+    const d3 = getDistance(lineStart, lineEnd);
 
     // alpha is the angle between the line from start to point, and from start to end
     const alpha = Math.acos((d1 * d1 + d3 * d3 - d2 * d2) / (2 * d1 * d3));
