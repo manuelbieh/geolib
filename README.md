@@ -4,6 +4,10 @@
 
 Library to provide basic geospatial operations like distance calculation, conversion of decimal coordinates to sexagesimal and vice versa, etc. This library is currently **2D**, meaning that altitude/elevation is not yet supported by any of its functions!
 
+## Changelog
+
+A detailed changelog can be found in [CHANGELOG.md](./CHANGELOG.md)
+
 ## Install
 
 ```sh
@@ -201,7 +205,7 @@ Checks whether a point is inside of a circle or not.
 
 ```js
 // checks if 51.525/7.4575 is within a radius of 5 km from 51.5175/7.4678
-geolib.isPointInCircle(
+geolib.isPointWithinRadius(
     { latitude: 51.525, longitude: 7.4575 },
     { latitude: 51.5175, longitude: 7.4678 },
     5000
@@ -299,6 +303,20 @@ geolib.getPathLength([
 ```
 
 Returns the length of the path in meters as number.
+
+### `getDistanceFromLine(point, lineStart, lineEnd)`
+
+Gets the minimum distance from a point to a line of two points.
+
+```js
+geolib.getDistanceFromLine(
+    { latitude: 51.516, longitude: 7.456 },
+    { latitude: 51.512, longitude: 7.456 },
+    { latitude: 51.516, longitude: 7.459 }
+);
+```
+
+Returns the shortest distance to the given line as number.
 
 ### `getSpeed(startPointWithTime, endPointWithTime)`
 
