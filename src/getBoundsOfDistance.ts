@@ -5,10 +5,8 @@ import toDeg from './toDeg';
 import { earthRadius, MAXLAT, MINLAT, MAXLON, MINLON } from './constants';
 import { GeolibInputCoordinates } from './types';
 
-/*
- Computes the bounding coordinates of all points on the surface of the earth
- less than or equal to the specified great circle distance.
-*/
+//  Computes the bounding coordinates of all points on the surface of the earth
+//  less than or equal to the specified great circle distance.
 const getBoundsOfDistance = (
     point: GeolibInputCoordinates,
     distance: number

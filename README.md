@@ -318,6 +318,17 @@ geolib.getDistanceFromLine(
 
 Returns the shortest distance to the given line as number.
 
+### `getBoundsOfDistance(point, distance)`
+
+Computes the bounding coordinates of all points on the surface of the earth less than or equal to the specified great circle distance.
+
+```js
+geolib.getBoundsOfDistance(
+    { latitude: 34.090166, longitude: -118.276736555556 },
+    1000
+);
+```
+
 ### `getSpeed(startPointWithTime, endPointWithTime)`
 
 Calculates the speed between two points within a given time span.

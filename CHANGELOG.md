@@ -25,7 +25,7 @@ I removed Grunt from the build process, added "modern" tools like ESLint and Pre
 -   The method how sexagesimal is formatted differs a little bit. It may now potentially return ugly float point units like `52° 46' 21.0004"` in rare cases but it is also more accurate than it was before.
 -   Dropped support for Meteor (feel free to add it back if you like)
 
-### ✅ Same name
+### ✅ Functions with the same name
 
 -   `computeDestinationPoint`
 -   `getBounds`
