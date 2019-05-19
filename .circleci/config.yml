@@ -36,6 +36,11 @@ jobs:
       - run:
           name: Run tests
           command: yarn test
+
+      - run:
+          name: Publish new version
+          command: yarn release
+
 workflows:
   version: 2
   workflow:

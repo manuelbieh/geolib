@@ -2,7 +2,7 @@ import getDistance from './getDistance';
 import getBoundsOfDistance from './getBoundsOfDistance';
 
 describe('getBoundsOfDistance', () => {
-    it('should return the topmost north, east, south and west points for a given distance', () => {
+    it('should return the top most north, east, south and west points for a given distance', () => {
         const point = { latitude: 34.090166, longitude: -118.276736555556 };
         const bounds1000meters = getBoundsOfDistance(point, 1000);
         expect(bounds1000meters).toEqual([
