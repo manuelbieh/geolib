@@ -329,6 +329,8 @@ geolib.getBoundsOfDistance(
 );
 ```
 
+Returns an array with the southwestern and northeastern coordinates.
+
 ### `getSpeed(startPointWithTime, endPointWithTime)`
 
 Calculates the speed between two points within a given time span.
@@ -456,6 +458,22 @@ geolib.computeDestinationPoint(
 ```
 
 Returns the destination in the same format as the input coordinates. So if you pass a GeoJSON point, you will get a GeoJSON point.
+
+### `getAreaOfPolygon(points)`
+
+Calculates the surface area of a polygon.
+
+```js
+geolib.getAreaOfPolygon([
+    [7.453635617650258, 51.49320556213869],
+    [7.454583481047989, 51.49328893754685],
+    [7.454778172179346, 51.49240881084831],
+    [7.453832678225655, 51.49231619246726],
+    [7.453635617650258, 51.49320556213869],
+]);
+```
+
+Returns the result as number in square meters.
 
 ### `getCoordinateKeys(point)`
 
