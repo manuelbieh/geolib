@@ -2,7 +2,7 @@ import getLatitude from './getLatitude';
 import getLongitude from './getLongitude';
 import toRad from './toRad';
 import toDeg from './toDeg';
-import { earthRadius, MAXLON, MINLON } from './constants';
+import { MAXLON, MINLON } from './constants';
 import { GeolibInputCoordinates } from './types';
 
 // Computes the destination point given an initial point, a distance and a bearing
