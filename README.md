@@ -105,7 +105,7 @@ Calculates the distance between two geo coordinates. This method is more accurat
 It takes the same (up to 3) arguments as `getDistance`.
 
 ```js
-getPreciseDistance(
+geoilib.getPreciseDistance(
     { latitude: 51.5103, longitude: 7.49347 },
     { latitude: "51° 31' N", longitude: "7° 28' E" }
 );
@@ -331,6 +331,18 @@ geolib.getBoundsOfDistance(
 
 Returns an array with the southwestern and northeastern coordinates.
 
+### `isPointInLine(point, lineStart, lineEnd)`
+
+Calculates if given point lies in a line formed by start and end.
+
+```js
+geolib.isPointInLine(
+    { latitude: 0, longitude: 10 },
+    { latitude: 0, longitude: 0 },
+    { latitude: 0, longitude: 15 }
+);
+```
+
 ### `getSpeed(startPointWithTime, endPointWithTime)`
 
 Calculates the speed between two points within a given time span.
@@ -348,23 +360,18 @@ Return the speed in meters per second as number.
 
 Converts the result from `getSpeed` into a more human friendly format. Currently available units are `mph` and `kmh`.
 
+#### Units
+
+`unit` can be one of:
+
+-   kmh (kilometers per hour)
+-   mph (miles per hour)
+
 ```js
-convertSpeed(29.8678, 'kmh'));
+geolib.convertSpeed(29.8678, 'kmh'));
 ```
 
 Returns the converted value as number.
-
-### `isPointInLine(point, lineStart, lineEnd)`
-
-Calculates if given point lies in a line formed by start and end.
-
-```js
-geolib.isPointInLine(
-    { latitude: 0, longitude: 10 },
-    { latitude: 0, longitude: 0 },
-    { latitude: 0, longitude: 15 }
-);
-```
 
 ### `convertDistance(value, unit)`
 
@@ -385,11 +392,33 @@ Converts a given distance (in meters) into another unit.
 -   yd (yards)
 
 ```js
-geolib.convertUnit(14200, 'km'); // 14.2
-geolib.convertUnit(500, 'km'); // 0.5
+geolib.convertDistance(14200, 'km'); // 14.2
+geolib.convertDistance(500, 'km'); // 0.5
 ```
 
 Returns the converted distance as number.
+
+### `convertArea(value, unit)`
+
+Converts the result from `getAreaForPolygon` into a different unit.
+
+#### Units
+
+`unit` can be one of:
+
+-   m2, sqm (square meters)
+-   km2, sqkm (square kilometers)
+-   ha (hectares)
+-   a (ares)
+-   ft2, sqft (square feet)
+-   yd2, sqyd (square yards)
+-   in2, sqin (square inches)
+
+```js
+geolib.convertArea(298678, 'km2'));
+```
+
+Returns the converted area as number.
 
 ### `sexagesimalToDecimal(value)`
 
@@ -429,8 +458,8 @@ Returns the value as decimal or in its original format if the second argument wa
 Checks if a coordinate is already in decimal format and, if not, converts it to. Works with single values (e.g. `51° 32' 17"`) and complete coordinates (e.g. `{lat: 1, lon: 1}`) as long as it in a [supported format](#supported-values-and-formats).
 
 ```js
-geolib.useDecimal(`51° 29' 46" N`); // -> 51.59611111
-geolib.useDecimal(51.59611111); // -> 51.59611111
+geolib.toDecimal(`51° 29' 46" N`); // -> 51.59611111
+geolib.toDecimal(51.59611111); // -> 51.59611111
 ```
 
 Returns a decimal value for the given input value.

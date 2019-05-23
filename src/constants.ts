@@ -38,3 +38,20 @@ export const timeConversion: unitObject = {
     h: 3600,
     d: 86400,
 };
+
+export const areaConversion: unitObject = {
+    m2: 1,
+    km2: 0.000001,
+    ha: 0.0001,
+    a: 0.01,
+    ft2: 10.763911,
+    yd2: 1.19599,
+    in2: 1550.0031,
+};
+
+// Aliases
+areaConversion.sqm = areaConversion.m2;
+areaConversion.sqkm = areaConversion.km2;
+areaConversion.sqft = areaConversion.ft2;
+areaConversion.sqyd = areaConversion.yd2;
+areaConversion.sqin = areaConversion.in2;
