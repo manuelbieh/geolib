@@ -27,7 +27,7 @@
     "clean": "rimraf lib es",
     "lint": "eslint src/**/*.{js,ts}",
     "release": "semantic-release",
-    "postrelease": "git push origin master --follow-tags",
+    "postrelease": "git fetch && git push origin master --follow-tags",
     "test": "jest",
     "typecheck": "tsc --noEmit"
   },
