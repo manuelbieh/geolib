@@ -41,6 +41,15 @@ jobs:
           name: Run tests
           command: yarn test
 
+  publish:
+    docker:
+      - image: circleci/node:10.15
+
+    steps:
+      - run:
+          name: Create builds
+          command: yarn build
+
       - run:
           name: Publish new version
           command: yarn release
@@ -50,3 +59,9 @@ workflows:
   workflow:
     jobs:
       - checks
+      - publish:
+          requires:
+            - checks
+          filters:
+            branches:
+              only: master
