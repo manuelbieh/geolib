@@ -42,9 +42,6 @@ jobs:
           command: yarn test
 
   publish:
-    requires:
-      - checks
-
     docker:
       - image: circleci/node:10.15
 
