@@ -41,6 +41,11 @@ jobs:
           name: Run tests
           command: yarn test
 
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - ./**/*
+
   publish:
     docker:
       - image: circleci/node:10.15
