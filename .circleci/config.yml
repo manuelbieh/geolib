@@ -45,6 +45,8 @@ jobs:
     docker:
       - image: circleci/node:10.15
 
+    working_directory: ~/repo
+
     steps:
       - run:
           name: Create builds
