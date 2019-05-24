@@ -4,6 +4,7 @@
   "description": "",
   "main": "lib/index.js",
   "module": "es/index.js",
+  "typings": "es/index.d.ts",
   "type": "module",
   "files": [
     "lib",
