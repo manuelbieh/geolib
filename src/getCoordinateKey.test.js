@@ -16,4 +16,11 @@ describe('getCoordinateKey', () => {
     it('should return an index of a GeoJSON array', () => {
         expect(getCoordinateKey([1, 2], ['latitude', 'lat', 0])).toEqual(0);
     });
+
+    it('should throw when an invalid coordinate is passed', () => {
+        expect(() => getCoordinateKey(null, ['latitude', 'lat', 0])).toThrow();
+        expect(() =>
+            getCoordinateKey(undefined, ['latitude', 'lat', 0])
+        ).toThrow();
+    });
 });

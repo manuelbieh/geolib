@@ -344,83 +344,6 @@ geolib.isPointInLine(
 );
 ```
 
-### `getSpeed(startPointWithTime, endPointWithTime)`
-
-Calculates the speed between two points within a given time span.
-
-```js
-geolib.getSpeed(
-    { latitude: 51.567294, longitude: 7.38896, time: 1360231200880 },
-    { latitude: 52.54944, longitude: 13.468509, time: 1360245600880 }
-);
-```
-
-Return the speed in meters per second as number.
-
-### `convertSpeed(value, unit)`
-
-Converts the result from `getSpeed` into a more human friendly format. Currently available units are `mph` and `kmh`.
-
-#### Units
-
-`unit` can be one of:
-
--   kmh (kilometers per hour)
--   mph (miles per hour)
-
-```js
-geolib.convertSpeed(29.8678, 'kmh'));
-```
-
-Returns the converted value as number.
-
-### `convertDistance(value, unit)`
-
-Converts a given distance (in meters) into another unit.
-
-#### Units
-
-`unit` can be one of:
-
--   m (meter)
--   km (kilometers)
--   cm (centimeters)
--   mm (millimeters)
--   mi (miles)
--   sm (seamiles)
--   ft (feet)
--   in (inches)
--   yd (yards)
-
-```js
-geolib.convertDistance(14200, 'km'); // 14.2
-geolib.convertDistance(500, 'km'); // 0.5
-```
-
-Returns the converted distance as number.
-
-### `convertArea(value, unit)`
-
-Converts the result from `getAreaForPolygon` into a different unit.
-
-#### Units
-
-`unit` can be one of:
-
--   m2, sqm (square meters)
--   km2, sqkm (square kilometers)
--   ha (hectares)
--   a (ares)
--   ft2, sqft (square feet)
--   yd2, sqyd (square yards)
--   in2, sqin (square inches)
-
-```js
-geolib.convertArea(298678, 'km2'));
-```
-
-Returns the converted area as number.
-
 ### `sexagesimalToDecimal(value)`
 
 Converts a sexagesimal coordinate into decimal format
@@ -543,3 +466,80 @@ geolib.isValidCoordinate([2, 1]);
 ```
 
 Returns `true` or `false`.
+
+### `getSpeed(startPointWithTime, endPointWithTime)`
+
+Calculates the speed between two points within a given time span.
+
+```js
+geolib.getSpeed(
+    { latitude: 51.567294, longitude: 7.38896, time: 1360231200880 },
+    { latitude: 52.54944, longitude: 13.468509, time: 1360245600880 }
+);
+```
+
+Return the speed in meters per second as number.
+
+### `convertSpeed(value, unit)`
+
+Converts the result from `getSpeed` into a more human friendly format. Currently available units are `mph` and `kmh`.
+
+#### Units
+
+`unit` can be one of:
+
+-   kmh (kilometers per hour)
+-   mph (miles per hour)
+
+```js
+geolib.convertSpeed(29.8678, 'kmh'));
+```
+
+Returns the converted value as number.
+
+### `convertDistance(value, unit)`
+
+Converts a given distance (in meters) into another unit.
+
+#### Units
+
+`unit` can be one of:
+
+-   m (meter)
+-   km (kilometers)
+-   cm (centimeters)
+-   mm (millimeters)
+-   mi (miles)
+-   sm (seamiles)
+-   ft (feet)
+-   in (inches)
+-   yd (yards)
+
+```js
+geolib.convertDistance(14200, 'km'); // 14.2
+geolib.convertDistance(500, 'km'); // 0.5
+```
+
+Returns the converted distance as number.
+
+### `convertArea(value, unit)`
+
+Converts the result from `getAreaForPolygon` into a different unit.
+
+#### Units
+
+`unit` can be one of:
+
+-   m2, sqm (square meters)
+-   km2, sqkm (square kilometers)
+-   ha (hectares)
+-   a (ares)
+-   ft2, sqft (square feet)
+-   yd2, sqyd (square yards)
+-   in2, sqin (square inches)
+
+```js
+geolib.convertArea(298678, 'km2'));
+```
+
+Returns the converted area as number.
