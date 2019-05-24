@@ -1,7 +1,10 @@
 # Geolib
 
-[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![CircleCI](https://circleci.com/gh/manuelbieh/geolib/tree/master.svg?style=svg)](https://circleci.com/gh/manuelbieh/geolib/tree/master)
+![](https://badgen.net/bundlephobia/minzip/geolib)
+![](https://badgen.net/npm/dm/geolib)
+![](https://badgen.net/github/license/manuelbieh/geolib)
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 Library to provide basic geospatial operations like distance calculation, conversion of decimal coordinates to sexagesimal and vice versa, etc. This library is currently **2D**, meaning that altitude/elevation is not yet supported by any of its functions!
 
