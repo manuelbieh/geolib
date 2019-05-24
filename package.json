@@ -1,6 +1,6 @@
 {
   "name": "geolib",
-  "version": "3.0.0",
+  "version": "2.0.25",
   "description": "",
   "main": "lib/index.js",
   "module": "es/index.js",
