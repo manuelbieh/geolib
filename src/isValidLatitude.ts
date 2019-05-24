@@ -3,6 +3,7 @@ import isSexagesimal from './isSexagesimal';
 import sexagesimalToDecimal from './sexagesimalToDecimal';
 import { MAXLAT, MINLAT } from './constants';
 
+// TODO: Add tests
 const isValidLatitude = (value: any): boolean => {
     if (isDecimal(value)) {
         if (parseFloat(value) > MAXLAT || value < MINLAT) {

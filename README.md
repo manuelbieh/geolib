@@ -105,7 +105,7 @@ Calculates the distance between two geo coordinates. This method is more accurat
 It takes the same (up to 3) arguments as `getDistance`.
 
 ```js
-geoilib.getPreciseDistance(
+geolib.getPreciseDistance(
     { latitude: 51.5103, longitude: 7.49347 },
     { latitude: "51° 31' N", longitude: "7° 28' E" }
 );
