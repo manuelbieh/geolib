@@ -5,13 +5,9 @@
   "main": "lib/index.js",
   "module": "es/index.js",
   "type": "module",
-  "publishConfig": {
-    "tag": "next"
-  },
   "files": [
     "lib",
-    "es",
-    "src"
+    "es"
   ],
   "repository": {
     "type": "git",
