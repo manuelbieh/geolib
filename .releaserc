@@ -24,6 +24,8 @@
     ],
     "patchTypes": [
       "fix",
+      "hotfix",
+      "bugfix",
       "chore",
       "patch"
     ],
