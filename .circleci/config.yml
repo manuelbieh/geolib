@@ -7,8 +7,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - '6a:78:0f:2d:57:a2:d1:83:1a:81:4e:af:76:d1:ff:31'
-
-            - checkout
+      - checkout
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
