@@ -59,7 +59,7 @@ jobs:
 
 workflows:
   version: 2
-  workflow:
+  check-and-publish:
     jobs:
       - checks
       - publish:
