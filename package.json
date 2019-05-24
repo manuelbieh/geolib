@@ -8,6 +8,11 @@
   "publishConfig": {
     "tag": "next"
   },
+  "files": [
+    "lib",
+    "es",
+    "src"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/manuelbieh/geolib.git"
