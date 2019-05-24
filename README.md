@@ -1,6 +1,7 @@
 # Geolib
 
-<!-- [![Build Status](https://secure.travis-ci.org/manuelbieh/Geolib.png?branch=master)](http://travis-ci.org/manuelbieh/Geolib) -->
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![CircleCI](https://circleci.com/gh/manuelbieh/geolib/tree/master.svg?style=svg)](https://circleci.com/gh/manuelbieh/geolib/tree/master)
 
 Library to provide basic geospatial operations like distance calculation, conversion of decimal coordinates to sexagesimal and vice versa, etc. This library is currently **2D**, meaning that altitude/elevation is not yet supported by any of its functions!
 
