@@ -1,7 +1,10 @@
 export { default as computeDestinationPoint } from './computeDestinationPoint';
 export { default as convertSpeed } from './convertSpeed';
+export { default as convertDistance } from './convertDistance';
+export { default as convertArea } from './convertArea';
 export { default as decimalToSexagesimal } from './decimalToSexagesimal';
 export { default as findNearest } from './findNearest';
+export { default as getAreaOfPolygon } from './getAreaOfPolygon';
 export { default as getBounds } from './getBounds';
 export { default as getBoundsOfDistance } from './getBoundsOfDistance';
 export { default as getCenter } from './getCenter';
@@ -25,6 +28,7 @@ export { default as isDecimal } from './isDecimal';
 export { default as isPointInLine } from './isPointInLine';
 export { default as isPointInPolygon } from './isPointInPolygon';
 export { default as isPointNearLine } from './isPointNearLine';
+export { default as isPointWithinRadius } from './isPointWithinRadius';
 export { default as isSexagesimal } from './isSexagesimal';
 export { default as isValidCoordinate } from './isValidCoordinate';
 export { default as isValidLatitude } from './isValidLatitude';
