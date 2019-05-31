@@ -21,10 +21,10 @@ const getDistance = (
 
     const distance =
         Math.acos(
-            Math.sin(toRad(toLat)) * Math.sin(toRad(fromLat)) +
+            Math.min(1, Math.sin(toRad(toLat)) * Math.sin(toRad(fromLat)) +
                 Math.cos(toRad(toLat)) *
                     Math.cos(toRad(fromLat)) *
-                    Math.cos(toRad(fromLon) - toRad(toLon))
+                    Math.cos(toRad(fromLon) - toRad(toLon)))
         ) * earthRadius;
 
     return Math.round(distance / accuracy) * accuracy;
