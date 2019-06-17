@@ -1,14 +1,5 @@
 import getDistance from './getDistance';
 
-// Icecream for the first person who can tell me why this is NaN:
-// console.log(
-//     'distance:',
-//     getDistance(
-//         { latitude: 51.516241842, longitude: 7.456494328 },
-//         { latitude: 51.516241842, longitude: 7.456494328 }
-//     )
-// );
-
 describe('getDistance', () => {
     it('should calculate the distance between any two points', () => {
         expect(
@@ -46,12 +37,11 @@ describe('getDistance', () => {
             )
         ).toBe(0);
 
-        // TODO: WTF! Why is this NaN?!
-        // expect(
-        //     getDistance(
-        //         { latitude: 51.516241842, longitude: 7.456494328 },
-        //         { latitude: 51.516241842, longitude: 7.456494328 }
-        //     )
-        // ).toBe(0);
+        expect(
+            getDistance(
+                { latitude: 51.516241842, longitude: 7.456494328 },
+                { latitude: 51.516241842, longitude: 7.456494328 }
+            )
+        ).toBe(0);
     });
 });
