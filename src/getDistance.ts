@@ -5,8 +5,12 @@ import { earthRadius } from './constants';
 import { GeolibInputCoordinates } from './types';
 
 const normalizeACosArg = (val: number): number => {
-    if (val > 1) return 1;
-    if (val < -1) return -1;
+    if (val > 1) {
+        return 1;
+    }
+    if (val < -1) {
+        return -1;
+    }
     return val;
 };
 
