@@ -6,7 +6,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - '6a:78:0f:2d:57:a2:d1:83:1a:81:4e:af:76:d1:ff:31'
+            - "6a:78:0f:2d:57:a2:d1:83:1a:81:4e:af:76:d1:ff:31"
       - checkout
       - restore_cache:
           keys:
@@ -15,6 +15,9 @@ jobs:
       - run:
           name: Install dependencies
           command: yarn install
+      - run:
+          name: Show Git Author (Debug Env Vars)
+          command: echo ${GIT_AUTHOR_NAME}
       - save_cache:
           paths:
             - node_modules
@@ -22,7 +25,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - '*'
+            - "*"
 
   lint:
     docker:
