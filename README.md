@@ -442,7 +442,7 @@ geolib.getCoordinateKeys({ lat: 1, lon: 1 });
 
 Returns an object with a `latitude` and a `longitude` property. Their values are the property names for latitude and longitude that are used in the passed point. Should probably only be used internally.
 
-### getCoordinateKey(point, keysToLookup)`
+### `getCoordinateKey(point, keysToLookup)`
 
 Is used by `getCoordinateKeys` under the hood and returns the property name out of a list of possible names.
 
@@ -546,3 +546,22 @@ geolib.convertArea(298678, 'km2'));
 ```
 
 Returns the converted area as number.
+
+
+### `wktToPolygon(wkt)`
+
+Converts the Well-known text (a.k.a WKT) to polygon that Geolib undertands.
+[https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Geometric_Objects](WKT)
+
+```js
+geolib.wktToPolygon('POLYGON ((30 10.54321, 40 40, 20 40, 10 20, 30 10))');
+// [
+//     { latitude: 10.54321, longitude: 30 },
+//     { latitude: 40, longitude: 40 },
+//     { latitude: 40, longitude: 20 },
+//     { latitude: 20, longitude: 10 },
+//     { latitude: 10, longitude: 30 },}
+// ]
+```
+
+Returns the array of coordinates.
