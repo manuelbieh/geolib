@@ -550,7 +550,7 @@ Returns the converted area as number.
 
 ### `wktToPolygon(wkt)`
 
-Converts the Well-known text (a.k.a WKT) to polygon that Geolib undertands.
+Converts the Well-known text (a.k.a WKT) to polygon that Geolib understands.
 [https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Geometric_Objects](WKT)
 
 ```js
