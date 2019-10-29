@@ -17,7 +17,7 @@ jobs:
           command: yarn install
       - run:
           name: Show Git Author (Debug Env Vars)
-          command: echo ${GIT_AUTHOR_NAME}
+          command: echo ${EMAIL}
       - save_cache:
           paths:
             - node_modules
