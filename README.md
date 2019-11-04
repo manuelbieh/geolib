@@ -565,3 +565,4 @@ geolib.wktToPolygon('POLYGON ((30 10.54321, 40 40, 20 40, 10 20, 30 10))');
 ```
 
 Returns the array of coordinates.
+
