@@ -546,3 +546,23 @@ geolib.convertArea(298678, 'km2'));
 ```
 
 Returns the converted area as number.
+
+
+### `wktToPolygon(wkt)`
+
+Converts the Well-known text (a.k.a WKT) to polygon that Geolib understands.
+[https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Geometric_Objects](WKT)
+
+```js
+geolib.wktToPolygon('POLYGON ((30 10.54321, 40 40, 20 40, 10 20, 30 10))');
+// [
+//     { latitude: 10.54321, longitude: 30 },
+//     { latitude: 40, longitude: 40 },
+//     { latitude: 40, longitude: 20 },
+//     { latitude: 20, longitude: 10 },
+//     { latitude: 10, longitude: 30 },}
+// ]
+```
+
+Returns the array of coordinates.
+
