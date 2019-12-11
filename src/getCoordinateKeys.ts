@@ -8,20 +8,29 @@ import {
 import { longitudeKeys, latitudeKeys, altitudeKeys } from './constants';
 import getCoordinateKey from './getCoordinateKey';
 
-const getCoordinateKeys = (point: GeolibInputCoordinates) => {
+// TODO: add second parameter that can be passed as keysToLookup to getCoordinateKey
+// e.g. { latitude: ['lat', 'latitude'], longitude: ['lon', 'longitude']}
+const getCoordinateKeys = (
+    point: GeolibInputCoordinates,
+    keysToLookup = {
+        longitude: longitudeKeys,
+        latitude: latitudeKeys,
+        altitude: altitudeKeys,
+    }
+) => {
     const longitude: LongitudeKeys | undefined = getCoordinateKey(
         point,
-        longitudeKeys
+        keysToLookup.longitude
     );
 
     const latitude: LatitudeKeys | undefined = getCoordinateKey(
         point,
-        latitudeKeys
+        keysToLookup.latitude
     );
 
     const altitude: AltitudeKeys | undefined = getCoordinateKey(
         point,
-        altitudeKeys
+        keysToLookup.altitude
     );
 
     return {

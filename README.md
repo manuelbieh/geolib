@@ -442,7 +442,7 @@ geolib.getCoordinateKeys({ lat: 1, lon: 1 });
 
 Returns an object with a `latitude` and a `longitude` property. Their values are the property names for latitude and longitude that are used in the passed point. Should probably only be used internally.
 
-### getCoordinateKey(point, keysToLookup)`
+### `getCoordinateKey(point, keysToLookup)`
 
 Is used by `getCoordinateKeys` under the hood and returns the property name out of a list of possible names.
 
