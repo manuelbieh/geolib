@@ -11,7 +11,7 @@ const getCoordinateKey = <Keys>(
             throw new Error(`'${point}' is no valid coordinate.`);
         }
         if (
-            point.hasOwnProperty(key) &&
+            Object.prototype.hasOwnProperty.call(point, key) &&
             typeof key !== 'undefined' &&
             typeof foundKey === 'undefined'
         ) {

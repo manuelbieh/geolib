@@ -20,9 +20,7 @@ export { default as getLongitude } from './getLongitude';
 export { default as getPathLength } from './getPathLength';
 export { default as getPreciseDistance } from './getPreciseDistance';
 export { default as getRhumbLineBearing } from './getRhumbLineBearing';
-export {
-    default as getRoughCompassDirection,
-} from './getRoughCompassDirection';
+export { default as getRoughCompassDirection } from './getRoughCompassDirection';
 export { default as getSpeed } from './getSpeed';
 export { default as isDecimal } from './isDecimal';
 export { default as isPointInLine } from './isPointInLine';

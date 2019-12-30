@@ -1,13 +1,11 @@
 {
-  "linters": {
-    "src/*.{js,ts}": [
-      "prettier --write",
-      "yarn lint --fix",
-      "yarn test --passWithNoTests",
-      "git add"
-    ],
-    "src/*.ts": [
-      "yarn typecheck"
-    ]
-  }
+  "src/*.{js,ts}": [
+    "prettier --write",
+    "yarn lint --fix",
+    "yarn test --passWithNoTests",
+    "git add"
+  ],
+  "src/*.ts": [
+    "yarn typecheck"
+  ]
 }
