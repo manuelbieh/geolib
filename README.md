@@ -84,7 +84,7 @@ getDistance(
 ```js
 // Working with W3C Geolocation API
 navigator.geolocation.getCurrentPosition(
-    function(position) {
+    (position) => {
         console.log(
             'You are ',
             geolib.getDistance(position.coords, {
@@ -547,7 +547,6 @@ geolib.convertArea(298678, 'km2'));
 
 Returns the converted area as number.
 
-
 ### `wktToPolygon(wkt)`
 
 Converts the Well-known text (a.k.a WKT) to polygon that Geolib understands.
@@ -565,4 +564,3 @@ geolib.wktToPolygon('POLYGON ((30 10.54321, 40 40, 20 40, 10 20, 30 10))');
 ```
 
 Returns the array of coordinates.
-
