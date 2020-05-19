@@ -10,9 +10,11 @@ const getDistanceFromLine = (
     const d1 = getDistance(lineStart, point);
     const d2 = getDistance(point, lineEnd);
     const d3 = getDistance(lineStart, lineEnd);
-
-    if (d1 === 0 || d2 === 0 || d3 === 0) {
+    
+    if (d1 === 0 || d2 === 0) {
       return 0;
+    } else if (d3 === 0) {
+      return d1;
     } else {
       // alpha is the angle between the line from start to point, and from start to end
       const alpha = Math.acos((d1 * d1 + d3 * d3 - d2 * d2) / (2 * d1 * d3));
