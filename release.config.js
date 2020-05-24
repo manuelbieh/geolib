@@ -1,1 +1,1 @@
-module.exports = require('@werkzeugkiste/release-config/release.config');
+module.exports = require('@werkzeugkiste/release-config/package.config');
