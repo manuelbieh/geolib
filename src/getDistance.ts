@@ -1,18 +1,9 @@
 import getLatitude from './getLatitude';
 import getLongitude from './getLongitude';
 import toRad from './toRad';
+import robustAcos from './robustAcos';
 import { earthRadius } from './constants';
 import { GeolibInputCoordinates } from './types';
-
-const normalizeACosArg = (val: number): number => {
-    if (val > 1) {
-        return 1;
-    }
-    if (val < -1) {
-        return -1;
-    }
-    return val;
-};
 
 // Calculates the distance between two points.
 // This method is simple but also more inaccurate
@@ -31,7 +22,7 @@ const getDistance = (
 
     const distance =
         Math.acos(
-            normalizeACosArg(
+            robustAcos(
                 Math.sin(toRad(toLat)) * Math.sin(toRad(fromLat)) +
                     Math.cos(toRad(toLat)) *
                         Math.cos(toRad(fromLat)) *
