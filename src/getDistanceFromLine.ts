@@ -1,4 +1,5 @@
 import getDistance from './getDistance';
+import robustAcos from './robustAcos';
 import { GeolibInputCoordinates } from './types';
 
 // Returns the minimum distance from a point to a line
@@ -12,10 +13,14 @@ const getDistanceFromLine = (
     const d3 = getDistance(lineStart, lineEnd);
 
     // alpha is the angle between the line from start to point, and from start to end
-    const alpha = Math.acos((d1 * d1 + d3 * d3 - d2 * d2) / (2 * d1 * d3));
+    const alpha = Math.acos(
+        robustAcos((d1 * d1 + d3 * d3 - d2 * d2) / (2 * d1 * d3))
+    );
 
     // beta is the angle between the line from end to point and from end to start //
-    const beta = Math.acos((d2 * d2 + d3 * d3 - d1 * d1) / (2 * d2 * d3));
+    const beta = Math.acos(
+        robustAcos((d2 * d2 + d3 * d3 - d1 * d1) / (2 * d2 * d3))
+    );
 
     // if the angle is greater than 90 degrees, then the minimum distance is the
     // line from the start to the point
