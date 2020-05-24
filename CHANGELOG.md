@@ -1,3 +1,17 @@
+## [3.3.0](https://github.com/manuelbieh/geolib/compare/v3.2.2...v3.3.0) (2020-05-24)
+
+
+### 🧩 Features
+
+* re-export constants so they can be used by library consumers ([1a5e214](https://github.com/manuelbieh/geolib/commit/1a5e214b78f15ef9783d0fda5c22c97c39c71a13))
+
+
+### 💉 Improvements
+
+* update all deps and make release workflow work with external config ([2cf5513](https://github.com/manuelbieh/geolib/commit/2cf5513992ba431414212596d6858cf6765cf8c5))
+* update node image during ci ([17c821f](https://github.com/manuelbieh/geolib/commit/17c821f0104f75af1e37d90bd92e7eee2065fb71))
+* use external release-config to publish new releases with automated CHANGELOG.md ([81b4bce](https://github.com/manuelbieh/geolib/commit/81b4bce833abea83fecd538126c348f27eee1810))
+
 ## v2.0.24
 
 -   Dropped support for IE6, IE7, IE8
