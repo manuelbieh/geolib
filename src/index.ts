@@ -36,4 +36,5 @@ export { default as sexagesimalToDecimal } from './sexagesimalToDecimal';
 export { default as toDecimal } from './toDecimal';
 export { default as toRad } from './toRad';
 export { default as toDeg } from './toDeg';
+export { default as wktToPolygon } from './wktToPolygon';
 export * from './constants';
