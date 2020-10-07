@@ -367,6 +367,22 @@ geolib.decimalToSexagesimal(51.49611111); // -> 51° 29' 46`
 
 Returns the new value as sexagesimal string.
 
+### `decimalCoordinateToSexagesimal(value)`
+
+Converts decimal coordinate object to sexagesimal format
+
+```js
+geolib.decimalCoordinateToSexagesimal({
+                latitude: 121.135,
+                longitude: 50,
+            }); // ->{
+                //        latitude: '121° 08' 06" N',
+                //        longitude: '50° 00' 00" W',
+                //    }
+```
+
+Returns the new value as an object with both sexagesimal strings.
+
 ### `geolib.getLatitude(point, raw = false)`
 
 ### `geolib.getLongitude(point, raw = false)`
