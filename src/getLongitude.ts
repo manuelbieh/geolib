@@ -1,18 +1,29 @@
-import { GeolibInputCoordinates, LongitudeKeys } from './types';
+import {
+    GeolibInputCoordinates,
+    GeolibLongitudeInputValue,
+    LongitudeKeys,
+} from './types';
 import { longitudeKeys } from './constants';
 import getCoordinateKey from './getCoordinateKey';
 import toDecimal from './toDecimal';
 
-const getLongitude = (point: GeolibInputCoordinates, raw?: boolean) => {
-    const latKey = getCoordinateKey(point, longitudeKeys);
+function getLongitude(point: GeolibInputCoordinates): number;
+function getLongitude(
+    point: GeolibInputCoordinates,
+    raw: true
+): string | number | undefined;
+function getLongitude(point: any, raw?: boolean): any {
+    const lonKey = getCoordinateKey(point, longitudeKeys);
 
-    if (typeof latKey === 'undefined' || latKey === null) {
+    if (typeof lonKey === 'undefined' || lonKey === null) {
         return;
     }
 
-    const value = point[latKey as keyof LongitudeKeys];
+    const value: GeolibLongitudeInputValue = point[
+        lonKey as keyof LongitudeKeys
+    ] as any;
 
     return raw === true ? value : toDecimal(value);
-};
+}
 
 export default getLongitude;

@@ -1,26 +1,24 @@
 import { GeolibInputCoordinates } from './types';
 
-const getCoordinateKey = <Keys>(
+const getCoordinateKey = <Keys extends string | number | symbol>(
     point: GeolibInputCoordinates,
     keysToLookup: Keys[]
 ) => {
-    return keysToLookup.reduce((foundKey: Keys | undefined, key: any):
-        | Keys
-        | undefined => {
-        if (typeof point === 'undefined' || point === null) {
-            throw new Error(`'${point}' is no valid coordinate.`);
-        }
+    if (typeof point === 'undefined' || point === null) {
+        throw new Error(`'${point}' is no valid coordinate.`);
+    }
+
+    for (const key of keysToLookup) {
         if (
             Object.prototype.hasOwnProperty.call(point, key) &&
-            typeof key !== 'undefined' &&
-            typeof foundKey === 'undefined'
+            typeof key !== 'undefined'
         ) {
-            foundKey = key;
+            type a = keyof typeof point;
             return key;
         }
+    }
 
-        return foundKey;
-    }, undefined);
+    return undefined;
 };
 
 export default getCoordinateKey;

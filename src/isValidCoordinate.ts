@@ -1,4 +1,10 @@
-import { GeolibInputCoordinates, LongitudeKeys, LatitudeKeys } from './types';
+import {
+    GeolibInputCoordinates,
+    LongitudeKeys,
+    LatitudeKeys,
+    GeolibLongitudeInputValue,
+    GeolibLatitudeInputValue,
+} from './types';
 import getCoordinateKeys from './getCoordinateKeys';
 import isValidLatitude from './isValidLatitude';
 import isValidLongitude from './isValidLongitude';
@@ -6,7 +12,9 @@ import isValidLongitude from './isValidLongitude';
 // Checks if a value contains a valid lat/lon object.
 // A coordinate is considered valid if it contains at least a latitude
 // and a longitude and both are either in decimals or sexagesimal format
-const isValidCoordinate = (point: GeolibInputCoordinates) => {
+const isValidCoordinate = (
+    point: GeolibInputCoordinates
+): point is GeolibInputCoordinates => {
     const { latitude, longitude } = getCoordinateKeys(point);
 
     if (Array.isArray(point) && point.length >= 2) {
@@ -17,8 +25,12 @@ const isValidCoordinate = (point: GeolibInputCoordinates) => {
         return false;
     }
 
-    const lon: any = point[longitude as keyof LongitudeKeys];
-    const lat: any = point[latitude as keyof LatitudeKeys];
+    const lon: GeolibLongitudeInputValue = point[
+        longitude as keyof LongitudeKeys
+    ] as any;
+    const lat: GeolibLatitudeInputValue = point[
+        latitude as keyof LatitudeKeys
+    ] as any;
 
     if (typeof lat === 'undefined' || typeof lon === 'undefined') {
         return false;

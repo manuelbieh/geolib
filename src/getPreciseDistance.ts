@@ -32,10 +32,10 @@ const getDistance = (
     let sinSigma;
 
     const U1 = Math.atan(
-        (1 - ellipsoidParams) * Math.tan(toRad(parseFloat(startLat)))
+        (1 - ellipsoidParams) * Math.tan(toRad(parseFloat(startLat as any)))
     );
     const U2 = Math.atan(
-        (1 - ellipsoidParams) * Math.tan(toRad(parseFloat(endLat)))
+        (1 - ellipsoidParams) * Math.tan(toRad(parseFloat(endLat as any)))
     );
     const sinU1 = Math.sin(U1);
     const cosU1 = Math.cos(U1);

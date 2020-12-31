@@ -1,5 +1,5 @@
 // Checks if a value is in decimal format
-const isDecimal = (value: any) => {
+const isDecimal = (value: any): value is number | string => {
     const checkedValue = value.toString().trim();
 
     if (isNaN(parseFloat(checkedValue))) {

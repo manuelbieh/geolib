@@ -9,11 +9,11 @@ const getAreaOfPolygon = (points: GeolibInputCoordinates[]) => {
     let area = 0;
 
     if (points.length > 2) {
-        let lowerIndex;
-        let middleIndex;
-        let upperIndex;
-
         for (let i = 0; i < points.length; i++) {
+            let lowerIndex;
+            let middleIndex;
+            let upperIndex;
+
             if (i === points.length - 2) {
                 lowerIndex = points.length - 2;
                 middleIndex = points.length - 1;

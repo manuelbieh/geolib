@@ -1,16 +1,17 @@
 import getLatitude from './getLatitude';
 import getLongitude from './getLongitude';
+import { GeolibInputCoordinates } from './types';
 
 // Gets the max and min, latitude and longitude
-const getBounds = (points: any[]) => {
+const getBounds = (points: GeolibInputCoordinates[]) => {
     if (Array.isArray(points) === false || points.length === 0) {
         throw new Error('No points were given.');
     }
 
     return points.reduce(
         (stats, point) => {
-            const latitude = getLatitude(point);
-            const longitude = getLongitude(point);
+            const latitude = getLatitude(point)!;
+            const longitude = getLongitude(point)!;
             return {
                 maxLat: Math.max(latitude, stats.maxLat),
                 minLat: Math.min(latitude, stats.minLat),
