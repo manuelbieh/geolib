@@ -43,3 +43,5 @@ export type Timestamp = number;
 export type GeolibInputCoordinatesWithTime = GeolibInputCoordinates & {
     time: Timestamp;
 };
+
+export type GeolibInputTrueFalse = boolean;
