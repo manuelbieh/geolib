@@ -44,4 +44,4 @@ export type GeolibInputCoordinatesWithTime = GeolibInputCoordinates & {
     time: Timestamp;
 };
 
-export type GeolibInputTrueFalse = boolean;
+export type GeolibInputBoolean = boolean;

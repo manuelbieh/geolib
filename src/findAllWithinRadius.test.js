@@ -70,7 +70,7 @@ const coords = [
 ]
 
 describe('findAllWithinRadius', () => {
-    it('should return array of all point within a certain radius including point', () => {
+    it('should return array of all point within a certain radius including point with distance 0', () => {
         const center = {
             "country": "Indonesia",
             "latitude": -0.789275,
@@ -106,7 +106,7 @@ describe('findAllWithinRadius', () => {
         expect(findAllWithinRadius(center, coords, radius)).toMatchObject(expected);
     });
 
-    it('should return array of all point within a certain radius except point', () => {
+    it('should return array of all point within a certain radius except point with distance 0', () => {
         const center = {
             "country": "Indonesia",
             "latitude": -0.789275,
