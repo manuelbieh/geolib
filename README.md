@@ -357,13 +357,18 @@ geolib.sexagesimalToDecimal(`51° 29' 46" N`);
 
 Returns the new value as decimal number.
 
-### `decimalToSexagesimal(value)`
+### `decimalToSexagesimal(value, locale?)`
 
 Converts a decimal coordinate to sexagesimal format
 
 ```js
-geolib.decimalToSexagesimal(51.49611111); // -> 51° 29' 46`
+geolib.decimalToSexagesimal(51.49611111); // -> 51° 29' 46"`
 ```
+
+```js
+geolib.decimalToSexagesimal(51.4062305555556, 'de'); // -> 51° 24' 22,43"
+```
+
 
 Returns the new value as sexagesimal string.
 
