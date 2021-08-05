@@ -5,6 +5,15 @@
   "main": "lib/index.js",
   "module": "es/index.js",
   "typings": "es/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "default": "./es/index.js"
+    },
+    "./es/*": "./es/*.js",
+    "./lib/*": "./lib/*.js",
+    "./package.json": "./package.json"
+  },
   "files": [
     "lib",
     "es"
