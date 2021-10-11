@@ -1,3 +1,12 @@
+### [3.3.3](https://github.com/manuelbieh/geolib/compare/v3.3.2...v3.3.3) (2021-10-11)
+
+
+### 🔧 Fixes
+
+* ignore whitespaces in sexagesimal patterns. fixes [#254](https://github.com/manuelbieh/geolib/issues/254) ([47850ea](https://github.com/manuelbieh/geolib/commit/47850eaa1b8dcbd379b70d7af142ccd74760f0cc))
+* increase accuracy ([2a7b443](https://github.com/manuelbieh/geolib/commit/2a7b443207fd508cb35e6f57c2c8c2899d012922))
+* Merge pull request [#278](https://github.com/manuelbieh/geolib/issues/278) from PaulCapron/patch-1 ([3827a8f](https://github.com/manuelbieh/geolib/commit/3827a8f9acc1bf766c26b19ae0b96a9d3420c4c7))
+
 ### [3.3.2](https://github.com/manuelbieh/geolib/compare/v3.3.1...v3.3.2) (2021-10-11)
 
 
