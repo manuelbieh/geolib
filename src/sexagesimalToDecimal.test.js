@@ -32,4 +32,14 @@ describe('sexagesimalToDecimal', () => {
 
         expect(sexagesimalToDecimal('51°15′13"N')).toEqual(51.25361111111111);
     });
+
+    it('trims whitespace', () => {
+        expect(sexagesimalToDecimal('19°    22\'   32"      S   ')).toEqual(
+            -19.375555555555557
+        );
+
+        expect(sexagesimalToDecimal('  19°    22\'   32"      S')).toEqual(
+            -19.375555555555557
+        );
+    });
 });
