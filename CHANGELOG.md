@@ -1,3 +1,10 @@
+### [3.3.2](https://github.com/manuelbieh/geolib/compare/v3.3.1...v3.3.2) (2021-10-11)
+
+
+### 🔧 Fixes
+
+* make native ESM importing from Node.js work ([7a850b7](https://github.com/manuelbieh/geolib/commit/7a850b784df3c342a10289e2c8da564d1297fbf1))
+
 ### [3.3.1](https://github.com/manuelbieh/geolib/compare/v3.3.0...v3.3.1) (2020-05-24)
 
 
