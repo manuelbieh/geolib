@@ -1,8 +1,10 @@
 import { sexagesimalPattern } from './constants';
 
 // Converts a sexagesimal coordinate to decimal format
-const sexagesimalToDecimal = (sexagesimal: string) => {
-    const data = new RegExp(sexagesimalPattern).exec(sexagesimal.trim());
+const sexagesimalToDecimal = (sexagesimal: any) => {
+    const data = new RegExp(sexagesimalPattern).exec(
+        sexagesimal.toString().trim()
+    );
 
     if (typeof data === 'undefined' || data === null) {
         throw new Error('Given value is not in sexagesimal format');

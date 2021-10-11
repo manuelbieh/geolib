@@ -1,3 +1,17 @@
+### [3.3.2](https://github.com/manuelbieh/geolib/compare/v3.3.1...v3.3.2) (2021-10-11)
+
+
+### 🔧 Fixes
+
+* make native ESM importing from Node.js work ([7a850b7](https://github.com/manuelbieh/geolib/commit/7a850b784df3c342a10289e2c8da564d1297fbf1))
+
+### [3.3.1](https://github.com/manuelbieh/geolib/compare/v3.3.0...v3.3.1) (2020-05-24)
+
+
+### 🔧 Fixes
+
+* add missing wktToPolygon export to UMD build. fixes [#221](https://github.com/manuelbieh/geolib/issues/221) ([e76848b](https://github.com/manuelbieh/geolib/commit/e76848b1f61bcb85d77ccd31b9cbaa176ffbc5b7))
+
 ## [3.3.0](https://github.com/manuelbieh/geolib/compare/v3.2.2...v3.3.0) (2020-05-24)
 
 
