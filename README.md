@@ -308,7 +308,7 @@ geolib.getPathLength([
 
 Returns the length of the path in meters as number.
 
-### `getDistanceFromLine(point, lineStart, lineEnd)`
+### `getDistanceFromLine(point, lineStart, lineEnd, accuracy = 1)`
 
 Gets the minimum distance from a point to a line of two points.
 
@@ -321,6 +321,8 @@ geolib.getDistanceFromLine(
 ```
 
 Returns the shortest distance to the given line as number.
+
+**Note:** if all points are too close together the function might return NaN. In this case it usually helps to slightly increase the accuracy (e.g. `0.01`).
 
 ### `getBoundsOfDistance(point, distance)`
 
