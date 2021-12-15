@@ -1,39 +1,32 @@
 // trying to sanitize floating point fuckups here to a certain extent
-const imprecise = (number: number) => {
-    const factor = Math.pow(10, 12);
+const imprecise = (number: number, decimals: number = 4) => {
+    const factor = Math.pow(10, decimals);
     return Math.round(number * factor) / factor;
 };
 
 // Converts a decimal coordinate value to sexagesimal format
-const decimal2sexagesimal = (decimal: number) => {
+const decimal2sexagesimalNext = (decimal: number) => {
     const [pre, post] = decimal.toString().split('.');
 
     const deg = Math.abs(Number(pre));
-    const minFull = imprecise(Number('0.' + (post || 0)) * 60);
-    const min = Math.floor(minFull);
-    const sec = imprecise((minFull % min || 0) * 60);
+    const min0 = Number('0.' + (post || 0)) * 60;
+    const sec0 = min0.toString().split('.');
 
-    // We're limiting minutes and seconds to a maximum of 6/4 decimal places
-    // here purely for aesthetical reasons. That results in an inaccuracy of
-    // a few millimeters. If you're working for NASA that's possibly not
-    // accurate enough for you. For all others that should be fine.
-    // Feel free to create an issue on GitHub if not, please.
+    const min = Math.floor(min0);
+    const sec = imprecise(Number('0.' + (sec0[1] || 0)) * 60).toString();
+
+    const [secPreDec, secDec = '0'] = sec.split('.');
+
     return (
         deg +
         '° ' +
-        Number(min.toFixed(6))
-            .toString()
-            .split('.')
-            .map((v, i) => (i === 0 ? v.padStart(2, '0') : v))
-            .join('.') +
+        min.toString().padStart(2, '0') +
         "' " +
-        Number(sec.toFixed(4))
-            .toString()
-            .split('.')
-            .map((v, i) => (i === 0 ? v.padStart(2, '0') : v))
-            .join('.') +
+        secPreDec.padStart(2, '0') +
+        '.' +
+        secDec.padEnd(1, '0') +
         '"'
     );
 };
 
-export default decimal2sexagesimal;
+export default decimal2sexagesimalNext;
