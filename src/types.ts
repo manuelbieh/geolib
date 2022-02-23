@@ -43,3 +43,10 @@ export type Timestamp = number;
 export type GeolibInputCoordinatesWithTime = GeolibInputCoordinates & {
     time: Timestamp;
 };
+
+export type BoundingBox = {
+    minlat: GeolibLatitudeInputValue;
+    minlon: GeolibLongitudeInputValue;
+    maxlat: GeolibLatitudeInputValue;
+    maxlon: GeolibLongitudeInputValue;
+};
