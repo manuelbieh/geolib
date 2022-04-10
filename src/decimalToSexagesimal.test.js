@@ -33,4 +33,9 @@ describe('decimalToSexagesimal', () => {
         expect(decimalToSexagesimal(90.9)).toEqual('90° 54\' 00.0"');
         expect(decimalToSexagesimal(90.1)).toEqual('90° 06\' 00.0"');
     });
+
+    it('should handle .999999999 values correctly', () => {
+        expect(decimalToSexagesimal(8.999999999)).not('8° 59\' 60"');
+        expect(decimalToSexagesimal(8.999999999)).toEqual('9° 0\' 0"');
+    })
 });

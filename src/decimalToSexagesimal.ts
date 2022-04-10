@@ -8,12 +8,22 @@ const imprecise = (number: number, decimals: number = 4) => {
 const decimal2sexagesimalNext = (decimal: number) => {
     const [pre, post] = decimal.toString().split('.');
 
-    const deg = Math.abs(Number(pre));
+    let deg = Math.abs(Number(pre));
     const min0 = Number('0.' + (post || 0)) * 60;
     const sec0 = min0.toString().split('.');
 
-    const min = Math.floor(min0);
-    const sec = imprecise(Number('0.' + (sec0[1] || 0)) * 60).toString();
+    let min = Math.floor(min0);
+    let sec = imprecise(Number('0.' + (sec0[1] || 0)) * 60).toString();
+
+    if(Number(sec) === 60){
+        sec = '0';
+        min++;
+    }
+
+    if(min === 60){
+        min = 0;
+        deg++;
+    }
 
     const [secPreDec, secDec = '0'] = sec.split('.');
 
