@@ -75,7 +75,7 @@
     "lint-staged": "^10.2.6",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
-    "semantic-release": "^17.0.7",
+    "semantic-release": "^19.0.3",
     "semantic-release-conventional-commits": "^2.0.1",
     "typescript": "^3.9.3",
     "webpack": "^4.43.0",
