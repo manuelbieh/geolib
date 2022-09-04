@@ -20,4 +20,14 @@ describe('isPointWithinRadius', () => {
             )
         ).toBe(false);
     });
+
+    it('should return true if a given point is within a certain radius with high accuracy', () => {
+        expect(
+            isPointWithinRadius(
+                { latitude: 42.53098, longitude: -71.28029 },
+                { latitude: 42.53101, longitude: -71.2803986 },
+                10
+            )
+        ).toBe(true);
+    });
 });
