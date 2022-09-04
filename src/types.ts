@@ -43,3 +43,10 @@ export type Timestamp = number;
 export type GeolibInputCoordinatesWithTime = GeolibInputCoordinates & {
     time: Timestamp;
 };
+
+export type GeolibBounds = {
+    maxLat: number;
+    minLat: number;
+    maxLng: number;
+    minLng: number;
+};
