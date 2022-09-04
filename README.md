@@ -102,7 +102,7 @@ navigator.geolocation.getCurrentPosition(
 
 Returns the distance in meters as a numeric value.
 
-### `getPreciseDistance(start, end[, int accuracy])`
+### `getPreciseDistance(start, end, accuracy = 1)`
 
 Calculates the distance between two geo coordinates. This method is more accurate then `getDistance`, especially for long distances but it is also slower. It is using the Vincenty inverse formula for ellipsoids.
 
