@@ -497,7 +497,7 @@ Converts the result from `getSpeed` into a more human friendly format. Currently
 -   mph (miles per hour)
 
 ```js
-geolib.convertSpeed(29.8678, 'kmh'));
+geolib.convertSpeed(29.8678, 'kmh');
 ```
 
 Returns the converted value as number.
