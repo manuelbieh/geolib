@@ -2,7 +2,7 @@ import getLatitude from './getLatitude';
 import getLongitude from './getLongitude';
 import toRad from './toRad';
 import toDeg from './toDeg';
-import { MAXLON, MINLON } from './constants';
+import { MAXLON, MINLON, earthRadius } from './constants';
 import { GeolibInputCoordinates } from './types';
 
 // Computes the destination point given an initial point, a distance and a bearing
@@ -11,7 +11,7 @@ const computeDestinationPoint = (
     start: GeolibInputCoordinates,
     distance: number,
     bearing: number,
-    radius: number = 6371000
+    radius: number = earthRadius
 ) => {
     const lat = getLatitude(start);
     const lng = getLongitude(start);
