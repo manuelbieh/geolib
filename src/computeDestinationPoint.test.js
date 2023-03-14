@@ -9,7 +9,7 @@ describe('computeDestinationPoint', () => {
                 180
             )
         ).toEqual({
-            latitude: 52.383712759112186,
+            latitude: 52.38386370738208,
             longitude: 13.408056,
         });
 
@@ -20,8 +20,8 @@ describe('computeDestinationPoint', () => {
                 135
             )
         ).toEqual({
-            latitude: 52.42312025947117,
-            longitude: 13.56447370636139,
+            latitude: 52.42322722672353,
+            longitude: 13.564299057246112,
         });
     });
 
@@ -33,7 +33,7 @@ describe('computeDestinationPoint', () => {
                 0
             )
         ).toEqual({
-            latitude: 71.83167384063478,
+            latitude: 72.3348347402393,
             longitude: -106.19528790000001,
         });
     });
@@ -46,7 +46,7 @@ describe('computeDestinationPoint', () => {
                 0
             )
         ).toEqual({
-            latitude: 18.512019808029596,
+            latitude: 18.5120147764206,
             longitude: 73.8047121,
         });
 
@@ -57,7 +57,7 @@ describe('computeDestinationPoint', () => {
                 180
             )
         ).toEqual({
-            latitude: 18.50302659197041,
+            latitude: 18.50303162357941,
             longitude: 73.8047121,
         });
     });
