@@ -76,9 +76,10 @@ This function takes up to 3 arguments. First 2 arguments must be valid `GeolibIn
 
 ```js
 getDistance(
-    { latitude: 51.5103, longitude: 7.49347 },
-    { latitude: "51° 31' N", longitude: "7° 28' E" }
+    { latitude: 51.5103, longitude: 7.49347 }, //Latitude and longitude are in Radian 
+    { latitude: "51° 31' N", longitude: "7° 28' E" }//Latitude and longitude are in Degree
 );
+//Radian and degree both are supported you can use according to your use case
 ```
 
 ```js
@@ -110,9 +111,10 @@ It takes the same (up to 3) arguments as `getDistance`.
 
 ```js
 geolib.getPreciseDistance(
-    { latitude: 51.5103, longitude: 7.49347 },
-    { latitude: "51° 31' N", longitude: "7° 28' E" }
+    { latitude: 51.5103, longitude: 7.49347 }, //Latitude and longitude are in Radian 
+    { latitude: "51° 31' N", longitude: "7° 28' E" } //Latitude and longitude are in Degree
 );
+//Radian and degree both are supported you can use according to your use case
 ```
 
 ### `getCenter(coords)`
