@@ -7,9 +7,9 @@ type DistanceFn = (
 ) => number;
 
 // Sorts an array of coords by distance from a reference coordinate
-const orderByDistance = (
+const orderByDistance = <T extends GeolibInputCoordinates>(
     point: GeolibInputCoordinates,
-    coords: GeolibInputCoordinates[],
+    coords: T[],
     distanceFn: DistanceFn = getDistance
 ) => {
     distanceFn = typeof distanceFn === 'function' ? distanceFn : getDistance;
