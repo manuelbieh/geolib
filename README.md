@@ -276,6 +276,28 @@ geolib.orderByDistance({ latitude: 51.515, longitude: 7.453619 }, [
 
 Returns an array of points ordered by their distance to the reference point.
 
+### `findAllWithinRadius(center, coords, radius, exceptCenter = false)`
+
+Finds all points within a certain radius. Fourth parameter is optional and only accept boolean value. Default is `false`. If given true, points inside coords that have distance `0` will not include in result.
+
+```js
+geolib.findAllWithinRadius(
+    { latitude: -0.789275, longitude: 113.921327 },
+    [
+        { id: 1, latitude: 4.210484, longitude: 101.975766 },
+        { id: 2, latitude: 1.352083, longitude: 103.819836 },
+        { id: 3, latitude: 55.378051, longitude: -3.435973 },
+        { id: 4, latitude: 37.09024, longitude: -95.712891 },
+        { id: 5, latitude: 20.593684, longitude: 78.96288 },
+        { id: 6, latitude: 51.165691, longitude: 10.451526 },
+        { id: 7, latitude: 46.227638, longitude: 2.213749 }
+    ],
+    20000000
+);
+```
+
+Returns an array of points that have distance within a certain radius from center.
+
 ### `findNearest(point, arrayOfPoints)`
 
 Finds the single one nearest point to a reference coordinate. It's actually just a convenience method that uses `orderByDistance` under the hood and returns the first result.
