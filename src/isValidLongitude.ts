@@ -3,7 +3,6 @@ import isSexagesimal from './isSexagesimal';
 import sexagesimalToDecimal from './sexagesimalToDecimal';
 import { MAXLON, MINLON } from './constants';
 
-// TODO: Add tests
 const isValidLongitude = (value: any): boolean => {
     if (isDecimal(value)) {
         if (parseFloat(value) > MAXLON || value < MINLON) {

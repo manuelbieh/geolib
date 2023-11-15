@@ -1,3 +1,11 @@
+### [3.3.4](https://github.com/manuelbieh/geolib/compare/v3.3.3...v3.3.4) (2023-06-01)
+
+
+### 🔧 Fixes
+
+* getRoughCompassDirection regex used "contains" logic rather than exact matching resulting incorrect results ([955937b](https://github.com/manuelbieh/geolib/commit/955937b6a0ec53a9ced3667c923ab413a31eb8c6))
+* isPointWithinRadius false even if true ([249d047](https://github.com/manuelbieh/geolib/commit/249d047e238df95d8a62189d5c3245120bc4421d))
+
 ### [3.3.3](https://github.com/manuelbieh/geolib/compare/v3.3.2...v3.3.3) (2021-10-11)
 
 

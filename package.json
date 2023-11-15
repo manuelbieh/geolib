@@ -1,13 +1,16 @@
 {
   "name": "geolib",
-  "version": "3.3.3",
+  "version": "3.3.4",
   "description": "",
   "main": "lib/index.js",
   "module": "es/index.js",
   "typings": "es/index.d.ts",
   "exports": {
     ".": {
-      "require": "./lib/index.js",
+      "require": {
+        "types": "./es/index.d.ts",
+        "default": "./lib/index.js"
+      },
       "default": "./es/index.js"
     },
     "./es/*": "./es/*.js",

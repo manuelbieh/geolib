@@ -102,7 +102,7 @@ navigator.geolocation.getCurrentPosition(
 
 Returns the distance in meters as a numeric value.
 
-### `getPreciseDistance(start, end[, int accuracy])`
+### `getPreciseDistance(start, end, accuracy = 1)`
 
 Calculates the distance between two geo coordinates. This method is more accurate then `getDistance`, especially for long distances but it is also slower. It is using the Vincenty inverse formula for ellipsoids.
 
@@ -519,7 +519,7 @@ Converts the result from `getSpeed` into a more human friendly format. Currently
 -   mph (miles per hour)
 
 ```js
-geolib.convertSpeed(29.8678, 'kmh'));
+geolib.convertSpeed(29.8678, 'kmh');
 ```
 
 Returns the converted value as number.
