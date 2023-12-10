@@ -120,26 +120,45 @@ describe('getDistanceFromLine', () => {
                 0.1
             )
         ).not.toBeNaN();
+    });
 
-        // TODO: If the point is directly on the line(?) it returns NaN
-        // Verify and fix
-        // https://github.com/manuelbieh/geolib/issues/129
-        // expect(
-        //     getDistanceFromLine(
-        //         {
-        //             latitude: 53,
-        //             longitude: 5,
-        //         },
-        //         {
-        //             latitude: 53,
-        //             longitude: 5,
-        //         },
-        //         {
-        //             latitude: 54,
-        //             longitude: 6,
-        //         },
-        //         1
-        //     )
-        // ).not.toBeNaN();
+    it('should not return NaN if point is on line', () => {
+        expect(
+            getDistanceFromLine(
+                {
+                    latitude: 53,
+                    longitude: 5,
+                },
+                {
+                    latitude: 53,
+                    longitude: 5,
+                },
+                {
+                    latitude: 54,
+                    longitude: 6,
+                },
+                1
+            )
+        ).not.toBeNaN();
+    });
+
+    it('should not return NaN if lineStart and lineEnd are (effectively) the same', () => {
+        expect(
+            getDistanceFromLine(
+                {
+                    latitude: 51.5588,
+                    longitude: 7.06044,
+                },
+                {
+                    latitude: 51.42829895019531,
+                    longitude: 7.05250883102417,
+                },
+                {
+                    latitude: 51.42829895019531,
+                    longitude: 7.0525078773498535,
+                },
+                1
+            )
+        ).not.toBeNaN();
     });
 });

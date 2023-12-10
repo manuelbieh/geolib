@@ -23,6 +23,17 @@ const getDistanceFromLine = (
         robustAcos((d2 * d2 + d3 * d3 - d1 * d1) / (2 * d2 * d3))
     );
 
+    const pointAtLineStart = d1 === 0;
+    const pointAtLineEnd = d2 === 0;
+    if (pointAtLineStart || pointAtLineEnd) {
+        return 0;
+    }
+
+    const lineLengthZero = d3 === 0;
+    if (lineLengthZero) {
+        return d1;
+    }
+
     // if the angle is greater than 90 degrees, then the minimum distance is the
     // line from the start to the point
     if (alpha > Math.PI / 2) {
