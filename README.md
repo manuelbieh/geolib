@@ -70,7 +70,7 @@ Distance values are **always** floats and represent the distance in **meters**.
 
 ### `getDistance(start, end, accuracy = 1)`
 
-Calculates the distance between two geo coordinates.
+Calculates the distance between two geo coordinates using the Haversine formula.
 
 This function takes up to 3 arguments. First 2 arguments must be valid `GeolibInputCoordinates` (e.g. `{latitude: 52.518611, longitude: 13.408056}`). Coordinates can be in sexagesimal or decimal format. The third argument is accuracy (in meters). By default the accuracy is 1 meter. If you need a more accurate result, you can set it to a lower value, e.g. to `0.01` for centimeter accuracy. You can set it higher to have the result rounded to the next value that is divisible by your chosen accuracy (e.g. `25428` with an accuracy of `100` becomes `25400`).
 
