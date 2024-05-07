@@ -44,6 +44,9 @@ export type GeolibInputCoordinatesWithTime = GeolibInputCoordinates & {
     time: Timestamp;
 };
 
+
+export type GeolibInputBoolean = boolean;
+
 export type GeolibBounds = {
     maxLat: number;
     minLat: number;
