@@ -6,7 +6,7 @@ import toDecimal from './toDecimal';
 const getLongitude = (point: GeolibInputCoordinates, raw?: boolean) => {
     const latKey = getCoordinateKey(point, longitudeKeys);
 
-    if (typeof latKey === 'undefined' || latKey === null) {
+    if (latKey === undefined || latKey === null) {
         return;
     }
 

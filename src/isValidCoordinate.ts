@@ -13,22 +13,18 @@ const isValidCoordinate = (point: GeolibInputCoordinates) => {
         return isValidLongitude(point[0]) && isValidLatitude(point[1]);
     }
 
-    if (typeof latitude === 'undefined' || typeof longitude === 'undefined') {
+    if (latitude === undefined || longitude === undefined) {
         return false;
     }
 
     const lon: any = point[longitude as keyof LongitudeKeys];
     const lat: any = point[latitude as keyof LatitudeKeys];
 
-    if (typeof lat === 'undefined' || typeof lon === 'undefined') {
+    if (lat === undefined || lon === undefined) {
         return false;
     }
 
-    if (isValidLatitude(lat) === false || isValidLongitude(lon) === false) {
-        return false;
-    }
-
-    return true;
+    return isValidLatitude(lat) && isValidLongitude(lon);
 };
 
 export default isValidCoordinate;

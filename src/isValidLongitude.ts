@@ -5,7 +5,8 @@ import { MAXLON, MINLON } from './constants';
 
 const isValidLongitude = (value: any): boolean => {
     if (isDecimal(value)) {
-        if (parseFloat(value) > MAXLON || value < MINLON) {
+        const numValue = parseFloat(value);
+        if (numValue > MAXLON || numValue < MINLON) {
             return false;
         }
 
