@@ -1,3 +1,9 @@
+## [3.3.6](https://github.com/manuelbieh/geolib/compare/v3.3.5...v3.3.6) (2026-04-02)
+
+### Improvements
+
+* optimize getDistance ([e6ef543](https://github.com/manuelbieh/geolib/commit/e6ef54359e5fe828833e0ff022679f6e8cc51e79))
+
 ## [3.3.5](https://github.com/manuelbieh/geolib/compare/v3.3.4...v3.3.5) (2026-04-02)
 
 ### Fixes
