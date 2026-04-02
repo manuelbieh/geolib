@@ -1648,6 +1648,18 @@
   resolved "https://registry.yarnpkg.com/@semantic-release/error/-/error-4.0.0.tgz#692810288239637f74396976a9340fbc0aa9f6f9"
   integrity sha512-mgdxrHTLOjOddRVYIYDo0fR3/v61GNN1YGkfbrjuIKg/uMgCd+Qzo3UAXJ+woLQQpos4pl5Esuw5A7AoNlzjUQ==
 
+"@semantic-release/exec@^7.0.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@semantic-release/exec/-/exec-7.1.0.tgz#cfaffe85a589aa0f385eede256904ce70acb829f"
+  integrity sha512-4ycZ2atgEUutspPZ2hxO6z8JoQt4+y/kkHvfZ1cZxgl9WKJId1xPj+UadwInj+gMn2Gsv+fLnbrZ4s+6tK2TFQ==
+  dependencies:
+    "@semantic-release/error" "^4.0.0"
+    aggregate-error "^3.0.0"
+    debug "^4.0.0"
+    execa "^9.0.0"
+    lodash-es "^4.17.21"
+    parse-json "^8.0.0"
+
 "@semantic-release/git@^10.0.1":
   version "10.0.1"
   resolved "https://registry.yarnpkg.com/@semantic-release/git/-/git-10.0.1.tgz#c646e55d67fae623875bf3a06a634dd434904498"
