@@ -1,3 +1,9 @@
+## [3.3.8](https://github.com/manuelbieh/geolib/compare/v3.3.7...v3.3.8) (2026-04-02)
+
+### Improvements
+
+* trigger release ([c56002e](https://github.com/manuelbieh/geolib/commit/c56002e6d8fe5c44a513782a6199d9a41dfa578b))
+
 ## [3.3.7](https://github.com/manuelbieh/geolib/compare/v3.3.6...v3.3.7) (2026-04-02)
 
 ### Improvements
