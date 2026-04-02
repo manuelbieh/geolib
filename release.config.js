@@ -1,5 +1,8 @@
 module.exports = {
     branches: ['master'],
+    // Only verify GitHub and git — skip npm verify since OIDC token
+    // is only available during publish, not during whoami checks
+    verifyConditions: ['@semantic-release/github', '@semantic-release/git'],
     plugins: [
         [
             '@semantic-release/commit-analyzer',
@@ -53,7 +56,7 @@ module.exports = {
             },
         ],
         '@semantic-release/changelog',
-        '@semantic-release/npm',
+        ['@semantic-release/npm', { npmPublish: true }],
         '@semantic-release/github',
         [
             '@semantic-release/git',
