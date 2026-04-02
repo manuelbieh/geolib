@@ -4,13 +4,13 @@ import getCoordinateKey from './getCoordinateKey';
 import toDecimal from './toDecimal';
 
 const getLongitude = (point: GeolibInputCoordinates, raw?: boolean) => {
-    const latKey = getCoordinateKey(point, longitudeKeys);
+    const lonKey = getCoordinateKey(point, longitudeKeys);
 
-    if (typeof latKey === 'undefined' || latKey === null) {
+    if (lonKey === undefined || lonKey === null) {
         return;
     }
 
-    const value = point[latKey as keyof LongitudeKeys];
+    const value = point[lonKey as keyof LongitudeKeys];
 
     return raw === true ? value : toDecimal(value);
 };

@@ -5,7 +5,8 @@ import { MAXLAT, MINLAT } from './constants';
 
 const isValidLatitude = (value: any): boolean => {
     if (isDecimal(value)) {
-        if (parseFloat(value) > MAXLAT || value < MINLAT) {
+        const numValue = parseFloat(value);
+        if (numValue > MAXLAT || numValue < MINLAT) {
             return false;
         }
 

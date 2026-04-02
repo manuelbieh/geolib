@@ -6,6 +6,8 @@ export const MINLAT = -90;
 export const MAXLAT = 90;
 export const MINLON = -180;
 export const MAXLON = 180;
+export const DEG_TO_RAD = Math.PI / 180;
+export const RAD_TO_DEG = 180 / Math.PI;
 
 export const longitudeKeys: LongitudeKeys[] = ['lng', 'lon', 'longitude', 0];
 export const latitudeKeys: LatitudeKeys[] = ['lat', 'latitude', 1];
