@@ -2,7 +2,7 @@
 
 Library to provide basic geospatial operations like distance calculation, conversion of decimal coordinates to sexagesimal and vice versa, etc. This library is currently **2D**, meaning that altitude/elevation is not yet supported by any of its functions!
 
-[![CircleCI](https://circleci.com/gh/manuelbieh/geolib/tree/master.svg?style=svg)](https://circleci.com/gh/manuelbieh/geolib/tree/master)
+[![CI](https://github.com/manuelbieh/geolib/actions/workflows/ci.yml/badge.svg)](https://github.com/manuelbieh/geolib/actions/workflows/ci.yml)
 ![](https://badgen.net/bundlephobia/minzip/geolib)
 ![](https://badgen.net/npm/dm/geolib)
 ![](https://badgen.net/github/license/manuelbieh/geolib)

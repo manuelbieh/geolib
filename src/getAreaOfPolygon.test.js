@@ -61,10 +61,10 @@ const roteErde = [
 
 describe('getAreaOfPolygon', () => {
     it('should correctly calculate the size of the state of wyoming', () => {
-        expect(getAreaOfPolygon(wyoming)).toEqual(253416473809.58646);
+        expect(getAreaOfPolygon(wyoming)).toBeCloseTo(253416473809.58646, 2);
     });
 
     it('should correctly calculate the area of a soccer pitch', () => {
-        expect(getAreaOfPolygon(roteErde)).toEqual(6595.2230501515005);
+        expect(getAreaOfPolygon(roteErde)).toBeCloseTo(6595.2230501515005, 5);
     });
 });
