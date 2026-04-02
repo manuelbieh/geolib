@@ -1,7 +1,7 @@
 {
   "name": "geolib",
   "version": "3.3.6",
-  "description": "",
+  "description": "Library to provide basic geospatial operations like distance calculation, decoding of sexagesimal coordinates etc.",
   "main": "lib/index.js",
   "module": "es/index.js",
   "typings": "es/index.d.ts",
