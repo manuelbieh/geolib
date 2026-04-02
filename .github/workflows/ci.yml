@@ -86,6 +86,11 @@ jobs:
           node-version: '22'
           cache: 'yarn'
 
+      - name: Setup npm registry
+        uses: actions/setup-node@v4
+        with:
+          registry-url: 'https://registry.npmjs.org'
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
