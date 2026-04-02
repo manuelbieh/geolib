@@ -1,3 +1,14 @@
+## [3.3.5](https://github.com/manuelbieh/geolib/compare/v3.3.4...v3.3.5) (2026-04-02)
+
+### Fixes
+
+* getDistanceFormLine returning NaN when point on line or line is a point ([e1817d9](https://github.com/manuelbieh/geolib/commit/e1817d9e57756f741aaea4e00be94f227a99a718))
+
+### Improvements
+
+* improve code consistency and maintainability ([c2d199f](https://github.com/manuelbieh/geolib/commit/c2d199fe11c83d9407f45f1bc462f94fe0e6e296))
+* upgrade all devDependencies to latest versions ([05e84b9](https://github.com/manuelbieh/geolib/commit/05e84b91514772be78045853508095f5bd3fede8))
+
 ### [3.3.4](https://github.com/manuelbieh/geolib/compare/v3.3.3...v3.3.4) (2023-06-01)
 
 
