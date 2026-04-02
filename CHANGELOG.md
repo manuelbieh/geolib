@@ -1,3 +1,9 @@
+## [3.3.7](https://github.com/manuelbieh/geolib/compare/v3.3.6...v3.3.7) (2026-04-02)
+
+### Improvements
+
+* add package description ([bcb76a9](https://github.com/manuelbieh/geolib/commit/bcb76a9201cc86dc717f1b0312408c4ca8d19df3))
+
 ## [3.3.6](https://github.com/manuelbieh/geolib/compare/v3.3.5...v3.3.6) (2026-04-02)
 
 ### Improvements
