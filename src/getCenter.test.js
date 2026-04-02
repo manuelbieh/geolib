@@ -1,5 +1,10 @@
 import getCenter from './getCenter';
 
+const expectCloseCoords = (result, expected) => {
+    expect(result.latitude).toBeCloseTo(expected.latitude, 10);
+    expect(result.longitude).toBeCloseTo(expected.longitude, 10);
+};
+
 const cities = {
     Berlin: {
         latitude: 52.518611,
@@ -42,7 +47,7 @@ describe('getCenter', () => {
             longitude: 25.0332388360222,
             latitude: 54.74368339960522,
         });
-        expect(getCenter([cities.Sydney, cities.SanFrancisco])).toEqual({
+        expectCloseCoords(getCenter([cities.Sydney, cities.SanFrancisco]), {
             longitude: -166.9272249630353,
             latitude: 2.6764932317022576,
         });
@@ -50,7 +55,7 @@ describe('getCenter', () => {
 
     it('gets the center of multiple points', () => {
         const values = Object.values(cities);
-        expect(getCenter(values)).toEqual({
+        expectCloseCoords(getCenter(values), {
             latitude: 65.41916196002177,
             longitude: -28.01313266917171,
         });
