@@ -98,5 +98,6 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ env.NODE_AUTH_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
         run: yarn release
