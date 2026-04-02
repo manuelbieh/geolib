@@ -14,18 +14,15 @@ const getDistance = (
 ) => {
     accuracy = !isNaN(accuracy) ? accuracy : 1;
 
-    const fromLat = getLatitude(from);
-    const fromLon = getLongitude(from);
-    const toLat = getLatitude(to);
-    const toLon = getLongitude(to);
+    const fromLat = toRad(getLatitude(from));
+    const toLat = toRad(getLatitude(to));
+    const deltaLon = toRad(getLongitude(from) - getLongitude(to));
 
     const distance =
         Math.acos(
             robustAcos(
-                Math.sin(toRad(toLat)) * Math.sin(toRad(fromLat)) +
-                    Math.cos(toRad(toLat)) *
-                        Math.cos(toRad(fromLat)) *
-                        Math.cos(toRad(fromLon) - toRad(toLon))
+                Math.sin(toLat) * Math.sin(fromLat) +
+                    Math.cos(toLat) * Math.cos(fromLat) * Math.cos(deltaLon)
             )
         ) * earthRadius;
 
