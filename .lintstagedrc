@@ -2,8 +2,7 @@
   "src/*.{js,ts}": [
     "prettier --write",
     "yarn lint --fix",
-    "yarn test --passWithNoTests",
-    "git add"
+    "yarn test --passWithNoTests"
   ],
   "src/*.ts": [
     "yarn typecheck"

@@ -5,7 +5,7 @@ export type GeolibAltitudeInputValue = number;
 export type GeolibGeoJSONPoint = [
     GeolibLongitudeInputValue,
     GeolibLatitudeInputValue,
-    GeolibAltitudeInputValue?
+    GeolibAltitudeInputValue?,
 ];
 
 export type LongitudeKeys = 'lng' | 'lon' | 'longitude' | 0;
