@@ -6,7 +6,7 @@ const sexagesimalToDecimal = (sexagesimal: any) => {
         sexagesimal.toString().trim()
     );
 
-    if (data === undefined || data === null) {
+    if (data === null) {
         throw new Error('Given value is not in sexagesimal format');
     }
 

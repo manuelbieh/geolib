@@ -4,12 +4,13 @@ const getCoordinateKey = <Keys>(
     point: GeolibInputCoordinates,
     keysToLookup: Keys[]
 ) => {
+    if (point === undefined || point === null) {
+        throw new Error(`'${point}' is no valid coordinate.`);
+    }
+
     return keysToLookup.reduce((foundKey: Keys | undefined, key: any):
         | Keys
         | undefined => {
-        if (point === undefined || point === null) {
-            throw new Error(`'${point}' is no valid coordinate.`);
-        }
         if (
             Object.prototype.hasOwnProperty.call(point, key) &&
             key !== undefined &&

@@ -12,7 +12,7 @@ const getDistance = (
     end: GeolibInputCoordinates,
     accuracy: number = 1
 ) => {
-    accuracy = accuracy !== undefined && !isNaN(accuracy) ? accuracy : 1;
+    accuracy = !isNaN(accuracy) ? accuracy : 1;
 
     const startLat = getLatitude(start);
     const startLon = getLongitude(start);
