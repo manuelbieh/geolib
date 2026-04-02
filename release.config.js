@@ -53,8 +53,13 @@ module.exports = {
             },
         ],
         '@semantic-release/changelog',
-        ['@semantic-release/npm', { npmPublish: false }],
-        ['@semantic-release/exec', { publishCmd: 'npm publish --provenance --access public' }],
+        [
+            '@semantic-release/exec',
+            {
+                prepareCmd: 'npm version ${nextRelease.version} --no-git-tag-version',
+                publishCmd: 'npm publish --provenance --access public',
+            },
+        ],
         '@semantic-release/github',
         [
             '@semantic-release/git',
