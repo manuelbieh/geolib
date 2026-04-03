@@ -1,3 +1,17 @@
+## [3.3.14](https://github.com/manuelbieh/geolib/compare/v3.3.13...v3.3.14) (2026-04-03)
+
+### Fixes
+
+* add trailing slash to publishConfig registry URL ([4bcfb69](https://github.com/manuelbieh/geolib/commit/4bcfb699c369db756b4cae02f73f845d1ecf489c))
+
+### Improvements
+
+* remove CircleCI config ([15ab897](https://github.com/manuelbieh/geolib/commit/15ab897527776dcf35b1309ce5e32864ef1cc8db))
+* remove registry-url from setup-node in publish job ([e875621](https://github.com/manuelbieh/geolib/commit/e875621ca312869fa3a80d1de0e94a2e638ea2f0))
+* remove unused @semantic-release/exec dependency ([6824bbc](https://github.com/manuelbieh/geolib/commit/6824bbc91f381b4c1d18a5dce4f8509cd015116c))
+* update all dependencies to latest versions ([9a96de1](https://github.com/manuelbieh/geolib/commit/9a96de1e5ab30fb8a825e3125b7aa70871020317))
+* upgrade to @semantic-release/npm@13 for native OIDC support ([f57b816](https://github.com/manuelbieh/geolib/commit/f57b8168b867c0a1a08ef051391b6f6e2803d6c0))
+
 ## [3.3.13](https://github.com/manuelbieh/geolib/compare/v3.3.12...v3.3.13) (2026-04-03)
 
 ### Improvements
