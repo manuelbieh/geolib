@@ -1,3 +1,9 @@
+## [3.3.13](https://github.com/manuelbieh/geolib/compare/v3.3.12...v3.3.13) (2026-04-03)
+
+### Improvements
+
+* add publishConfig for npm OIDC registry matching ([081f104](https://github.com/manuelbieh/geolib/commit/081f1047d01642c4df129205ce8e163ed2dd3f68))
+
 ## [3.3.12](https://github.com/manuelbieh/geolib/compare/v3.3.11...v3.3.12) (2026-04-03)
 
 ### Improvements
