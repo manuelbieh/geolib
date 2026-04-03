@@ -1,3 +1,9 @@
+## [3.3.10](https://github.com/manuelbieh/geolib/compare/v3.3.9...v3.3.10) (2026-04-03)
+
+### Improvements
+
+* test npm OIDC publish after 2fa setting change ([3a554a7](https://github.com/manuelbieh/geolib/commit/3a554a7465415a9678659af9e9e43ac46d190f58))
+
 ## [3.3.9](https://github.com/manuelbieh/geolib/compare/v3.3.8...v3.3.9) (2026-04-03)
 
 ### Improvements
