@@ -1,3 +1,9 @@
+## [3.3.9](https://github.com/manuelbieh/geolib/compare/v3.3.8...v3.3.9) (2026-04-03)
+
+### Improvements
+
+* add packages:write permission for npm OIDC publish ([37e547f](https://github.com/manuelbieh/geolib/commit/37e547f731dfb7a7243e262a867262fa4b61088c))
+
 ## [3.3.8](https://github.com/manuelbieh/geolib/compare/v3.3.7...v3.3.8) (2026-04-02)
 
 ### Improvements
