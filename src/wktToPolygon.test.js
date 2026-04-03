@@ -14,6 +14,6 @@ describe('wktToPolygon', () => {
 
     it('throw error when is not a POLYGON', () => {
         const wkt = 'MULTIPOLYGON (((3 2, 45 4, 3 2)), ((15 5, 4 1, 15 5)))';
-        expect(() => wktToPolygon(wkt)).toThrowError('Invalid wkt.');
+        expect(() => wktToPolygon(wkt)).toThrow('Invalid wkt.');
     });
 });
