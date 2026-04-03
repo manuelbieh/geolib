@@ -1,3 +1,9 @@
+## [3.3.11](https://github.com/manuelbieh/geolib/compare/v3.3.10...v3.3.11) (2026-04-03)
+
+### Improvements
+
+* trigger release after npm 2fa fix ([72e3d4e](https://github.com/manuelbieh/geolib/commit/72e3d4e1cbb057706c5f40232b481a2cbeacc03a))
+
 ## [3.3.10](https://github.com/manuelbieh/geolib/compare/v3.3.9...v3.3.10) (2026-04-03)
 
 ### Improvements
