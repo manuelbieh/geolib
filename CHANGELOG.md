@@ -1,3 +1,9 @@
+## [3.3.12](https://github.com/manuelbieh/geolib/compare/v3.3.11...v3.3.12) (2026-04-03)
+
+### Improvements
+
+* remove --registry flag from npm publish ([2c4481d](https://github.com/manuelbieh/geolib/commit/2c4481d35aead064d1fb8c2cfcca939d7ba2ce62))
+
 ## [3.3.11](https://github.com/manuelbieh/geolib/compare/v3.3.10...v3.3.11) (2026-04-03)
 
 ### Improvements
