@@ -57,7 +57,7 @@ module.exports = {
             '@semantic-release/exec',
             {
                 prepareCmd: 'npm version ${nextRelease.version} --no-git-tag-version',
-                publishCmd: 'npm publish --provenance --access public --registry https://registry.npmjs.org',
+                publishCmd: 'npm publish --provenance --access public',
             },
         ],
         '@semantic-release/github',
