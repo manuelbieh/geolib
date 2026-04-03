@@ -21,6 +21,11 @@
     "lib",
     "es"
   ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public",
+    "provenance": true
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/manuelbieh/geolib.git"
