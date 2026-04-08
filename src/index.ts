@@ -3,6 +3,7 @@ export { default as convertArea } from './convertArea';
 export { default as convertDistance } from './convertDistance';
 export { default as convertSpeed } from './convertSpeed';
 export { default as decimalToSexagesimal } from './decimalToSexagesimal';
+export { default as decimalCoordinateToSexagesimal } from './decimalCoordinateToSexagesimal';
 export { default as findNearest } from './findNearest';
 export { default as getAreaOfPolygon } from './getAreaOfPolygon';
 export { default as getBounds } from './getBounds';
