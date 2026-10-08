@@ -41,4 +41,61 @@ describe('isPointInPolygon', () => {
         );
         expect(pointIsNotInside).toBe(false);
     });
+
+    it('should accept GeoJSON points and sexagesimal values', () => {
+        const square = [
+            [7.4, 51.5],
+            [7.6, 51.5],
+            [7.6, 51.6],
+            [7.4, 51.6],
+        ];
+
+        expect(isPointInPolygon([7.5, 51.55], square)).toBe(true);
+        expect(isPointInPolygon({ lat: "51° 33' N", lng: 7.5 }, square)).toBe(
+            true
+        );
+        expect(isPointInPolygon([7.7, 51.55], square)).toBe(false);
+    });
+
+    it('should not depend on the direction or closing of the polygon', () => {
+        const clockwise = [
+            { latitude: 10, longitude: 10 },
+            { latitude: 10, longitude: 20 },
+            { latitude: 0, longitude: 20 },
+            { latitude: 0, longitude: 10 },
+        ];
+        const counterClockwise = [...clockwise].reverse();
+        const closed = [...clockwise, clockwise[0]];
+        const inside = { latitude: 5, longitude: 15 };
+        const outside = { latitude: 5, longitude: 25 };
+
+        for (const polygon of [clockwise, counterClockwise, closed]) {
+            expect(isPointInPolygon(inside, polygon)).toBe(true);
+            expect(isPointInPolygon(outside, polygon)).toBe(false);
+        }
+    });
+
+    it('should work with concave polygons', () => {
+        // U-shaped polygon, open at the top
+        const polygon = [
+            { latitude: 0, longitude: 0 },
+            { latitude: 0, longitude: 30 },
+            { latitude: 30, longitude: 30 },
+            { latitude: 30, longitude: 20 },
+            { latitude: 10, longitude: 20 },
+            { latitude: 10, longitude: 10 },
+            { latitude: 30, longitude: 10 },
+            { latitude: 30, longitude: 0 },
+        ];
+
+        expect(isPointInPolygon({ latitude: 20, longitude: 5 }, polygon)).toBe(
+            true
+        );
+        expect(isPointInPolygon({ latitude: 20, longitude: 25 }, polygon)).toBe(
+            true
+        );
+        expect(isPointInPolygon({ latitude: 20, longitude: 15 }, polygon)).toBe(
+            false
+        );
+    });
 });

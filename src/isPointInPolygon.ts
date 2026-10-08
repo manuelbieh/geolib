@@ -3,24 +3,29 @@ import getLongitude from './getLongitude';
 import { GeolibInputCoordinates } from './types';
 
 // Checks whether a point is inside of a polygon or not.
-// Polygon must be in correct order!
+// The vertices must be ordered along the outline of the polygon, either
+// clockwise or counterclockwise.
 const isPointInPolygon = (
     point: GeolibInputCoordinates,
     polygon: GeolibInputCoordinates[]
 ) => {
+    const latitude = getLatitude(point);
+    const longitude = getLongitude(point);
+
+    // Reading coordinates is relatively expensive because they need to be
+    // looked up and converted, so each vertex is only read once
+    const latitudes = polygon.map((vertex) => getLatitude(vertex));
+    const longitudes = polygon.map((vertex) => getLongitude(vertex));
+
     let isInside = false;
-    const totalPolys = polygon.length;
-    for (let i = -1, j = totalPolys - 1; ++i < totalPolys; j = i) {
+    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
         if (
-            ((getLongitude(polygon[i]) <= getLongitude(point) &&
-                getLongitude(point) < getLongitude(polygon[j])) ||
-                (getLongitude(polygon[j]) <= getLongitude(point) &&
-                    getLongitude(point) < getLongitude(polygon[i]))) &&
-            getLatitude(point) <
-                ((getLatitude(polygon[j]) - getLatitude(polygon[i])) *
-                    (getLongitude(point) - getLongitude(polygon[i]))) /
-                    (getLongitude(polygon[j]) - getLongitude(polygon[i])) +
-                    getLatitude(polygon[i])
+            ((longitudes[i] <= longitude && longitude < longitudes[j]) ||
+                (longitudes[j] <= longitude && longitude < longitudes[i])) &&
+            latitude <
+                ((latitudes[j] - latitudes[i]) * (longitude - longitudes[i])) /
+                    (longitudes[j] - longitudes[i]) +
+                    latitudes[i]
         ) {
             isInside = !isInside;
         }
