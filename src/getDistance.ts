@@ -1,6 +1,7 @@
 import getLatitude from './getLatitude';
 import getLongitude from './getLongitude';
 import toRad from './toRad';
+import roundToAccuracy from './roundToAccuracy';
 import robustAcos from './robustAcos';
 import { earthRadius } from './constants';
 import { GeolibInputCoordinates } from './types';
@@ -12,8 +13,6 @@ const getDistance = (
     to: GeolibInputCoordinates,
     accuracy: number = 1
 ) => {
-    accuracy = !isNaN(accuracy) ? accuracy : 1;
-
     const fromLat = toRad(getLatitude(from));
     const toLat = toRad(getLatitude(to));
     const deltaLon = toRad(getLongitude(from) - getLongitude(to));
@@ -26,7 +25,7 @@ const getDistance = (
             )
         ) * earthRadius;
 
-    return Math.round(distance / accuracy) * accuracy;
+    return roundToAccuracy(distance, accuracy);
 };
 
 export default getDistance;

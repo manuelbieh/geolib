@@ -47,4 +47,15 @@ describe('getPreciseDistance', () => {
             )
         ).toBe(0);
     });
+
+    it('should not round the distance if accuracy is 0', () => {
+        // https://github.com/manuelbieh/geolib/issues/306
+        expect(
+            getPreciseDistance(
+                { latitude: 52.518611, longitude: 13.408056 },
+                { latitude: 51.519475, longitude: 7.46694444 },
+                0
+            )
+        ).toBeCloseTo(422591.550513, 5);
+    });
 });

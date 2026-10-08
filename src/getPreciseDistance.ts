@@ -1,6 +1,7 @@
 import getLatitude from './getLatitude';
 import getLongitude from './getLongitude';
 import toRad from './toRad';
+import roundToAccuracy from './roundToAccuracy';
 import { earthRadius } from './constants';
 import { GeolibInputCoordinates } from './types';
 
@@ -12,8 +13,6 @@ const getDistance = (
     end: GeolibInputCoordinates,
     accuracy: number = 1
 ) => {
-    accuracy = !isNaN(accuracy) ? accuracy : 1;
-
     const startLat = getLatitude(start);
     const startLon = getLongitude(start);
     const endLat = getLatitude(end);
@@ -110,7 +109,7 @@ const getDistance = (
 
     const distance = b * A * (sigma - deltaSigma);
 
-    return Math.round(distance / accuracy) * accuracy;
+    return roundToAccuracy(distance, accuracy);
 };
 
 export default getDistance;
