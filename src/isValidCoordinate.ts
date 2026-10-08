@@ -7,6 +7,10 @@ import isValidLongitude from './isValidLongitude';
 // A coordinate is considered valid if it contains at least a latitude
 // and a longitude and both are either in decimals or sexagesimal format
 const isValidCoordinate = (point: GeolibInputCoordinates) => {
+    if (typeof point !== 'object' || point === null) {
+        return false;
+    }
+
     const { latitude, longitude } = getCoordinateKeys(point);
 
     if (Array.isArray(point) && point.length >= 2) {

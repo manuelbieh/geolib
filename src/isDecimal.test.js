@@ -9,4 +9,9 @@ describe('isDecimal', () => {
         expect(isDecimal(' 1..0 ')).toBe(false);
         expect(isDecimal(Infinity)).toBe(true);
     });
+
+    it('returns false for null and undefined', () => {
+        expect(isDecimal(null)).toBe(false);
+        expect(isDecimal(undefined)).toBe(false);
+    });
 });
