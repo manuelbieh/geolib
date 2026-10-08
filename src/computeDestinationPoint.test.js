@@ -1,4 +1,5 @@
 import computeDestinationPoint from './computeDestinationPoint';
+import getDistance from './getDistance';
 
 const expectCloseCoords = (result, expected) => {
     expect(result.latitude).toBeCloseTo(expected.latitude, 10);
@@ -14,7 +15,7 @@ describe('computeDestinationPoint', () => {
                 180
             ),
             {
-                latitude: 52.383712759112186,
+                latitude: 52.38386370738208,
                 longitude: 13.408056,
             }
         );
@@ -26,8 +27,8 @@ describe('computeDestinationPoint', () => {
                 135
             ),
             {
-                latitude: 52.42312025947117,
-                longitude: 13.56447370636139,
+                latitude: 52.42322722672353,
+                longitude: 13.564299057246112,
             }
         );
     });
@@ -40,7 +41,7 @@ describe('computeDestinationPoint', () => {
                 0
             ),
             {
-                latitude: 71.83167384063478,
+                latitude: 72.3348347402393,
                 longitude: -106.19528790000001,
             }
         );
@@ -54,7 +55,7 @@ describe('computeDestinationPoint', () => {
                 0
             ),
             {
-                latitude: 18.512019808029596,
+                latitude: 18.5120147764206,
                 longitude: 73.8047121,
             }
         );
@@ -66,8 +67,31 @@ describe('computeDestinationPoint', () => {
                 180
             ),
             {
-                latitude: 18.50302659197041,
+                latitude: 18.50303162357941,
                 longitude: 73.8047121,
+            }
+        );
+    });
+
+    it('should use the same earth radius as getDistance by default', () => {
+        // https://github.com/manuelbieh/geolib/issues/290
+        const start = { latitude: 52.518611, longitude: 13.408056 };
+        const destination = computeDestinationPoint(start, 10000, 90);
+
+        expect(getDistance(start, destination, 0)).toBeCloseTo(10000, 6);
+    });
+
+    it('should use a custom radius', () => {
+        expectCloseCoords(
+            computeDestinationPoint(
+                { latitude: 52.518611, longitude: 13.408056 },
+                15000,
+                135,
+                6371000
+            ),
+            {
+                latitude: 52.42312025947117,
+                longitude: 13.56447370636139,
             }
         );
     });
