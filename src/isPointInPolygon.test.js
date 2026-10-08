@@ -98,4 +98,55 @@ describe('isPointInPolygon', () => {
             false
         );
     });
+
+    it('should work with polygons that cross the antimeridian', () => {
+        // https://github.com/manuelbieh/geolib/issues/38
+        const polygon = [
+            { latitude: 10, longitude: 175 },
+            { latitude: 10, longitude: -175 },
+            { latitude: 20, longitude: -175 },
+            { latitude: 20, longitude: 175 },
+        ];
+
+        for (const vertices of [polygon, [...polygon].reverse()]) {
+            expect(
+                isPointInPolygon({ latitude: 15, longitude: 177 }, vertices)
+            ).toBe(true);
+            expect(
+                isPointInPolygon({ latitude: 15, longitude: -176 }, vertices)
+            ).toBe(true);
+            expect(
+                isPointInPolygon({ latitude: 15, longitude: 180 }, vertices)
+            ).toBe(true);
+            expect(
+                isPointInPolygon({ latitude: 15, longitude: -170 }, vertices)
+            ).toBe(false);
+            expect(
+                isPointInPolygon({ latitude: 15, longitude: 170 }, vertices)
+            ).toBe(false);
+            expect(
+                isPointInPolygon({ latitude: 15, longitude: 0 }, vertices)
+            ).toBe(false);
+        }
+    });
+
+    it('should keep polygons with edges along the antimeridian intact', () => {
+        // Covers the south pole the way it is drawn on a flat map
+        const southPole = [
+            { latitude: -60, longitude: -180 },
+            { latitude: -60, longitude: 180 },
+            { latitude: -90, longitude: 180 },
+            { latitude: -90, longitude: -180 },
+        ];
+
+        expect(
+            isPointInPolygon({ latitude: -70, longitude: 0 }, southPole)
+        ).toBe(true);
+        expect(
+            isPointInPolygon({ latitude: -70, longitude: 179 }, southPole)
+        ).toBe(true);
+        expect(
+            isPointInPolygon({ latitude: -50, longitude: 0 }, southPole)
+        ).toBe(false);
+    });
 });
