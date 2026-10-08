@@ -15,6 +15,7 @@ export { default as getCoordinateKeys } from './getCoordinateKeys';
 export { default as getDistance } from './getDistance';
 export { default as getDistanceFromLine } from './getDistanceFromLine';
 export { default as getGreatCircleBearing } from './getGreatCircleBearing';
+export { default as getIntersectionOfLines } from './getIntersectionOfLines';
 export { default as getLatitude } from './getLatitude';
 export { default as getLongitude } from './getLongitude';
 export { default as getPathLength } from './getPathLength';
