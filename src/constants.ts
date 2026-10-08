@@ -24,16 +24,19 @@ type unitObject = {
     [key: string]: number;
 };
 
+// The factors are written as literals instead of expressions like
+// `1 / 1609.344` because some bundlers (e.g. esbuild) only drop unused
+// objects if they contain nothing but literals.
 export const distanceConversion: unitObject = {
     m: 1,
     km: 0.001,
     cm: 100,
     mm: 1000,
-    mi: 1 / 1609.344,
-    sm: 1 / 1852.216,
-    ft: 100 / 30.48,
-    in: 100 / 2.54,
-    yd: 1 / 0.9144,
+    mi: 0.0006213711922373339, // 1 / 1609.344
+    sm: 0.0005398938352762313, // 1 / 1852.216
+    ft: 3.2808398950131235, // 100 / 30.48
+    in: 39.37007874015748, // 100 / 2.54
+    yd: 1.0936132983377078, // 1 / 0.9144
 };
 
 export const timeConversion: unitObject = {
@@ -42,19 +45,25 @@ export const timeConversion: unitObject = {
     d: 86400,
 };
 
+const m2 = 1;
+const km2 = 0.000001;
+const ft2 = 10.763911;
+const yd2 = 1.19599;
+const in2 = 1550.0031;
+
+// Aliases are part of the literal instead of being assigned afterwards,
+// so bundlers can drop the whole object if convertArea is not used.
 export const areaConversion: unitObject = {
-    m2: 1,
-    km2: 0.000001,
+    m2,
+    km2,
     ha: 0.0001,
     a: 0.01,
-    ft2: 10.763911,
-    yd2: 1.19599,
-    in2: 1550.0031,
+    ft2,
+    yd2,
+    in2,
+    sqm: m2,
+    sqkm: km2,
+    sqft: ft2,
+    sqyd: yd2,
+    sqin: in2,
 };
-
-// Aliases
-areaConversion.sqm = areaConversion.m2;
-areaConversion.sqkm = areaConversion.km2;
-areaConversion.sqft = areaConversion.ft2;
-areaConversion.sqyd = areaConversion.yd2;
-areaConversion.sqin = areaConversion.in2;
