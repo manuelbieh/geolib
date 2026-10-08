@@ -11,4 +11,14 @@ describe('isPointNearLine', () => {
             )
         ).toBe(true);
     });
+
+    it('should compare the unrounded distance', () => {
+        const meterInDegrees = 1 / ((6378137 * Math.PI) / 180);
+        const point = { latitude: 9.7 * meterInDegrees, longitude: 0 };
+        const lineStart = { latitude: 0, longitude: -meterInDegrees };
+        const lineEnd = { latitude: 0, longitude: meterInDegrees };
+
+        expect(isPointNearLine(point, lineStart, lineEnd, 10)).toBe(true);
+        expect(isPointNearLine(point, lineStart, lineEnd, 9.6)).toBe(false);
+    });
 });
