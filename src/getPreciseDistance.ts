@@ -8,7 +8,7 @@ import { GeolibInputCoordinates } from './types';
 // Calculates geodetic distance between two points specified by latitude/longitude using
 // Vincenty inverse formula for ellipsoids. Taken from:
 // https://www.movable-type.co.uk/scripts/latlong-vincenty.html
-const getDistance = (
+const getPreciseDistance = (
     start: GeolibInputCoordinates,
     end: GeolibInputCoordinates,
     accuracy: number = 1
@@ -112,4 +112,4 @@ const getDistance = (
     return roundToAccuracy(distance, accuracy);
 };
 
-export default getDistance;
+export default getPreciseDistance;
