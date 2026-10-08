@@ -8,20 +8,8 @@ const getCoordinateKey = <Keys>(
         throw new Error(`'${point}' is no valid coordinate.`);
     }
 
-    return keysToLookup.reduce(
-        (foundKey: Keys | undefined, key: any): Keys | undefined => {
-            if (
-                Object.prototype.hasOwnProperty.call(point, key) &&
-                key !== undefined &&
-                foundKey === undefined
-            ) {
-                foundKey = key;
-                return key;
-            }
-
-            return foundKey;
-        },
-        undefined
+    return keysToLookup.find((key) =>
+        Object.prototype.hasOwnProperty.call(point, key as PropertyKey)
     );
 };
 

@@ -30,4 +30,24 @@ describe('isPointWithinRadius', () => {
             )
         ).toBe(true);
     });
+
+    it('should compare the unrounded distance', () => {
+        const meterInDegrees = 1 / ((6378137 * Math.PI) / 180);
+        const center = { latitude: 0, longitude: 0 };
+
+        expect(
+            isPointWithinRadius(
+                { latitude: 0, longitude: 4999.996 * meterInDegrees },
+                center,
+                5000
+            )
+        ).toBe(true);
+        expect(
+            isPointWithinRadius(
+                { latitude: 0, longitude: 5000.004 * meterInDegrees },
+                center,
+                5000
+            )
+        ).toBe(false);
+    });
 });

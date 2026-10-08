@@ -67,4 +67,18 @@ describe('getAreaOfPolygon', () => {
     it('should correctly calculate the area of a soccer pitch', () => {
         expect(getAreaOfPolygon(roteErde)).toBeCloseTo(6595.2230501515005, 5);
     });
+
+    it('should close polygons implicitly', () => {
+        // https://github.com/manuelbieh/geolib/issues/302
+        const open = [
+            [7.453635617650258, 51.49320556213869],
+            [7.454583481047989, 51.49328893754685],
+            [7.454778172179346, 51.49240881084831],
+            [7.453832678225655, 51.49231619246726],
+        ];
+        const closed = [...open, open[0]];
+
+        expect(getAreaOfPolygon(open)).toBeCloseTo(6595.223, 3);
+        expect(getAreaOfPolygon(closed)).toBeCloseTo(6595.223, 3);
+    });
 });

@@ -1,18 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["es2018", "dom"],
-    "allowJs": false,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": false,
+    "target": "es2020",
+    "lib": ["es2020"],
     "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "noEmit": true,
-    "strictNullChecks": true
+    "moduleResolution": "bundler",
+    "strict": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "noEmit": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/*.test.ts"]

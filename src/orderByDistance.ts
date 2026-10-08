@@ -6,17 +6,20 @@ type DistanceFn = (
     dest: GeolibInputCoordinates
 ) => number;
 
-// Sorts an array of coords by distance from a reference coordinate
-const orderByDistance = (
+// Sorts an array of coords by distance from a reference coordinate. The
+// points are returned as they were passed in, including extra properties.
+const orderByDistance = <T extends GeolibInputCoordinates>(
     point: GeolibInputCoordinates,
-    coords: GeolibInputCoordinates[],
+    coords: T[],
     distanceFn: DistanceFn = getDistance
-) => {
+): T[] => {
     distanceFn = typeof distanceFn === 'function' ? distanceFn : getDistance;
 
+    // Calculate every distance once instead of twice per comparison
     return coords
-        .slice()
-        .sort((a, b) => distanceFn(point, a) - distanceFn(point, b));
+        .map((coord) => ({ coord, distance: distanceFn(point, coord) }))
+        .sort((a, b) => a.distance - b.distance)
+        .map(({ coord }) => coord);
 };
 
 export default orderByDistance;

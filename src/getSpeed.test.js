@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import getSpeed from './getSpeed';
 
 describe('getSpeed', () => {
@@ -13,7 +14,7 @@ describe('getSpeed', () => {
     it('uses an alternative getDistance function if one is passed', () => {
         const from = { lat: 51.567294, lng: 7.38896, time: 1360231200880 };
         const to = { lat: 52.54944, lng: 13.468509, time: 1360245600880 };
-        const getDistance = jest.fn(() => {
+        const getDistance = vi.fn(() => {
             return 100000;
         });
 

@@ -6,9 +6,6 @@ const isPointWithinRadius = (
     point: GeolibInputCoordinates,
     center: GeolibInputCoordinates,
     radius: number
-) => {
-    const accuracy = 0.01;
-    return getDistance(point, center, accuracy) < radius;
-};
+) => getDistance(point, center, 0) < radius;
 
 export default isPointWithinRadius;

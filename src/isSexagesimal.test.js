@@ -10,4 +10,9 @@ describe('isSexagesimal', () => {
         expect(isSexagesimal('12')).toBe(false);
         expect(isSexagesimal('51.32')).toBe(false);
     });
+
+    it('returns false for null and undefined', () => {
+        expect(isSexagesimal(null)).toBe(false);
+        expect(isSexagesimal(undefined)).toBe(false);
+    });
 });

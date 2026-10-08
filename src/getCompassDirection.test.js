@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import getCompassDirection from './getCompassDirection';
 
 describe('getCompassDirection', () => {
@@ -18,7 +19,7 @@ describe('getCompassDirection', () => {
     });
 
     it('should call an optional bearing function', () => {
-        const alwaysNorthEast = jest.fn(() => 45);
+        const alwaysNorthEast = vi.fn(() => 45);
         const origin = { latitude: 52.518611, longitude: 13.408056 };
         const dest = { latitude: 51.519475, longitude: 7.46694444 };
 

@@ -5,7 +5,7 @@ const imprecise = (number: number, decimals: number = 4) => {
 };
 
 // Converts a decimal coordinate value to sexagesimal format
-const decimal2sexagesimalNext = (decimal: number) => {
+const decimalToSexagesimal = (decimal: number) => {
     const [pre, post] = decimal.toString().split('.');
 
     const deg = Math.abs(Number(pre));
@@ -29,4 +29,4 @@ const decimal2sexagesimalNext = (decimal: number) => {
     );
 };
 
-export default decimal2sexagesimalNext;
+export default decimalToSexagesimal;

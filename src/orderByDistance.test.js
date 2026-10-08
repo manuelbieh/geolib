@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import orderByDistance from './orderByDistance';
 
 describe('orderByDistance', () => {
@@ -55,5 +56,41 @@ describe('orderByDistance', () => {
             [10, 6],
             [5, 0],
         ]);
+    });
+
+    it('should calculate the distance only once for every point', () => {
+        const getDistance = vi.fn((from, to) => Math.abs(from[0] - to[0]));
+        const coords = [
+            [5, 0],
+            [2, 0],
+            [9, 0],
+            [1, 0],
+            [7, 0],
+            [3, 0],
+        ];
+
+        expect(orderByDistance([0, 0], coords, getDistance)).toEqual([
+            [1, 0],
+            [2, 0],
+            [3, 0],
+            [5, 0],
+            [7, 0],
+            [9, 0],
+        ]);
+        expect(getDistance).toHaveBeenCalledTimes(coords.length);
+    });
+
+    it('should keep the order of points with the same distance', () => {
+        const coords = [
+            { id: 'a', latitude: 1, longitude: 0 },
+            { id: 'b', latitude: 0, longitude: 1 },
+            { id: 'c', latitude: -1, longitude: 0 },
+        ];
+
+        expect(
+            orderByDistance({ latitude: 0, longitude: 0 }, coords).map(
+                ({ id }) => id
+            )
+        ).toEqual(['a', 'b', 'c']);
     });
 });

@@ -44,4 +44,38 @@ describe('getDistance', () => {
             )
         ).toBe(0);
     });
+
+    it('should not round the distance if accuracy is 0', () => {
+        // https://github.com/manuelbieh/geolib/issues/306
+        expect(
+            getDistance(
+                { latitude: 52.518611, longitude: 13.408056 },
+                { latitude: 51.519475, longitude: 7.46694444 },
+                0
+            )
+        ).toBeCloseTo(421786.463698, 5);
+    });
+
+    it('should be precise for very short distances', () => {
+        // One centimeter along the equator
+        const oneCentimeterInDegrees = 0.01 / ((6378137 * Math.PI) / 180);
+        expect(
+            getDistance(
+                { latitude: 0, longitude: 0 },
+                { latitude: 0, longitude: oneCentimeterInDegrees },
+                0
+            )
+        ).toBeCloseTo(0.01, 9);
+    });
+
+    it('should return half the circumference for antipodal points', () => {
+        expect(getDistance([0, 0], [180, 0], 0)).toBeCloseTo(
+            6378137 * Math.PI,
+            6
+        );
+        expect(getDistance([10, 45], [-170, -45], 0)).toBeCloseTo(
+            6378137 * Math.PI,
+            6
+        );
+    });
 });

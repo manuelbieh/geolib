@@ -41,4 +41,112 @@ describe('isPointInPolygon', () => {
         );
         expect(pointIsNotInside).toBe(false);
     });
+
+    it('should accept GeoJSON points and sexagesimal values', () => {
+        const square = [
+            [7.4, 51.5],
+            [7.6, 51.5],
+            [7.6, 51.6],
+            [7.4, 51.6],
+        ];
+
+        expect(isPointInPolygon([7.5, 51.55], square)).toBe(true);
+        expect(isPointInPolygon({ lat: "51° 33' N", lng: 7.5 }, square)).toBe(
+            true
+        );
+        expect(isPointInPolygon([7.7, 51.55], square)).toBe(false);
+    });
+
+    it('should not depend on the direction or closing of the polygon', () => {
+        const clockwise = [
+            { latitude: 10, longitude: 10 },
+            { latitude: 10, longitude: 20 },
+            { latitude: 0, longitude: 20 },
+            { latitude: 0, longitude: 10 },
+        ];
+        const counterClockwise = [...clockwise].reverse();
+        const closed = [...clockwise, clockwise[0]];
+        const inside = { latitude: 5, longitude: 15 };
+        const outside = { latitude: 5, longitude: 25 };
+
+        for (const polygon of [clockwise, counterClockwise, closed]) {
+            expect(isPointInPolygon(inside, polygon)).toBe(true);
+            expect(isPointInPolygon(outside, polygon)).toBe(false);
+        }
+    });
+
+    it('should work with concave polygons', () => {
+        // U-shaped polygon, open at the top
+        const polygon = [
+            { latitude: 0, longitude: 0 },
+            { latitude: 0, longitude: 30 },
+            { latitude: 30, longitude: 30 },
+            { latitude: 30, longitude: 20 },
+            { latitude: 10, longitude: 20 },
+            { latitude: 10, longitude: 10 },
+            { latitude: 30, longitude: 10 },
+            { latitude: 30, longitude: 0 },
+        ];
+
+        expect(isPointInPolygon({ latitude: 20, longitude: 5 }, polygon)).toBe(
+            true
+        );
+        expect(isPointInPolygon({ latitude: 20, longitude: 25 }, polygon)).toBe(
+            true
+        );
+        expect(isPointInPolygon({ latitude: 20, longitude: 15 }, polygon)).toBe(
+            false
+        );
+    });
+
+    it('should work with polygons that cross the antimeridian', () => {
+        // https://github.com/manuelbieh/geolib/issues/38
+        const polygon = [
+            { latitude: 10, longitude: 175 },
+            { latitude: 10, longitude: -175 },
+            { latitude: 20, longitude: -175 },
+            { latitude: 20, longitude: 175 },
+        ];
+
+        for (const vertices of [polygon, [...polygon].reverse()]) {
+            expect(
+                isPointInPolygon({ latitude: 15, longitude: 177 }, vertices)
+            ).toBe(true);
+            expect(
+                isPointInPolygon({ latitude: 15, longitude: -176 }, vertices)
+            ).toBe(true);
+            expect(
+                isPointInPolygon({ latitude: 15, longitude: 180 }, vertices)
+            ).toBe(true);
+            expect(
+                isPointInPolygon({ latitude: 15, longitude: -170 }, vertices)
+            ).toBe(false);
+            expect(
+                isPointInPolygon({ latitude: 15, longitude: 170 }, vertices)
+            ).toBe(false);
+            expect(
+                isPointInPolygon({ latitude: 15, longitude: 0 }, vertices)
+            ).toBe(false);
+        }
+    });
+
+    it('should keep polygons with edges along the antimeridian intact', () => {
+        // Covers the south pole the way it is drawn on a flat map
+        const southPole = [
+            { latitude: -60, longitude: -180 },
+            { latitude: -60, longitude: 180 },
+            { latitude: -90, longitude: 180 },
+            { latitude: -90, longitude: -180 },
+        ];
+
+        expect(
+            isPointInPolygon({ latitude: -70, longitude: 0 }, southPole)
+        ).toBe(true);
+        expect(
+            isPointInPolygon({ latitude: -70, longitude: 179 }, southPole)
+        ).toBe(true);
+        expect(
+            isPointInPolygon({ latitude: -50, longitude: 0 }, southPole)
+        ).toBe(false);
+    });
 });
