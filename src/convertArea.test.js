@@ -10,8 +10,16 @@ describe('convertArea', () => {
         expect(convertArea(1000, 'in2')).toEqual(1550003.0999999999);
     });
 
+    it('should convert to square meters if no unit was given', () => {
+        expect(convertArea(1000)).toEqual(1000);
+    });
+
     it('should work with aliased units', () => {
+        expect(convertArea(1000, 'sqm')).toEqual(convertArea(1000, 'm2'));
+        expect(convertArea(1000, 'sqkm')).toEqual(convertArea(1000, 'km2'));
         expect(convertArea(1000, 'sqft')).toEqual(convertArea(1000, 'ft2'));
+        expect(convertArea(1000, 'sqyd')).toEqual(convertArea(1000, 'yd2'));
+        expect(convertArea(1000, 'sqin')).toEqual(convertArea(1000, 'in2'));
     });
 
     it('should throw if an invalid unit was used', () => {
