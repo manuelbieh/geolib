@@ -1,5 +1,11 @@
 // Checks if a value is in decimal format
 const isDecimal = (value: any) => {
+    // Most values are numbers already. Checking them directly is a lot
+    // faster than the string conversion below.
+    if (typeof value === 'number') {
+        return !isNaN(value);
+    }
+
     if (value === undefined || value === null) {
         return false;
     }

@@ -14,4 +14,13 @@ describe('isDecimal', () => {
         expect(isDecimal(null)).toBe(false);
         expect(isDecimal(undefined)).toBe(false);
     });
+
+    it('checks numbers without converting them to strings', () => {
+        expect(isDecimal(0)).toBe(true);
+        expect(isDecimal(-0)).toBe(true);
+        expect(isDecimal(-12.5)).toBe(true);
+        expect(isDecimal(1e-7)).toBe(true);
+        expect(isDecimal(-Infinity)).toBe(true);
+        expect(isDecimal(NaN)).toBe(false);
+    });
 });
