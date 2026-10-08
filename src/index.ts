@@ -23,6 +23,7 @@ export { default as getRhumbLineBearing } from './getRhumbLineBearing';
 export { default as getRoughCompassDirection } from './getRoughCompassDirection';
 export { default as getSpeed } from './getSpeed';
 export { default as isDecimal } from './isDecimal';
+export { default as isPointInBoundingBox } from './isPointInBoundingBox';
 export { default as isPointInLine } from './isPointInLine';
 export { default as isPointInPolygon } from './isPointInPolygon';
 export { default as isPointNearLine } from './isPointNearLine';
