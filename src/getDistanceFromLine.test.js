@@ -8,7 +8,35 @@ describe('getDistanceFromLine', () => {
                 { latitude: 51.512, longitude: 7.456 },
                 { latitude: 51.516, longitude: 7.459 }
             )
-        ).toEqual(188.5131192933101);
+        ).toEqual(188);
+    });
+
+    it('should round the result to the given accuracy', () => {
+        const point = { latitude: 51.516, longitude: 7.456 };
+        const lineStart = { latitude: 51.512, longitude: 7.456 };
+        const lineEnd = { latitude: 51.516, longitude: 7.459 };
+
+        expect(getDistanceFromLine(point, lineStart, lineEnd, 0.1)).toEqual(
+            188.3
+        );
+        expect(getDistanceFromLine(point, lineStart, lineEnd, 0)).toBeCloseTo(
+            188.31845,
+            4
+        );
+    });
+
+    it('should be precise for very short lines', () => {
+        const meterInDegrees = 1 / ((6378137 * Math.PI) / 180);
+
+        // 30 cm next to the middle of a 2 m line along the equator
+        expect(
+            getDistanceFromLine(
+                { latitude: 0.3 * meterInDegrees, longitude: meterInDegrees },
+                { latitude: 0, longitude: 0 },
+                { latitude: 0, longitude: 2 * meterInDegrees },
+                0.01
+            )
+        ).toBeCloseTo(0.3, 6);
     });
 
     it('should not break if line start and line end are too close', () => {
