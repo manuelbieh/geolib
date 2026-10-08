@@ -55,4 +55,27 @@ describe('getDistance', () => {
             )
         ).toBeCloseTo(421786.463698, 5);
     });
+
+    it('should be precise for very short distances', () => {
+        // One centimeter along the equator
+        const oneCentimeterInDegrees = 0.01 / ((6378137 * Math.PI) / 180);
+        expect(
+            getDistance(
+                { latitude: 0, longitude: 0 },
+                { latitude: 0, longitude: oneCentimeterInDegrees },
+                0
+            )
+        ).toBeCloseTo(0.01, 9);
+    });
+
+    it('should return half the circumference for antipodal points', () => {
+        expect(getDistance([0, 0], [180, 0], 0)).toBeCloseTo(
+            6378137 * Math.PI,
+            6
+        );
+        expect(getDistance([10, 45], [-170, -45], 0)).toBeCloseTo(
+            6378137 * Math.PI,
+            6
+        );
+    });
 });
