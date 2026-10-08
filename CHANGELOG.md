@@ -1,3 +1,65 @@
+## [4.0.0](https://github.com/manuelbieh/geolib/compare/v3.3.14...v4.0.0) (2026-10-08)
+
+### ⚠ BREAKING CHANGES
+
+* isPointInPolygon treats polygon edges that span more
+than 180 (but less than 360) degrees of longitude as crossing the
+antimeridian. Polygons that relied on such edges going the long way
+around need an additional vertex in between.
+* computeDestinationPoint uses `earthRadius`
+(6,378,137 meters) as its default radius, which moves results by about
+0.1%. Pass 6371000 as the fourth argument to get the previous results.
+* getDistanceFromLine now rounds its result to the given
+accuracy (1 meter by default) and returns more precise values. Pass an
+accuracy of 0 to get the unrounded distance.
+* The `geolib/es/*` and `geolib/lib/*` deep imports are
+gone. Import named functions from the package root instead, e.g.
+`import { getDistance } from 'geolib'`, which is fully tree-shakeable
+now. The browser build moved from `lib/index.js` to
+`dist/geolib.iife.js` and no longer supports AMD loaders. There is no
+default export: use `import * as geolib from 'geolib'` instead of
+`import geolib from 'geolib'`. The output targets ES2020, so very old
+browsers such as Internet Explorer are no longer supported, and the type
+definitions require TypeScript 4.7 or newer.
+
+### Features
+
+* add getIntersectionOfLines ([2b761cb](https://github.com/manuelbieh/geolib/commit/2b761cbaf261e6eedc8c94d446bab074f38f2dbd)), closes [#173](https://github.com/manuelbieh/geolib/issues/173)
+* add isPointInBoundingBox ([3268eb8](https://github.com/manuelbieh/geolib/commit/3268eb809a2556a2628831581212f31594ae5911)), closes [#273](https://github.com/manuelbieh/geolib/issues/273)
+* export the TypeScript types from the package entry ([9d398d5](https://github.com/manuelbieh/geolib/commit/9d398d5415f4a895f1b48bf42be8abf9289fc15d))
+* keep the type of the points in orderByDistance and findNearest ([53d4d8a](https://github.com/manuelbieh/geolib/commit/53d4d8a60c563ffbb58aac44d1dbd081d977a72f)), closes [#198](https://github.com/manuelbieh/geolib/issues/198)
+* return the unrounded distance for an accuracy of 0 ([0d66b24](https://github.com/manuelbieh/geolib/commit/0d66b248ba938dea2dd4f414165174535c63b916)), closes [#306](https://github.com/manuelbieh/geolib/issues/306)
+
+### Fixes
+
+* compare the unrounded distance in isPointNearLine ([33d5e69](https://github.com/manuelbieh/geolib/commit/33d5e69f3ed6f0a8794adb835e29bd5a03788623))
+* compare the unrounded distance in isPointWithinRadius ([dcfbb67](https://github.com/manuelbieh/geolib/commit/dcfbb675da1cbff1cf4e9a31a132e35af319d569))
+* default convertArea to square meters ([77e336b](https://github.com/manuelbieh/geolib/commit/77e336bea35ea76d8e1f79aebd609366ab423d2b))
+* make isPointInLine precise for long and short lines ([e5d5a63](https://github.com/manuelbieh/geolib/commit/e5d5a638823936917e2806805fdde60dbcd7234a)), closes [#237](https://github.com/manuelbieh/geolib/issues/237) [#237](https://github.com/manuelbieh/geolib/issues/237)
+* parse WKT polygons regardless of whitespace and parentheses ([225fc59](https://github.com/manuelbieh/geolib/commit/225fc59577fbb09a82a05d6c39154dca4c4d3178)), closes [#310](https://github.com/manuelbieh/geolib/issues/310)
+* return false from validators instead of throwing on null ([00a7095](https://github.com/manuelbieh/geolib/commit/00a7095cd5e2e14c6f3d70b8c7c213cf1f508544)), closes [#307](https://github.com/manuelbieh/geolib/issues/307)
+* round only the result of getDistanceFromLine ([e02175c](https://github.com/manuelbieh/geolib/commit/e02175c2a3959518999ba14e63c80baea88e2b26)), closes [#298](https://github.com/manuelbieh/geolib/issues/298)
+* support polygons that cross the antimeridian in isPointInPolygon ([76d1960](https://github.com/manuelbieh/geolib/commit/76d1960a1a2c279208796cf6f670fcfe4929838c)), closes [#38](https://github.com/manuelbieh/geolib/issues/38)
+* use the haversine formula in getDistance as documented ([2b59dd6](https://github.com/manuelbieh/geolib/commit/2b59dd6ab86c8c4cb9ff47837cc53e5b5b0e6266))
+* use the library's earth radius in computeDestinationPoint ([2702164](https://github.com/manuelbieh/geolib/commit/27021648ba5115b640360b6d4dff87de63c0596d)), closes [#290](https://github.com/manuelbieh/geolib/issues/290)
+
+### Improvements
+
+* calculate each distance only once in orderByDistance ([155e086](https://github.com/manuelbieh/geolib/commit/155e0869063c45134718dc7fdb512f7bbd8efbdb)), closes [#206](https://github.com/manuelbieh/geolib/issues/206)
+* make the unit conversion tables tree-shakeable ([1cf06c8](https://github.com/manuelbieh/geolib/commit/1cf06c8346954547e2e6e11e61a4913ed1d46986))
+* name functions after their exports ([d4c8f85](https://github.com/manuelbieh/geolib/commit/d4c8f85cd5073a4a65b26298cbfb0c123fdc80ec))
+* read each polygon vertex only once in isPointInPolygon ([aa869d8](https://github.com/manuelbieh/geolib/commit/aa869d8446293973109b48c4989295d22e50fc16)), closes [#202](https://github.com/manuelbieh/geolib/issues/202)
+* read numeric coordinates without string conversion ([87ad9b3](https://github.com/manuelbieh/geolib/commit/87ad9b3bb40df52b64e17cafe75413610ced2ea8)), closes [#232](https://github.com/manuelbieh/geolib/issues/232)
+* run type checks and related tests in the pre-commit hook ([8817eb9](https://github.com/manuelbieh/geolib/commit/8817eb924af3beb2d8648710b22d49c63b48f3b6))
+
+### Docs
+
+* update the README for version 4 ([4075b86](https://github.com/manuelbieh/geolib/commit/4075b8623a2e088a0516d59aaab30e7e822012e0)), closes [#52](https://github.com/manuelbieh/geolib/issues/52) [#100](https://github.com/manuelbieh/geolib/issues/100) [#195](https://github.com/manuelbieh/geolib/issues/195) [#244](https://github.com/manuelbieh/geolib/issues/244) [#302](https://github.com/manuelbieh/geolib/issues/302) [#309](https://github.com/manuelbieh/geolib/issues/309)
+
+### Internals
+
+* publish real ES modules alongside CommonJS ([d382263](https://github.com/manuelbieh/geolib/commit/d382263a2b4707b30b96f5b4df46899c476eb832)), closes [#286](https://github.com/manuelbieh/geolib/issues/286) [#271](https://github.com/manuelbieh/geolib/issues/271) [#286](https://github.com/manuelbieh/geolib/issues/286) [#308](https://github.com/manuelbieh/geolib/issues/308)
+
 ## [3.3.14](https://github.com/manuelbieh/geolib/compare/v3.3.13...v3.3.14) (2026-04-03)
 
 ### Fixes
