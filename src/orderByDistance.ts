@@ -14,9 +14,11 @@ const orderByDistance = (
 ) => {
     distanceFn = typeof distanceFn === 'function' ? distanceFn : getDistance;
 
+    // Calculate every distance once instead of twice per comparison
     return coords
-        .slice()
-        .sort((a, b) => distanceFn(point, a) - distanceFn(point, b));
+        .map((coord) => ({ coord, distance: distanceFn(point, coord) }))
+        .sort((a, b) => a.distance - b.distance)
+        .map(({ coord }) => coord);
 };
 
 export default orderByDistance;
