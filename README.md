@@ -8,6 +8,8 @@ Library to provide basic geospatial operations like distance calculation, conver
 ![](https://badgen.net/github/license/manuelbieh/geolib)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
+**[Documentation with live examples](https://manuelbieh.github.io/geolib/)**
+
 ## Changelog
 
 A detailed changelog can be found in [CHANGELOG.md](./CHANGELOG.md)
@@ -118,7 +120,7 @@ Returns the distance in meters as a numeric value.
 
 ### `getPreciseDistance(start, end, accuracy = 1)`
 
-Calculates the distance between two geo coordinates. This method is more accurate then `getDistance`, especially for long distances but it is also slower. It is using the Vincenty inverse formula for ellipsoids.
+Calculates the distance between two geo coordinates. This method is more accurate than `getDistance`, especially for long distances but it is also slower. It is using the Vincenty inverse formula for ellipsoids.
 
 It takes the same (up to 3) arguments as `getDistance`.
 
@@ -446,9 +448,9 @@ const latitude = -33.8688;
 // -> 33° 52' 07.68" S
 ```
 
-### `geolib.getLatitude(point, raw = false)`
+### `getLatitude(point, raw = false)`
 
-### `geolib.getLongitude(point, raw = false)`
+### `getLongitude(point, raw = false)`
 
 Returns the latitude/longitude for a given point **and** converts it to decimal. If the second argument is set to true it does **not** convert the value to decimal.
 
@@ -508,7 +510,7 @@ Returns the result as number in square meters.
 
 ### `getCoordinateKeys(point)`
 
-Gets the property names of that are used in the point in a normalized form:
+Gets the property names that are used in the point in a normalized form:
 
 ```js
 geolib.getCoordinateKeys({ lat: 1, lon: 1 });
@@ -526,7 +528,7 @@ geolib.getCoordinateKey({ latitude: 1, longitude: 2 }, ['lat', 'latitude']);
 // -> latitude
 ```
 
-Returns the name of the property as string or `undefined` if no there was no match.
+Returns the name of the property as string or `undefined` if there was no match.
 
 ### `isValidCoordinate(point)`
 
@@ -545,9 +547,9 @@ geolib.isValidCoordinate([2, 1]);
 
 Returns `true` or `false`.
 
-### `getSpeed(startPointWithTime, endPointWithTime)`
+### `getSpeed(startPointWithTime, endPointWithTime, distanceFunction = getDistance)`
 
-Calculates the speed between two points within a given time span.
+Calculates the speed between two points within a given time span. Each point needs a `time` property with a timestamp in milliseconds. Optionally a function to determine the distance can be passed as third argument. Default is `getDistance`.
 
 ```js
 geolib.getSpeed(
@@ -558,9 +560,9 @@ geolib.getSpeed(
 
 Return the speed in meters per second as number.
 
-### `convertSpeed(value, unit)`
+### `convertSpeed(value, unit = 'kmh')`
 
-Converts the result from `getSpeed` into a more human friendly format. Currently available units are `mph` and `kmh`.
+Converts the result from `getSpeed` (meters per second) into a more human friendly format.
 
 #### Units
 
@@ -570,12 +572,12 @@ Converts the result from `getSpeed` into a more human friendly format. Currently
 -   mph (miles per hour)
 
 ```js
-geolib.convertSpeed(29.8678, 'kmh');
+geolib.convertSpeed(29.8678, 'kmh'); // -> 107.52408
 ```
 
-Returns the converted value as number.
+Returns the converted value as number. Other units return the value unchanged.
 
-### `convertDistance(value, unit)`
+### `convertDistance(value, unit = 'm')`
 
 Converts a given distance (in meters) into another unit.
 
@@ -594,15 +596,15 @@ Converts a given distance (in meters) into another unit.
 -   yd (yards)
 
 ```js
-geolib.convertDistance(14200, 'km'); // 14.2
+geolib.convertDistance(1500, 'km'); // 1.5
 geolib.convertDistance(500, 'km'); // 0.5
 ```
 
-Returns the converted distance as number.
+Returns the converted distance as number. Throws an error for unknown units.
 
 ### `convertArea(value, unit = 'm2')`
 
-Converts the result from `getAreaForPolygon` into a different unit.
+Converts the result from `getAreaOfPolygon` (square meters) into a different unit.
 
 #### Units
 
@@ -620,7 +622,7 @@ Converts the result from `getAreaForPolygon` into a different unit.
 geolib.convertArea(298678, 'km2'); // 0.298678
 ```
 
-Returns the converted area as number.
+Returns the converted area as number. Throws an error for unknown units.
 
 ### `wktToPolygon(wkt)`
 
@@ -659,6 +661,33 @@ Check whether a value is a valid latitude (-90 to 90) or longitude (-180 to 180)
 
 Convert an angle from degrees to radians and vice versa.
 
+## Constants
+
+Geolib also exports the constants it uses internally:
+
+-   `earthRadius`: the radius of the earth in meters (6,378,137) that all functions use
+-   `MINLAT`, `MAXLAT`, `MINLON`, `MAXLON`: the valid ranges of latitude (-90 to 90) and longitude (-180 to 180)
+-   `DEG_TO_RAD`, `RAD_TO_DEG`: factors to convert between degrees and radians
+-   `distanceConversion`, `areaConversion`, `timeConversion`: the conversion factors behind `convertDistance`, `convertArea` and `convertSpeed`
+-   `latitudeKeys`, `longitudeKeys`, `altitudeKeys`: the property names (and GeoJSON array indexes) Geolib looks for in a point
+-   `sexagesimalPattern`: the regular expression that matches sexagesimal values
+
+```js
+import { earthRadius } from 'geolib';
+```
+
+## Development
+
+```sh
+yarn install
+yarn test        # run the tests
+yarn typecheck   # check the types
+yarn lint        # lint the code
+yarn build       # build the package into dist/
+```
+
+Releases are published automatically by [semantic-release](https://github.com/semantic-release/semantic-release) when commits that follow the [Conventional Commits](https://www.conventionalcommits.org/) format land on `master`.
+
 ## Breaking Changes in 4.0.0 and migration from 3.x.x
 
 Version 4 modernizes how Geolib is published and fixes a number of long-standing bugs. Most code keeps working without changes. Check these points:
@@ -681,7 +710,7 @@ Version 4 modernizes how Geolib is published and fixes a number of long-standing
 
 In version 3.0.0 I'm trying to get a little bit _back to the roots_. **Geolib** was once started because I needed a handful of methods to perform very specific geo related tasks like getting the distance or the direction between two points. Since it was one of the very first libraries on npm back then to do these kind of things in a very simple way it became very popular (with more than 300k downloads per month as of April 2019!) and as a consequence got a lot of contributions over the years. Many of which I just merged as long as they had accompanying tests, without looking at consistency, conventions, complexity, coding style or even the overall quality of the functions that I sometimes didn't even fully understand.
 
-I have now cleaned up the codebase completely, rebuilt the entire library "from scratch", unified all the function arguments, removed a few functions where I wasn't sure if they should be in here (feel free to add them back of you're using them!) or if they were even used (did a few searches on GitHub for the function names, turned out there are zero results).
+I have now cleaned up the codebase completely, rebuilt the entire library "from scratch", unified all the function arguments, removed a few functions where I wasn't sure if they should be in here (feel free to add them back if you're using them!) or if they were even used (did a few searches on GitHub for the function names, turned out there are zero results).
 
 Elevation support was dropped, as well as a few functions that unnecessarily made the library really large in size (e.g. `isPointInsideRobust` alone was over 700[!] lines of code and was basically taken from a [different library](https://github.com/mikolalysenko/robust-point-in-polygon)).
 
@@ -693,12 +722,12 @@ I removed Grunt from the build process, added "modern" tools like ESLint and Pre
 -   `getBoundsOfDistance()` now returns the _exact_ coordinates due to the removal of the artificial 8 decimal place limitation
 -   `getCompassDirection()` does no longer return an object with an _exact_ and a _rough_ direction but only the exact direction as string
 -   third argument to `getCompassDirection()` is no longer a string ("circle", "line") but a function to determine the bearing (you can pass `getRhumbLineBearing` or `getGreatCircleBearing`). The function receives the origin and the destination as first and second argument. If no 3rd argument was given, `getRhumbLineBearing(origin, dest)` is used by default.
--   There is now a new helper function `roughCompassDirection(exact)` if you _really_ only need a very rough (and potentially inaccurate or inappropriate) direction. Better don't use it.
+-   There is now a new helper function `getRoughCompassDirection(exact)` if you _really_ only need a very rough (and potentially inaccurate or inappropriate) direction. Better don't use it.
 -   `orderByDistance()` does no longer modify its input so does not add a `distance` and `key` property to the returned coordinates.
 -   The result of `getSpeed()` is now always returned as **meters per second**. It can be converted using the new convenience function `convertSpeed(mps, targetUnit)`
 -   Relevant value (usually point or distance) is now consistently the **first** argument for each function (it wasn't before, how confusing is that?)
 -   `findNearest()` does no longer take `offset` and `limit` arguments. It's only a convenience method to get the single one nearest point from a set of coordinates. If you need more than one, have a look at the implementation and implement your own logic using `orderByDistance`
--   Whereever distances are involved, they are returned as meters or meters per second. No more inconsistent defaults like kilometers or kilometers per hour.
+-   Wherever distances are involved, they are returned as meters or meters per second. No more inconsistent defaults like kilometers or kilometers per hour.
 -   The method how sexagesimal is formatted differs a little bit. It may now potentially return ugly float point units like `52° 46' 21.0004"` in rare cases but it is also more accurate than it was before.
 -   Dropped support for Meteor (feel free to add it back if you like)
 
@@ -728,7 +757,7 @@ I removed Grunt from the build process, added "modern" tools like ESLint and Pre
 -   `getLon` renamed to `getLongitude`
 -   `latitude` -> renamed to `getLatitude`
 -   `longitude` -> renamed to `getLongitude`
--   `convertUnit` -> remamed to convertDistance, because name was too ambiguous
+-   `convertUnit` renamed to `convertDistance`, because the name was too ambiguous
 -   `useDecimal` renamed to `toDecimal`
 -   `decimal2sexagesimal` renamed to `decimalToSexagesimal`
 -   `sexagesimal2decimal` renamed to `sexagesimalToDecimal`
