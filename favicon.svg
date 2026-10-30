@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+    <style>
+        .grid { stroke: #2e6c99; }
+        @media (prefers-color-scheme: dark) { .grid { stroke: #7fb4da; } }
+    </style>
+    <g class="grid" stroke-width="1.75">
+        <circle cx="16" cy="16" r="13.5" />
+        <ellipse cx="16" cy="16" rx="6" ry="13.5" />
+        <path d="M2.5 16h27" />
+    </g>
+    <path d="M7.5 22.5 C 12 8, 20 6, 25.5 11" stroke="#b0186f" stroke-width="3" stroke-linecap="round" />
+</svg>
