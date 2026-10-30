@@ -1,6 +1,6 @@
 {
   "name": "geolib",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Library to provide basic geospatial operations like distance calculation, decoding of sexagesimal coordinates etc.",
   "keywords": [
     "geo",

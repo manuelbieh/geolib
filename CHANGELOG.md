@@ -1,3 +1,9 @@
+## [4.0.1](https://github.com/manuelbieh/geolib/compare/v4.0.0...v4.0.1) (2026-10-30)
+
+### Docs
+
+* fix and complete the README ([#325](https://github.com/manuelbieh/geolib/issues/325)) ([033a50c](https://github.com/manuelbieh/geolib/commit/033a50ce2ae17ea903d8429bb9fd4469c5f39c46))
+
 ## [4.0.0](https://github.com/manuelbieh/geolib/compare/v3.3.14...v4.0.0) (2026-10-08)
 
 ### ⚠ BREAKING CHANGES
