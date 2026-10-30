@@ -52,7 +52,7 @@
   "bugs": {
     "url": "https://github.com/manuelbieh/geolib/issues"
   },
-  "homepage": "https://github.com/manuelbieh/geolib#readme",
+  "homepage": "https://manuelbieh.github.io/geolib/",
   "scripts": {
     "build": "tsdown",
     "lint": "eslint src/**/*.{js,ts}",
