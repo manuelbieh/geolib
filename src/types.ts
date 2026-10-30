@@ -18,8 +18,7 @@ export type GeolibInputLongitude =
     | { longitude: GeolibLongitudeInputValue };
 
 export type GeolibInputLatitude =
-    | { lat: GeolibLatitudeInputValue }
-    | { latitude: GeolibLatitudeInputValue };
+    { lat: GeolibLatitudeInputValue } | { latitude: GeolibLatitudeInputValue };
 
 export type GeolibInputAltitude =
     | { alt?: GeolibAltitudeInputValue }
