@@ -12,42 +12,64 @@ const isPointInPolygon = (
     // Reading coordinates is relatively expensive because they need to be
     // looked up and converted, so each vertex is only read once
     const latitudes = polygon.map((vertex) => getLatitude(vertex));
-    let longitudes = polygon.map((vertex) => getLongitude(vertex));
+    const longitudes = polygon.map((vertex) => getLongitude(vertex));
 
     const latitude = getLatitude(point);
-    let longitude = getLongitude(point);
+    const longitude = getLongitude(point);
 
     // An edge that spans more than 180 degrees of longitude (e.g. from 175
     // to -175) is assumed to take the shorter way across the antimeridian.
-    // Shifting western longitudes by 360 degrees makes such a polygon
-    // continuous (175 to 185). Edges from -180 to 180 run along the
-    // antimeridian and are left alone.
-    const crossesAntimeridian = longitudes.some((lon, i) => {
-        const span = Math.abs(lon - longitudes[(i + 1) % longitudes.length]);
-        return span > 180 && span < 360;
-    });
-
-    if (crossesAntimeridian) {
-        const shift = (lon: number) => (lon < 0 ? lon + 360 : lon);
-        longitudes = longitudes.map(shift);
-        longitude = shift(longitude);
+    // Each vertex is shifted by a multiple of 360 degrees so that it lies
+    // within 180 degrees of the previous one, which makes such a polygon
+    // continuous (175 to 185) and leaves all other edges, e.g. those that
+    // cross the prime meridian, as they are. Edges from -180 to 180 run
+    // along the antimeridian and are left alone.
+    let offset = 0;
+    let previous = longitudes[0];
+    let west = longitudes[0];
+    let east = longitudes[0];
+    for (let i = 1; i < longitudes.length; i++) {
+        const current = longitudes[i];
+        const delta = current - previous;
+        if (delta > 180 && delta < 360) {
+            offset -= 360;
+        } else if (delta < -180 && delta > -360) {
+            offset += 360;
+        }
+        previous = current;
+        longitudes[i] = current + offset;
+        west = Math.min(west, longitudes[i]);
+        east = Math.max(east, longitudes[i]);
     }
 
-    let isInside = false;
-    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-        if (
-            ((longitudes[i] <= longitude && longitude < longitudes[j]) ||
-                (longitudes[j] <= longitude && longitude < longitudes[i])) &&
-            latitude <
-                ((latitudes[j] - latitudes[i]) * (longitude - longitudes[i])) /
-                    (longitudes[j] - longitudes[i]) +
-                    latitudes[i]
-        ) {
-            isInside = !isInside;
+    // The shifted polygon can extend beyond -180 or 180 degrees, so the
+    // point is tested at each of its equivalent longitudes (its own plus or
+    // minus multiples of 360 degrees) within the polygon's range.
+    for (
+        let lon = longitude - Math.floor((longitude - west) / 360) * 360;
+        lon <= east;
+        lon += 360
+    ) {
+        let isInside = false;
+        for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+            if (
+                ((longitudes[i] <= lon && lon < longitudes[j]) ||
+                    (longitudes[j] <= lon && lon < longitudes[i])) &&
+                latitude <
+                    ((latitudes[j] - latitudes[i]) * (lon - longitudes[i])) /
+                        (longitudes[j] - longitudes[i]) +
+                        latitudes[i]
+            ) {
+                isInside = !isInside;
+            }
+        }
+
+        if (isInside) {
+            return true;
         }
     }
 
-    return isInside;
+    return false;
 };
 
 export default isPointInPolygon;
