@@ -1,3 +1,9 @@
+## [4.0.2](https://github.com/manuelbieh/geolib/compare/v4.0.1...v4.0.2) (2026-11-07)
+
+### Fixes
+
+* keep edges across the prime meridian intact in isPointInPolygon ([#327](https://github.com/manuelbieh/geolib/issues/327)) ([1fd8e35](https://github.com/manuelbieh/geolib/commit/1fd8e3578431fc75cdd43000a59a2cdc8e266373)), closes [#326](https://github.com/manuelbieh/geolib/issues/326)
+
 ## [4.0.1](https://github.com/manuelbieh/geolib/compare/v4.0.0...v4.0.1) (2026-10-30)
 
 ### Docs
