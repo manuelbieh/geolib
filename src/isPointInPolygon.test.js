@@ -1,5 +1,11 @@
 import isPointInPolygon from './isPointInPolygon';
 
+// The same polygon starting at each of its vertices, in both directions
+const variantsOf = (vertices) =>
+    [vertices, [...vertices].reverse()].flatMap((ordered) =>
+        ordered.map((_, i) => [...ordered.slice(i), ...ordered.slice(0, i)])
+    );
+
 const polygon = [
     { latitude: 51.513357512, longitude: 7.45574331 },
     { latitude: 51.515400598, longitude: 7.45518541 },
@@ -145,15 +151,7 @@ describe('isPointInPolygon', () => {
             { latitude: 70, longitude: -10 },
         ];
 
-        // The result must not depend on the direction or the first vertex
-        const variants = [band, [...band].reverse()].flatMap((vertices) =>
-            vertices.map((_, i) => [
-                ...vertices.slice(i),
-                ...vertices.slice(0, i),
-            ])
-        );
-
-        for (const vertices of variants) {
+        for (const vertices of variantsOf(band)) {
             // Moscow
             expect(
                 isPointInPolygon(
@@ -191,6 +189,31 @@ describe('isPointInPolygon', () => {
             expect(
                 isPointInPolygon({ latitude: 25, longitude: 10 }, vertices)
             ).toBe(false);
+        }
+    });
+
+    it('should not depend on the first vertex of polygons that go around a pole', () => {
+        // Goes all the way around the north pole without a vertex on it, so
+        // which side is inside isn't defined, but the answer must not change
+        // with the vertex order
+        const ring = [
+            { latitude: 70, longitude: -135 },
+            { latitude: 80, longitude: -45 },
+            { latitude: 80, longitude: 45 },
+            { latitude: 70, longitude: 135 },
+        ];
+        const points = [
+            { latitude: 72, longitude: 170 },
+            { latitude: 75, longitude: 0 },
+            { latitude: 85, longitude: 90 },
+            { latitude: 0, longitude: -100 },
+        ];
+
+        for (const point of points) {
+            const expected = isPointInPolygon(point, ring);
+            for (const vertices of variantsOf(ring)) {
+                expect(isPointInPolygon(point, vertices)).toBe(expected);
+            }
         }
     });
 
