@@ -1,5 +1,11 @@
 import isPointInPolygon from './isPointInPolygon';
 
+// The same polygon starting at each of its vertices, in both directions
+const variantsOf = (vertices) =>
+    [vertices, [...vertices].reverse()].flatMap((ordered) =>
+        ordered.map((_, i) => [...ordered.slice(i), ...ordered.slice(0, i)])
+    );
+
 const polygon = [
     { latitude: 51.513357512, longitude: 7.45574331 },
     { latitude: 51.515400598, longitude: 7.45518541 },
@@ -127,6 +133,87 @@ describe('isPointInPolygon', () => {
             expect(
                 isPointInPolygon({ latitude: 15, longitude: 0 }, vertices)
             ).toBe(false);
+        }
+    });
+
+    it('should work with polygons that cross both the antimeridian and the prime meridian', () => {
+        // https://github.com/manuelbieh/geolib/issues/326
+        // From the Atlantic (10°W) over Europe and Asia to the Bering
+        // Strait (170°W)
+        const band = [
+            { latitude: 35, longitude: -10 },
+            { latitude: 35, longitude: 60 },
+            { latitude: 35, longitude: 150 },
+            { latitude: 35, longitude: -170 },
+            { latitude: 70, longitude: -170 },
+            { latitude: 70, longitude: 150 },
+            { latitude: 70, longitude: 60 },
+            { latitude: 70, longitude: -10 },
+        ];
+
+        for (const vertices of variantsOf(band)) {
+            // Moscow
+            expect(
+                isPointInPolygon(
+                    { latitude: 55.7558, longitude: 37.6173 },
+                    vertices
+                )
+            ).toBe(true);
+            // London
+            expect(
+                isPointInPolygon(
+                    { latitude: 51.5074, longitude: -0.1278 },
+                    vertices
+                )
+            ).toBe(true);
+            // Vladivostok
+            expect(
+                isPointInPolygon(
+                    { latitude: 43.1155, longitude: 131.8855 },
+                    vertices
+                )
+            ).toBe(true);
+            // Chukotka, east of the antimeridian
+            expect(
+                isPointInPolygon({ latitude: 66, longitude: -172 }, vertices)
+            ).toBe(true);
+            // Alaska
+            expect(
+                isPointInPolygon({ latitude: 64, longitude: -150 }, vertices)
+            ).toBe(false);
+            // Azores
+            expect(
+                isPointInPolygon({ latitude: 38, longitude: -28 }, vertices)
+            ).toBe(false);
+            // Sahara, south of the band
+            expect(
+                isPointInPolygon({ latitude: 25, longitude: 10 }, vertices)
+            ).toBe(false);
+        }
+    });
+
+    it('should not depend on the first vertex of polygons that go around a pole', () => {
+        // Goes all the way around the north pole without a vertex on it, so
+        // which side is inside isn't defined, but the answer must not change
+        // with the vertex order
+        const ring = [
+            { latitude: 70, longitude: -135 },
+            { latitude: 80, longitude: -45 },
+            { latitude: 80, longitude: 45 },
+            { latitude: 70, longitude: 135 },
+        ];
+        const points = [
+            { latitude: 72, longitude: 170 },
+            { latitude: 75, longitude: 0 },
+            { latitude: 85, longitude: 90 },
+            { latitude: 0, longitude: -100 },
+        ];
+
+        for (const point of points) {
+            const expected = isPointInPolygon(point, ring);
+            for (const vertices of variantsOf(ring)) {
+                expect(isPointInPolygon(point, vertices)).toBe(expected);
+            }
         }
     });
 

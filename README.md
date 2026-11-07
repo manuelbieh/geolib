@@ -208,7 +208,7 @@ It returns minimum and maximum latitude and minimum and maximum longitude as an 
 
 Checks whether a point is inside of a polygon or not.
 
-The vertices must be ordered along the outline of the polygon, either clockwise or counterclockwise. The polygon is closed implicitly, so the last vertex doesn't need to repeat the first one. Polygons may cross the antimeridian: an edge that spans more than 180° of longitude (e.g. from `175` to `-175`) takes the shorter way across it.
+The vertices must be ordered along the outline of the polygon, either clockwise or counterclockwise. The polygon is closed implicitly, so the last vertex doesn't need to repeat the first one. Polygons may cross the antimeridian: an edge that spans more than 180° of longitude (e.g. from `175` to `-175`) takes the shorter way across it. A polygon that encloses a pole has to be drawn the way it looks on a flat map, with edges from `-180` to `180`: `[[-180, -60], [180, -60], [180, -90], [-180, -90]]` covers everything south of 60°S.
 
 ```js
 geolib.isPointInPolygon({ latitude: 51.5125, longitude: 7.485 }, [
