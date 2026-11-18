@@ -494,7 +494,7 @@ Returns the destination as an object with a `latitude` and a `longitude` propert
 
 ### `getAreaOfPolygon(points)`
 
-Calculates the surface area of a polygon. The polygon is closed implicitly, so the last point doesn't need to repeat the first one (but it may).
+Calculates the surface area of a polygon. The polygon is closed implicitly, so the last point doesn't need to repeat the first one (but it may). Polygons may cross the antimeridian, the same way as in [`isPointInPolygon`](#ispointinpolygonpoint-polygon).
 
 ```js
 geolib.getAreaOfPolygon([
