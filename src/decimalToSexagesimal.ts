@@ -6,14 +6,15 @@ const imprecise = (number: number, decimals: number = 4) => {
 
 // Converts a decimal coordinate value to sexagesimal format
 const decimalToSexagesimal = (decimal: number) => {
-    const [pre, post] = decimal.toString().split('.');
+    // Work in seconds and round once, so seconds that round up to 60 carry
+    // into the minutes (and 60 minutes into the degrees). This also avoids
+    // reading digits from toString(), which uses exponent notation for
+    // values below 1e-6.
+    const totalSeconds = imprecise(Math.abs(decimal) * 3600);
 
-    const deg = Math.abs(Number(pre));
-    const min0 = Number('0.' + (post || 0)) * 60;
-    const sec0 = min0.toString().split('.');
-
-    const min = Math.floor(min0);
-    const sec = imprecise(Number('0.' + (sec0[1] || 0)) * 60).toString();
+    const deg = Math.floor(totalSeconds / 3600);
+    const min = Math.floor(imprecise(totalSeconds - deg * 3600) / 60);
+    const sec = imprecise(totalSeconds - deg * 3600 - min * 60).toString();
 
     const [secPreDec, secDec = '0'] = sec.split('.');
 

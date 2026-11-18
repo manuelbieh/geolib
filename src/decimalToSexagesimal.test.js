@@ -33,4 +33,16 @@ describe('decimalToSexagesimal', () => {
         expect(decimalToSexagesimal(90.9)).toEqual('90° 54\' 00.0"');
         expect(decimalToSexagesimal(90.1)).toEqual('90° 06\' 00.0"');
     });
+    it('should carry seconds that round up to 60 into minutes and degrees', () => {
+        expect(decimalToSexagesimal(51.99999999)).toEqual('52° 00\' 00.0"');
+        expect(decimalToSexagesimal(10.999999999)).toEqual('11° 00\' 00.0"');
+        expect(decimalToSexagesimal(-0.9999999999)).toEqual('1° 00\' 00.0"');
+        expect(decimalToSexagesimal(12.49999999)).toEqual('12° 30\' 00.0"');
+    });
+
+    it('should handle values small enough to be printed in exponent notation', () => {
+        expect(decimalToSexagesimal(1.5e-7)).toEqual('0° 00\' 00.0005"');
+        expect(decimalToSexagesimal(5e-7)).toEqual('0° 00\' 00.0018"');
+        expect(decimalToSexagesimal(-2.5e-7)).toEqual('0° 00\' 00.0009"');
+    });
 });
