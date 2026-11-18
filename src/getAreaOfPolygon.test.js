@@ -81,4 +81,68 @@ describe('getAreaOfPolygon', () => {
         expect(getAreaOfPolygon(open)).toBeCloseTo(6595.223, 3);
         expect(getAreaOfPolygon(closed)).toBeCloseTo(6595.223, 3);
     });
+    it('should work with polygons that cross the antimeridian', () => {
+        const square = [
+            { latitude: 10, longitude: 175 },
+            { latitude: 10, longitude: -175 },
+            { latitude: 20, longitude: -175 },
+            { latitude: 20, longitude: 175 },
+        ];
+        // The same square, moved to the prime meridian
+        const shifted = square.map(({ latitude, longitude }) => ({
+            latitude,
+            longitude: longitude > 0 ? longitude - 180 : longitude + 180,
+        }));
+
+        // Area of a 10° by 10° box: R²·Δλ·(sin 20° - sin 10°)
+        const expected =
+            6378137 ** 2 *
+            ((10 * Math.PI) / 180) *
+            (Math.sin((20 * Math.PI) / 180) - Math.sin((10 * Math.PI) / 180));
+        expect(getAreaOfPolygon(shifted)).toBeCloseTo(expected, 0);
+
+        for (const vertices of [square, [...square].reverse()]) {
+            expect(getAreaOfPolygon(vertices)).toBeCloseTo(expected, 0);
+        }
+    });
+
+    it('should work with polygons that cross both the antimeridian and the prime meridian', () => {
+        const band = [
+            { latitude: 35, longitude: -10 },
+            { latitude: 35, longitude: 60 },
+            { latitude: 35, longitude: 150 },
+            { latitude: 35, longitude: -170 },
+            { latitude: 70, longitude: -170 },
+            { latitude: 70, longitude: 150 },
+            { latitude: 70, longitude: 60 },
+            { latitude: 70, longitude: -10 },
+        ];
+        // The same band, moved 20 degrees west so it doesn't cross the
+        // antimeridian anymore
+        const shifted = band.map(({ latitude, longitude }) => ({
+            latitude,
+            longitude: longitude === -170 ? 170 : longitude - 20,
+        }));
+
+        expect(getAreaOfPolygon(band)).toBeCloseTo(
+            getAreaOfPolygon(shifted),
+            0
+        );
+    });
+
+    it('should keep polygons with edges along the antimeridian intact', () => {
+        // Covers the south pole the way it is drawn on a flat map
+        const southPole = [
+            { latitude: -60, longitude: -180 },
+            { latitude: -60, longitude: 180 },
+            { latitude: -90, longitude: 180 },
+            { latitude: -90, longitude: -180 },
+        ];
+
+        // Area of a spherical cap: 2πR²(1 - sin 60°)
+        expect(getAreaOfPolygon(southPole)).toBeCloseTo(
+            2 * Math.PI * 6378137 ** 2 * (1 - Math.sin(Math.PI / 3)),
+            0
+        );
+    });
 });
